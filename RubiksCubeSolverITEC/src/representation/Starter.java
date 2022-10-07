@@ -40,6 +40,11 @@ public class Starter {
 	        }
 	    }
 	    
+	    /**
+	     * Gibt zu gegebenem Binärkode die Farbe zurück. Bei einem ungültigen Kode, wird 'X' zurückgegeben. 
+	     * @param Farbe in Binär kodiert.
+	     * @return Farbe als Buchstabe.
+	     */
 	    public char lookupColor(int code){
 	        switch(code) {
 	        case 0: return 'W';
@@ -49,9 +54,15 @@ public class Starter {
 	        case 4: return 'R';
 	        case 5: return 'Y';
 	        }
-	        return (Character) null;
+	        return 'X';
 	    }
 	    
+	    /**
+	     * Gibt zu einer Fläche an einem Stelle die Farbe in Binär zurück.
+	     * @param face Index der Seite.
+	     * @param index Index in der Seite.
+	     * @return Die Farbe in Binär kodiert.
+	     */
 	    public int extractColor(int face, int index) { 
 	        return (face >>> (index*4)) & (0xF);
 	    }

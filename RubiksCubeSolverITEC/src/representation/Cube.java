@@ -1,7 +1,6 @@
 package representation;
 
 public class Cube {
-	int[] faces = new int[6];
 	
 	/**
 	 * Im Array sind die 6 Seiten gespeicht. Die i-te Seite hat die i-te Farbe:
@@ -19,8 +18,11 @@ public class Cube {
 	 * 3 M 4
 	 * 5 6 7
 	 * 
-	 * Die 1 "zeigt" dabei immer auf die nächste Fläche, basierend auf der Reihenfolge der Farben.
+	 * Die 1 "zeigt" dabei immer auf die nächste Fläche, basierend auf der Reihenfolge der Farben. Gelb zeigt auf Grün.
 	 */
+	int[] faces = new int[6];
+	
+	
 	
 
 	/**
