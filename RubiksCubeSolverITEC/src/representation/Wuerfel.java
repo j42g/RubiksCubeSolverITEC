@@ -17,7 +17,7 @@ public class Wuerfel {
 	 * Die 1 "zeigt" dabei immer auf die n�chste Fl�che, basierend auf der
 	 * Reihenfolge der Farben. Gelb zeigt auf Gr�n.
 	 */
-	private int[] seiten = new int[6000];
+	private int[] seiten = new int[6];
 
 	
 	/**
