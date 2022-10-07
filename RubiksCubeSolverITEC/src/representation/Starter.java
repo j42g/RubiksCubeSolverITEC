@@ -6,7 +6,7 @@ public class Starter {
 			
 		Wuerfel a = new Wuerfel();
 		a.makeSolved();
-		a.veraendereEinzeln(3, 2, 4);
+		a.veraendereEinzeln(3, 2, 0);
 		a.printFace(3);
 
 	}

@@ -77,29 +77,13 @@ public class Wuerfel {
 	public void veraendereEinzeln(int seitenIndex, int feldIndex, int farbe) {
 		// feldIndex * 4 in schnell
 		feldIndex = feldIndex << 2;
-		// Erstes Bit
-		if((farbe & 1) == 1) {
-			this.seiten[seitenIndex] |= (0b1 << feldIndex);
-		} else {
-			this.seiten[seitenIndex] &= ~(0b1 << feldIndex);
-		}
-		// Zweites
-		if(((farbe >> 1) & 1) == 1) {
-			this.seiten[seitenIndex] |= (0b10 << feldIndex);;
-		} else {
-			this.seiten[seitenIndex] &= ~(0b10 << feldIndex);
-		}
-		// Drittes
-		if(((farbe >> 2) & 1) == 1) {
-			this.seiten[seitenIndex] |= (0b100 << feldIndex);
-		} else {
-			this.seiten[seitenIndex] &= ~(0b100 << feldIndex);
-		}
-		// Viertes
-		if(((farbe >> 3) & 1) == 1) {
-			this.seiten[seitenIndex] |= (0b1000 << feldIndex);
-		} else {
-			this.seiten[seitenIndex] &= ~(0b1000 << feldIndex);
+		// Bit magic
+		for(int i = 0; i < 4; i++) {
+			if(((farbe >> i) & 1) == 1) {
+				this.seiten[seitenIndex] |= (0b1 << (feldIndex + i));
+			} else {
+				this.seiten[seitenIndex] &= ~(0b1 << (feldIndex + i));
+			}
 		}
 	}
 	
