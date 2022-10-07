@@ -75,7 +75,11 @@ public class Wuerfel {
 	 * @param farbe Farbe als Binärkode.
 	 */
 	public void veraendereEinzeln(int seitenIndex, int feldIndex, int farbe) {
-		this.seiten[seitenIndex] = 0;
+		int shift = feldIndex * 4;
+		this.seiten[seitenIndex] |= (0b1 >> shift) & 1;
+		this.seiten[seitenIndex] |= (0b10 >> shift) & 1;
+		this.seiten[seitenIndex] |= (0b100 >> shift) & 1;
+		this.seiten[seitenIndex] |= (0b1000 >> shift) & 1;
 	}
 	
 	/**
@@ -111,9 +115,9 @@ public class Wuerfel {
 	}
 
 	/**
-	 * äberpräft ob der Wärfel geläst ist.
+	 * überpräft ob der Würfel gelöst ist.
 	 * 
-	 * @return true wenn geläst, sonst false.
+	 * @return true wenn gelöst, sonst false.
 	 */
 	public boolean isSolved() {
 		if (seiten[0] == 0x00000000 && seiten[1] == 0x11111111 && seiten[2] == 0x22222222 && seiten[3] == 0x33333333
@@ -135,8 +139,8 @@ public class Wuerfel {
 	}
 
 	/**
-	 * Gibt zu gegebenem Binärkode die Farbe zuräck. Bei einem ungältigen Kode, wird
-	 * 'X' zuräckgegeben.
+	 * Gibt zu gegebenem Binärkode die Farbe zuräck. Bei einem ungültigen Kode, wird
+	 * 'X' zurückgegeben.
 	 * 
 	 * @param Farbe in Binär kodiert.
 	 * @return Farbe als Buchstabe.

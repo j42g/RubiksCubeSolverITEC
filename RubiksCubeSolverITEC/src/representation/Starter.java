@@ -4,12 +4,13 @@ public class Starter {
 
 	public static void main(String[] args) {
 		
+		int feldIndex = 2;
 		
-		int b = 1;
-		int a = 0b10010010111001;
-		a ^= 4;
- 		System.out.println(Integer.toBinaryString(a));
+ 		System.out.println(Integer.toBinaryString((1 << (feldIndex * 4)) - 1));
 		
+ 		
+ 		
+ 		
 		/*Wuerfel a = new Wuerfel();
 		a.makeSolved();
 		a.printFace(3);*/
