@@ -75,11 +75,32 @@ public class Wuerfel {
 	 * @param farbe Farbe als Binärkode.
 	 */
 	public void veraendereEinzeln(int seitenIndex, int feldIndex, int farbe) {
-		int shift = feldIndex * 4;
-		this.seiten[seitenIndex] |= (0b1 >> shift) & 1;
-		this.seiten[seitenIndex] |= (0b10 >> shift) & 1;
-		this.seiten[seitenIndex] |= (0b100 >> shift) & 1;
-		this.seiten[seitenIndex] |= (0b1000 >> shift) & 1;
+		// feldIndex * 4 in schnell
+		feldIndex = feldIndex << 2;
+		// Erstes Bit
+		if((farbe & 1) == 1) {
+			this.seiten[seitenIndex] |= (0b1 << feldIndex);
+		} else {
+			this.seiten[seitenIndex] &= ~(0b1 << feldIndex);
+		}
+		// Zweites
+		if(((farbe >> 1) & 1) == 1) {
+			this.seiten[seitenIndex] |= (0b10 << feldIndex);;
+		} else {
+			this.seiten[seitenIndex] &= ~(0b10 << feldIndex);
+		}
+		// Drittes
+		if(((farbe >> 2) & 1) == 1) {
+			this.seiten[seitenIndex] |= (0b100 << feldIndex);
+		} else {
+			this.seiten[seitenIndex] &= ~(0b100 << feldIndex);
+		}
+		// Viertes
+		if(((farbe >> 3) & 1) == 1) {
+			this.seiten[seitenIndex] |= (0b1000 << feldIndex);
+		} else {
+			this.seiten[seitenIndex] &= ~(0b1000 << feldIndex);
+		}
 	}
 	
 	/**
