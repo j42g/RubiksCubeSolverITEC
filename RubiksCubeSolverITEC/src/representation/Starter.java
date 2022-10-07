@@ -7,7 +7,7 @@ public class Starter {
 		
 		int b = 1;
 		int a = 0b10010010111001;
-		a ^= 3;
+		a ^= 4;
  		System.out.println(Integer.toBinaryString(a));
 		
 		/*Wuerfel a = new Wuerfel();

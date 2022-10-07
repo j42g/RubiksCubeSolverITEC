@@ -5,15 +5,17 @@ public class Wuerfel {
 	/**
 	 * Im Array sind die 6 Seiten gespeicht. Die i-te Seite hat die i-te Farbe:
 	 * 
-	 * 0: Weiß 1: Blau 2: Orange 3: Grün 4: Rot 5: Gelb
+	 * 0: Weiï¿½ 1: Blau 2: Orange 3: Grï¿½n 4: Rot 5: Gelb
 	 * 
-	 * Die Binärdarstellungen dieser Zahlen bilden die 32-bit Zahlen, welche die
+	 * Die Binï¿½rdarstellungen dieser Zahlen bilden die 32-bit Zahlen, welche die
 	 * Seiten wiefolgt darstellen:
 	 * 
-	 * 0 1 2 3 M 4 5 6 7
+	 * 0 1 2
+	 * 7 M 3
+	 * 6 5 4
 	 * 
-	 * Die 1 "zeigt" dabei immer auf die nächste Fläche, basierend auf der
-	 * Reihenfolge der Farben. Gelb zeigt auf Grün.
+	 * Die 1 "zeigt" dabei immer auf die nï¿½chste Flï¿½che, basierend auf der
+	 * Reihenfolge der Farben. Gelb zeigt auf Grï¿½n.
 	 */
 	private int[] seiten = new int[6];
 
@@ -26,9 +28,9 @@ public class Wuerfel {
 	}
 
 	/**
-	 * Dreht die Fläche am Index "face".
+	 * Dreht die Flï¿½che am Index "face".
 	 * 
-	 * @param face Index der zu drehenden Fläche
+	 * @param face Index der zu drehenden Flï¿½che
 	 */
 	void spinR(int face) {
 		seiten[face] = Integer.rotateRight(seiten[face], 8);
@@ -67,17 +69,17 @@ public class Wuerfel {
 	}
 
 	/**
-	 * Ändert an der Fläche "seitenIndex" an den "feldIndex"-ten Position die Farbe zu "farbe".
+	 * ï¿½ndert an der Flï¿½che "seitenIndex" an den "feldIndex"-ten Position die Farbe zu "farbe".
 	 * @param seitenIndex Index der Seite.
 	 * @param feldIndex Index der Seite.
-	 * @param farbe Farbe als Binärkode.
+	 * @param farbe Farbe als Binï¿½rkode.
 	 */
 	public void veraendereEinzeln(int seitenIndex, int feldIndex, int farbe) {
 		this.seiten[seitenIndex] = 0;
 	}
 	
 	/**
-	 * Ersetzt den Würfel, durch einen gelösten Würfel.
+	 * Ersetzt den Wï¿½rfel, durch einen gelï¿½sten Wï¿½rfel.
 	 */
 	public void makeSolved() {
 		seiten[0] = 0x00000000;
@@ -109,9 +111,9 @@ public class Wuerfel {
 	}
 
 	/**
-	 * Überprüft ob der Würfel gelöst ist.
+	 * ï¿½berprï¿½ft ob der Wï¿½rfel gelï¿½st ist.
 	 * 
-	 * @return true wenn gelöst, sonst false.
+	 * @return true wenn gelï¿½st, sonst false.
 	 */
 	public boolean isSolved() {
 		if (seiten[0] == 0x00000000 && seiten[1] == 0x11111111 && seiten[2] == 0x22222222 && seiten[3] == 0x33333333
@@ -122,21 +124,21 @@ public class Wuerfel {
 	}
 
 	/**
-	 * Gibt zu einer Fläche an einem Stelle die Farbe in Binär zurück.
+	 * Gibt zu einer Flï¿½che an einem Stelle die Farbe in Binï¿½r zurï¿½ck.
 	 * 
 	 * @param face  Index der Seite.
 	 * @param index Index in der Seite.
-	 * @return Die Farbe in Binär kodiert.
+	 * @return Die Farbe in Binï¿½r kodiert.
 	 */
 	public int extractColor(int face, int index) {
 		return (face >>> (index * 4)) & (0xF);
 	}
 
 	/**
-	 * Gibt zu gegebenem Binärkode die Farbe zurück. Bei einem ungültigen Kode, wird
-	 * 'X' zurückgegeben.
+	 * Gibt zu gegebenem Binï¿½rkode die Farbe zurï¿½ck. Bei einem ungï¿½ltigen Kode, wird
+	 * 'X' zurï¿½ckgegeben.
 	 * 
-	 * @param Farbe in Binär kodiert.
+	 * @param Farbe in Binï¿½r kodiert.
 	 * @return Farbe als Buchstabe.
 	 */
 	public char lookupColor(int code) {
