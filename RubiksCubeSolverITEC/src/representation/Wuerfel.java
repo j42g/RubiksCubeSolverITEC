@@ -69,7 +69,7 @@ public class Wuerfel {
 	}
 
 	/**
-	 * ändert an der Fläche "seitenIndex" an den "feldIndex"-ten Position die Farbe zu "farbe".
+	 * Ändert an der Fläche "seitenIndex" an den "feldIndex"-ten Position die Farbe zu "farbe".
 	 * @param seitenIndex Index der Seite.
 	 * @param feldIndex Index der Seite.
 	 * @param farbe Farbe als Binärkode.
@@ -187,5 +187,35 @@ public class Wuerfel {
 				System.out.print(lookupColor(extractColor(seiten[index], 12 - i)) + " ");
 			}
 		}
+	}
+	
+	/**
+	 * Gibt den Würfel aus
+	 */
+	public void wuerfelAusgeben() {
+		// syntax verringern
+		char[][] s = new char[6][8];
+		for(int i = 0; i < this.seiten.length; i++) {
+			for(int j = 0; j < 8; j++) {
+				s[i][j] = lookupColor(extractColor(this.seiten[i], j));
+			}
+		}
+		// Abstände definieren
+		String la = "        ";
+		String md = "   ";
+		String sm = " ";
+		// Weiße Fläche
+		System.out.println(la + s[0][0] + sm + s[0][1] + sm + s[0][2]);
+		System.out.println(la + s[0][7] + sm +    "W"  + sm + s[0][3]);
+		System.out.println(la + s[0][6] + sm + s[0][5] + sm + s[0][4]);
+		// Orange														Grün											Rot												Blau
+		System.out.println(s[2][0] + sm + s[2][1] + sm + s[2][2] + md     + s[3][0] + sm + s[3][1] + sm + s[3][2] + md    + s[4][0] + sm + s[4][1] + sm + s[4][2] + md    + s[1][0] + sm + s[1][1] + sm + s[1][2]);
+		System.out.println(s[2][7] + sm +    "O"  + sm + s[2][3] + md     + s[3][7] + sm +    "G"  + sm + s[3][3] + md    + s[4][7] + sm +    "R"  + sm + s[4][3] + md    + s[1][7] + sm +    "B"  + sm + s[1][3]);
+		System.out.println(s[2][6] + sm + s[2][5] + sm + s[2][4] + md     + s[3][6] + sm + s[3][5] + sm + s[3][4] + md    + s[4][6] + sm + s[4][5] + sm + s[4][4] + md    + s[1][6] + sm + s[1][5] + sm + s[1][4]);
+		// Gelb
+		System.out.println(la + s[5][0] + sm + s[5][1] + sm + s[5][2]);
+		System.out.println(la + s[5][7] + sm +    "Y"  + sm + s[5][3]);
+		System.out.println(la + s[5][6] + sm + s[5][5] + sm + s[5][4]);
+		
 	}
 }
