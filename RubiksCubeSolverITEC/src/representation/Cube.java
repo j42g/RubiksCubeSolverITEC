@@ -2,19 +2,30 @@ package representation;
 
 public class Cube {
 	int[] faces = new int[6];
-	// 0000 white
-	// 0001 blue
-	// 0010 orange
-	// 0011 green
-	// 0100 red
-	// 0101 yellow
+	
+	/**
+	 * Im Array sind die 6 Seiten gespeicht. Die i-te Seite hat die i-te Farbe:
+	 * 
+	 * 0: Weiß
+	 * 1: Blau
+	 * 2: Orange
+	 * 3: Grün
+	 * 4: Rot
+	 * 5: Gelb
+	 * 
+	 * Die Binärdarstellungen dieser Zahlen bilden die 32-bit Zahlen, welche die Seiten wiefolgt darstellen:
+	 * 
+	 * 0 1 2
+	 * 3 M 4
+	 * 5 6 7
+	 * 
+	 * Die 1 "zeigt" dabei immer auf die nächste Fläche, basierend auf der Reihenfolge der Farben.
+	 */
+	
 
-	// index one always in direction of next face -> white 1 points to blue etc.
-
-	// 4 bits per color, 32 bits per face, 8 bits useless
-
-	/*
-	 * 0 1 2 7 3 6 5 4
+	/**
+	 * Dreht die Fläche am Index "face".
+	 * @param face Index der zu drehenden Fläche
 	 */
 	void spinR(int face) {
 		faces[face] = Integer.rotateRight(faces[face], 8);
@@ -34,16 +45,37 @@ public class Cube {
 		}
 	}
 
+	/**
+	 * DAS MCAHST DU NICK
+	 * @param face0 
+	 * @param face1
+	 * @param face2
+	 * @param face3
+	 * @param offset0
+	 * @param offset1
+	 * @param offset2
+	 * @param offset3
+	 */
 	void sideSpin(int face0, int face1, int face2, int face3, int offset0, int offset1, int offset2, int offset3) {
 		int cache = 0;
 		cache = faces[face0] >> offset0 & 0xF;
 
 	}
 
+	/**
+	 * DAS MCAHST DU NICK
+	 * @param face
+	 * @param index
+	 * @return
+	 */
 	public int extractStrip(int face, int index) {
 		return (face >>> (index * 8)) & (0xFFF);
 	}
 
+	/**
+	 * DAS MCAHST DU NICK
+	 * @param face
+	 */
 	void spinL(int face) {
 		faces[face] = Integer.rotateLeft(faces[face], 8);
 	}
