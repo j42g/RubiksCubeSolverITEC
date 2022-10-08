@@ -43,7 +43,7 @@ public class Wuerfel {
 	 * Erster Index definiert einen Zug 0-5 Zweiter Index definiert einen
 	 * Tauschvorgang im Zug (1,6) -> (4,4) -> (3,6) -> (2,6) und (2,6) -> (1,6)
 	 * Dritte Index definiert die Vertauschungsreihe Vierter Index 0 -> Index der
-	 * Seite und 1 -> Index auf der Seite
+	 * Seite und 1 -> Index auf der Seite.
 	 */
 	private int[][][][] randZuege = {
 			// U
