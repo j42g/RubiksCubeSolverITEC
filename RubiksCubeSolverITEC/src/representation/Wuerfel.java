@@ -3,6 +3,7 @@ package representation;
 public class Wuerfel {
 
 	/**
+	 * KEKEKEKEKEKEK
 	 * Im Array sind die 6 Seiten gespeicht. Die i-te Seite hat die i-te Farbe:
 	 * 
 	 * 0: Weiß; 1: Blau; 2: Orange; 3: Grün; 4: Rot; 5: Gelb
@@ -142,7 +143,7 @@ public class Wuerfel {
 		feldIndex = feldIndex << 2;
 		// Bit magic
 		for (int i = 0; i < 4; i++) {
-			if (((farbe >> i) & 1) == 1) {
+			if (((farbe >>> i) & 1) == 1) {
 				this.seiten[seitenIndex] |= (0b1 << (feldIndex + i));
 			} else {
 				this.seiten[seitenIndex] &= ~(0b1 << (feldIndex + i));
