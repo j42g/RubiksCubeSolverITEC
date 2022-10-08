@@ -76,8 +76,8 @@ public class Wuerfel {
 				currInteger++;
 			}
 			currIndex++;
-			//this.dreheZug(currMove);
-			System.out.println(this.lookupMove(currMove));
+			this.dreheZug(currMove);
+			//System.out.println(this.lookupMove(currMove));
 			
 		}
 		
