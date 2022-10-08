@@ -275,6 +275,7 @@ public class Wuerfel {
 		return false;
 	}
 
+	
 	/**
 	 * Gibt zu einer Fläche an einem Stelle die Farbe in Binär zurück.
 	 * 
