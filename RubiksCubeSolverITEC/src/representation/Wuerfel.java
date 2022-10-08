@@ -108,14 +108,24 @@ public class Wuerfel {
 		}
 		// Rand wenn mit Uhrzeigersinn
 		int prev;
+		int curr;
+		int index;
 		for(int i = 0; i < 3; i++) {
+			prev = this.extractColor(this.randZuege[seiteDesZuges][i][3][0], this.randZuege[seiteDesZuges][i][3][1]);
 			for(int j = 0; j < 4; j++) {
-				prev = this.extractColor(this.randZuege[seiteDesZuges][i][j][0],  this.randZuege[seiteDesZuges][i][((j - 1) % 4 + 4) % 4][1]); //  (a % b + b) % b gibt keine negativen Reste 
+				index = ((j + 1) % 4 + 4) % 4; // (a % b + b) % b gibt keine negativen Reste 
+				curr = this.extractColor(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1]);
 				this.veraendereEinzeln(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1], prev);
-				System.out.print("" + this.randZuege[seiteDesZuges][i][((j - 1) % 4 + 4) % 4][0] + this.randZuege[seiteDesZuges][i][((j - 1) % 4 + 4) % 4][1] + " -> ");
-				System.out.print("" + this.randZuege[seiteDesZuges][i][j][0] + this.randZuege[seiteDesZuges][i][j][1]);
+				prev = curr;
+				/*
+				prev = this.extractColor(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1]);
+				this.veraendereEinzeln(this.randZuege[seiteDesZuges][i][index][0], this.randZuege[seiteDesZuges][i][index][1], prev);
+				// System.out.print("(" + this.randZuege[seiteDesZuges][i][index][0] + ", " + this.randZuege[seiteDesZuges][i][index][1] + ")  ");
+				System.out.print("(" + this.randZuege[seiteDesZuges][i][index][0] + ", " + this.randZuege[seiteDesZuges][i][index][1] + ") -> " );
+				System.out.print("(" + this.randZuege[seiteDesZuges][i][j][0] + ", " + this.randZuege[seiteDesZuges][i][j][1] + ") \n" );*/
+				
 			}
-			System.out.println("");
+			//System.out.println("");
 		}
 
 
@@ -193,14 +203,13 @@ public class Wuerfel {
 
 	/**
 	 * Gibt zu einer Fläche an einem Stelle die Farbe in Binär zurück.
-	 * Diese Funktion funktioniert auch für die Züge (denke ich).
 	 * 
 	 * @param face  Index der Seite.
 	 * @param index Index in der Seite.
 	 * @return Die Farbe in Binär kodiert.
 	 */
 	public int extractColor(int face, int index) {
-		return (face >>> (index * 4)) & (0xF);
+		return (this.seiten[face] >>> (index * 4)) & (0xF);
 	}
 	
 	/**
@@ -246,15 +255,15 @@ public class Wuerfel {
 	public void printFace(int index) {
 		for (int i = 0; i < 9; i++) {
 			if (i < 3) {
-				System.out.print(lookupColor(extractColor(seiten[index], i)) + " ");
+				System.out.print(lookupColor(extractColor(index, i)) + " ");
 			} else if (i == 3) {
-				System.out.print("\n" + lookupColor(extractColor(seiten[index], 7)) + " ");
+				System.out.print("\n" + lookupColor(extractColor(index, 7)) + " ");
 			} else if (i == 4) {
 				System.out.print(lookupColor(index) + " ");
 			} else if (i == 5) {
-				System.out.print(lookupColor(extractColor(seiten[index], i)) + "\n");
+				System.out.print(lookupColor(extractColor(index, i)) + "\n");
 			} else {
-				System.out.print(lookupColor(extractColor(seiten[index], 12 - i)) + " ");
+				System.out.print(lookupColor(extractColor(index, 12 - i)) + " ");
 			}
 		}
 	}
@@ -267,7 +276,7 @@ public class Wuerfel {
 		char[][] s = new char[6][8];
 		for (int i = 0; i < this.seiten.length; i++) {
 			for (int j = 0; j < 8; j++) {
-				s[i][j] = lookupColor(extractColor(this.seiten[i], j));
+				s[i][j] = lookupColor(extractColor(i, j));
 			}
 		}
 		// Abstände definieren
