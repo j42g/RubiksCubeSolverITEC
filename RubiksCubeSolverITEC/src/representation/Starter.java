@@ -17,6 +17,8 @@ public class Starter {
 		a.dreheZug(0b0000);
 		a.wuerfelAusgeben();
 		
+		// 0123456789
+		
 
 	}
 
