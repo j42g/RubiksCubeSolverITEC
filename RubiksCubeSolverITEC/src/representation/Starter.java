@@ -5,7 +5,10 @@ public class Starter {
 	public static void main(String[] args) {
 			
 		Wuerfel a = new Wuerfel();
-		a.makeSolved();
+		
+		
+		a.dreheZugsequenz("F' D' L RRRR L' R' R");
+		/*a.makeSolved();
 		
 		a.veraendereEinzeln(0, 1, 5);
 		a.veraendereEinzeln(4, 1, 1);
@@ -15,7 +18,7 @@ public class Starter {
 		
 		a.wuerfelAusgeben();
 		a.dreheZug(0b0000);
-		a.wuerfelAusgeben();
+		a.wuerfelAusgeben();*/
 
 	}
 
