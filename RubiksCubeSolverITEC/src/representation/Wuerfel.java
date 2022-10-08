@@ -37,7 +37,7 @@ public class Wuerfel {
 	 * Jeder Zugkode entspricht dem Index der Seite, die er dreht.
 	 *
 	 */
-	private int[] seiten = new int[6];
+	public int[] seiten = new int[6];
 
 	/**
 	 * Erster Index definiert einen Zug 0-5 Zweiter Index definiert einen
@@ -51,19 +51,19 @@ public class Wuerfel {
 					{ { 1, 0 }, { 4, 6 }, { 3, 0 }, { 2, 0 } } } };
 
 	
-	private final int[][] aussenIndex = {
+	private final int[][][] aussenIndex = {
 			// U (Blau, Rot, Grün, Orange)
-			{6, 4, 6, 6},
+			{{1,6}, {4,4}, {3,6}, {2,6}},
 			// B (Weiß, Orange, Gelb, Rot)
-			{0, 4, 4, 6},
+			{{0,0}, {2,4}, {5,4}, {4,6}},
 			// L (Weiß, Grün, Gelb, Blau)
-			{6, 4, 6, 0},
+			{{0,6}, {3,4}, {5,6}, {1,0}},
 			// F (Weiß, Rot, Gelb, Orange)
-			{4, 2, 0, 0},
+			{{0,4}, {4,2}, {5,0}, {2,0}},
 			// R (Weiß, Blau, Gelb, Grün)
-			{2, 4, 4, 4},
+			{{0,2}, {1,4}, {5,4}, {3,4}},
 			// D (Blau, Orange, Grün, Rot)
-			{2, 2, 2, 0}
+			{{1,2}, {2,2}, {3,2}, {4,0}}
 	};
 	
 	/**
@@ -219,12 +219,11 @@ public class Wuerfel {
 	 * Redundant? DAS MCAHST DU NICK
 	 * 
 	 * @param face
-	 * @param index
+	 * @param pos Komplement aus Seite und Stipindex
 	 * @return
 	 */
-	public int extractStrip(int faceInd, int index) {
-		System.out.println();
-		return (this.seiten[faceInd] >>> (index << 2)) & (0xFFF);
+	public int extractStrip(int[] pos) {
+		return (Integer.rotateRight(this.seiten[pos[0]],(pos[1] << 2))) & (0xFFF);
 	}
 
 	/**
@@ -232,16 +231,36 @@ public class Wuerfel {
 	 * 
 	 * @param face Index der Seite
 	 */
-	public void dreheUhrzeigersinn(int face) {
+	public void dreheUhr(int face) {
 		seiten[face] = Integer.rotateLeft(seiten[face], 8);
-		long aussen = 0xFFFF000000000000L;
+		long aussen = 0;
 		for(int i = 0; i < 4; i++) {
-			aussen |= this.extractStrip(face, this.aussenIndex[face][i]) << (i*12);
-			System.out.println(this.extractStrip(face, this.aussenIndex[face][i]));
+			aussen |= ((long)this.extractStrip(aussenIndex[face][i])) << (i*16);
 		}
-		System.out.println(Long.toBinaryString(aussen));
+		aussen = Long.rotateLeft(aussen, 16);
+		for(int i = 0; i < 4; i++) {
+			overwriteStrip((int)(aussen>>>i*16)&0xFFF,aussenIndex[face][i]);
+		}
 	}
-
+	public void dreheGUhr(int face) {
+		seiten[face] = Integer.rotateRight(seiten[face], 8);
+		long aussen = 0;
+		for(int i = 0; i < 4; i++) {
+			aussen |= ((long)this.extractStrip(aussenIndex[face][i])) << (i*16);
+		}
+		aussen = Long.rotateRight(aussen, 16);
+		for(int i = 0; i < 4; i++) {
+			overwriteStrip((int)(aussen>>>i*16)&0xFFF,aussenIndex[face][i]);
+		}
+	}
+	public void overwriteStrip(int a, int[] pos) {
+		a = Integer.rotateLeft(a, pos[1] << 2) ;
+		seiten[pos[0]] &= ~(Integer.rotateLeft(0xFFF, (pos[1] << 2)));
+		seiten[pos[0]] |= a;
+	}
+	
+	
+	
 	/**
 	 * überpräft ob der Würfel gelöst ist.
 	 * 
