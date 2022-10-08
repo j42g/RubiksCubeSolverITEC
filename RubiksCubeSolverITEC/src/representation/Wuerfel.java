@@ -62,7 +62,7 @@ public class Wuerfel {
 	}
 
 	/**
-	 * Dreht Zugsequenz
+	 * Dreht Zugsequenz.
 	 * @param zug Züge als Kode
 	 */
 	public void dreheZugsequenz(int[] zug) {
