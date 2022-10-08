@@ -155,13 +155,13 @@ public class Wuerfel {
 	 */
 	public void makeSolved() {
 		seiten[0] = 0x00000000;
-		seiten[1] = 0x11111111;
+		seiten[1] = 0x1111111;
 		seiten[2] = 0x22222222;
 		seiten[3] = 0x33333333;
 		seiten[4] = 0x44444444;
 		seiten[5] = 0x55555555;
 	}
-
+	
 	/**
 	 * Redundant?
 	 * DAS MCAHST DU NICK
@@ -171,7 +171,7 @@ public class Wuerfel {
 	 * @return
 	 */
 	public int extractStrip(int face, int index) {
-		return (face >>> (index * 8)) & (0xFFF);
+		return (face >>> (index << 2)) & (0xFFF);
 	}
 
 	/**
