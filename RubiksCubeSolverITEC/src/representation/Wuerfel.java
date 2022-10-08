@@ -3,7 +3,7 @@ package representation;
 public class Wuerfel {
 
 	/**
-	 * KEKEKEKEKEKEKS
+	 * KEKEKEKEKEKEK
 	 * Im Array sind die 6 Seiten gespeicht. Die i-te Seite hat die i-te Farbe:
 	 * 
 	 * 0: Weiß; 1: Blau; 2: Orange; 3: Grün; 4: Rot; 5: Gelb
