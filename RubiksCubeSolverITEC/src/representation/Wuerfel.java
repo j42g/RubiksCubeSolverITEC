@@ -32,9 +32,27 @@ public class Wuerfel {
 	 * 1011 wäre F'. 
 	 * 
 	 * 1111 ist ein ungültiger Zug und steht für Ende der Zugsquenz.
+	 * 
+	 * Jeder Zugkode entspricht dem Index der Seite, die er dreht.
 	 *
 	 */
 	private int[] seiten = new int[6];
+	
+	/**
+	 * Erster Index definiert einen Zug 0-5
+	 * Zweiter Index definiert einen Tauschvorgang im Zug (1,6) -> (4,4) -> (3,6) -> (2,6) und (2,6) -> (1,6)
+	 * Dritte Index definiert die Vertauschungsreihe
+	 * Vierter Index 0 -> Index der Seite und 1 -> Index auf der Seite
+	 */
+	private int[][][][] randZuege = {
+			// U
+			{
+			// Blau -> Rot
+			{{1,6},{4,4},{3,6},{2,6}},
+			{{1,7},{4,5},{3,7},{2,7}},
+			{{1,0},{4,6},{3,0},{2,0}}
+			}
+	};
 
 	/**
 	 * TODO Implementieren
@@ -44,7 +62,7 @@ public class Wuerfel {
 	}
 
 	/**
-	 * 
+	 * Dreht Zugsequenz
 	 * @param zug Züge als Kode
 	 */
 	public void dreheZugsequenz(int[] zug) {
@@ -60,6 +78,7 @@ public class Wuerfel {
 				curIndex = 0;
 				curInteger++;
 			}
+			this.dreheZug(curMove);
 		}
 	}
 	
@@ -71,10 +90,37 @@ public class Wuerfel {
 		
 	}
 	
-	
+	/**
+	 * Dreht einen Zug
+	 * @param zug Zug als Kode.
+	 */
 	public void dreheZug(int zug) {
-		
+		// Gegen oder mit Uhrzeigersinn
+		int richtungsBit = ((zug >> 3) & 1 );
+		boolean istGegenUhrzeigersinn;
+		int seiteDesZuges = zug & ~0b1000; // zug & ~0b1000 stellt den Zugkode da, welcher der Index der Seite ist
+		if( richtungsBit == 1) {
+			istGegenUhrzeigersinn = true;
+			this.seiten[seiteDesZuges] = Integer.rotateRight(this.seiten[seiteDesZuges], 8);
+		} else {
+			istGegenUhrzeigersinn = false;
+			this.seiten[seiteDesZuges] = Integer.rotateLeft(this.seiten[seiteDesZuges], 8);
+		}
+		// Rand wenn mit Uhrzeigersinn
+		int prev;
+		for(int i = 0; i < 3; i++) {
+			for(int j = 0; j < 4; j++) {
+				prev = this.extractColor(this.randZuege[seiteDesZuges][i][j][0],  this.randZuege[seiteDesZuges][i][((j - 1) % 4 + 4) % 4][1]); //  (a % b + b) % b gibt keine negativen Reste 
+				this.veraendereEinzeln(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1], prev);
+				System.out.print("" + this.randZuege[seiteDesZuges][i][((j - 1) % 4 + 4) % 4][0] + this.randZuege[seiteDesZuges][i][((j - 1) % 4 + 4) % 4][1] + " -> ");
+				System.out.print("" + this.randZuege[seiteDesZuges][i][j][0] + this.randZuege[seiteDesZuges][i][j][1]);
+			}
+			System.out.println("");
+		}
+
+
 	}
+
 
 
 	/**
@@ -233,16 +279,17 @@ public class Wuerfel {
 		System.out.println(la + s[0][7] + sm + "W" + sm + s[0][3]);
 		System.out.println(la + s[0][6] + sm + s[0][5] + sm + s[0][4]);
 		// Orange Grün Rot Blau
-		System.out.println(s[2][0] + sm + s[2][1] + sm + s[2][2] + md + s[3][0] + sm + s[3][1] + sm + s[3][2] + md
+		System.out.println(s[2][6] + sm + s[2][7] + sm + s[2][0] + md + s[3][0] + sm + s[3][1] + sm + s[3][2] + md
 				+ s[4][0] + sm + s[4][1] + sm + s[4][2] + md + s[1][0] + sm + s[1][1] + sm + s[1][2]);
-		System.out.println(s[2][7] + sm + "O" + sm + s[2][3] + md + s[3][7] + sm + "G" + sm + s[3][3] + md + s[4][7]
+		System.out.println(s[2][5] + sm + "O" + sm + s[2][1] + md + s[3][7] + sm + "G" + sm + s[3][3] + md + s[4][7]
 				+ sm + "R" + sm + s[4][3] + md + s[1][7] + sm + "B" + sm + s[1][3]);
-		System.out.println(s[2][6] + sm + s[2][5] + sm + s[2][4] + md + s[3][6] + sm + s[3][5] + sm + s[3][4] + md
+		System.out.println(s[2][4] + sm + s[2][3] + sm + s[2][2] + md + s[3][6] + sm + s[3][5] + sm + s[3][4] + md
 				+ s[4][6] + sm + s[4][5] + sm + s[4][4] + md + s[1][6] + sm + s[1][5] + sm + s[1][4]);
 		// Gelb
 		System.out.println(la + s[5][0] + sm + s[5][1] + sm + s[5][2]);
 		System.out.println(la + s[5][7] + sm + "Y" + sm + s[5][3]);
 		System.out.println(la + s[5][6] + sm + s[5][5] + sm + s[5][4]);
+		System.out.println("\n\n");
 
 	}
 }
