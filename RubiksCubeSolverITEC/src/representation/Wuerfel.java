@@ -97,38 +97,35 @@ public class Wuerfel {
 	public void dreheZug(int zug) {
 		// Gegen oder mit Uhrzeigersinn
 		int richtungsBit = ((zug >> 3) & 1 );
-		boolean istGegenUhrzeigersinn;
 		int seiteDesZuges = zug & ~0b1000; // zug & ~0b1000 stellt den Zugkode da, welcher der Index der Seite ist
-		if( richtungsBit == 1) {
-			istGegenUhrzeigersinn = true;
-			this.seiten[seiteDesZuges] = Integer.rotateRight(this.seiten[seiteDesZuges], 8);
-		} else {
-			istGegenUhrzeigersinn = false;
-			this.seiten[seiteDesZuges] = Integer.rotateLeft(this.seiten[seiteDesZuges], 8);
-		}
-		// Rand wenn mit Uhrzeigersinn
 		int prev;
 		int curr;
 		int index;
-		for(int i = 0; i < 3; i++) {
-			prev = this.extractColor(this.randZuege[seiteDesZuges][i][3][0], this.randZuege[seiteDesZuges][i][3][1]);
-			for(int j = 0; j < 4; j++) {
-				index = ((j + 1) % 4 + 4) % 4; // (a % b + b) % b gibt keine negativen Reste 
-				curr = this.extractColor(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1]);
-				this.veraendereEinzeln(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1], prev);
-				prev = curr;
-				/*
-				prev = this.extractColor(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1]);
-				this.veraendereEinzeln(this.randZuege[seiteDesZuges][i][index][0], this.randZuege[seiteDesZuges][i][index][1], prev);
-				// System.out.print("(" + this.randZuege[seiteDesZuges][i][index][0] + ", " + this.randZuege[seiteDesZuges][i][index][1] + ")  ");
-				System.out.print("(" + this.randZuege[seiteDesZuges][i][index][0] + ", " + this.randZuege[seiteDesZuges][i][index][1] + ") -> " );
-				System.out.print("(" + this.randZuege[seiteDesZuges][i][j][0] + ", " + this.randZuege[seiteDesZuges][i][j][1] + ") \n" );*/
-				
+		if( richtungsBit == 1) {
+			for(int i = 2; i > -1; i--) {
+				prev = this.extractColor(this.randZuege[seiteDesZuges][i][0][0], this.randZuege[seiteDesZuges][i][0][1]);
+				for(int j = 3; j > -1; j--) {
+					index = ((j + 1) % 4 + 4) % 4; // (a % b + b) % b gibt keine negativen Reste 
+					curr = this.extractColor(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1]);
+					this.veraendereEinzeln(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1], prev);
+					prev = curr;
+					
+				}
 			}
-			//System.out.println("");
+			this.seiten[seiteDesZuges] = Integer.rotateRight(this.seiten[seiteDesZuges], 8);
+		} else {
+			for(int i = 0; i < 3; i++) {
+				prev = this.extractColor(this.randZuege[seiteDesZuges][i][3][0], this.randZuege[seiteDesZuges][i][3][1]);
+				for(int j = 0; j < 4; j++) {
+					index = ((j + 1) % 4 + 4) % 4; // (a % b + b) % b gibt keine negativen Reste 
+					curr = this.extractColor(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1]);
+					this.veraendereEinzeln(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1], prev);
+					prev = curr;
+					
+				}
+			}
+			this.seiten[seiteDesZuges] = Integer.rotateLeft(this.seiten[seiteDesZuges], 8);
 		}
-
-
 	}
 
 
