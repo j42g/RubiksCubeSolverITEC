@@ -7,7 +7,7 @@ public class Starter {
 		Wuerfel a = new Wuerfel();
 		
 		
-		a.dreheZugsequenz("F' D' L RRRR L' R' R");
+		a.dreheUhrzeigersinn(0);
 		/*a.makeSolved();
 		
 		a.veraendereEinzeln(0, 1, 5);

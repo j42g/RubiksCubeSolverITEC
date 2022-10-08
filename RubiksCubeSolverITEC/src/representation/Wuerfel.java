@@ -222,8 +222,9 @@ public class Wuerfel {
 	 * @param index
 	 * @return
 	 */
-	public int extractStrip(int face, int index) {
-		return (face >>> (index << 2)) & (0xFFF);
+	public int extractStrip(int faceInd, int index) {
+		System.out.println();
+		return (this.seiten[faceInd] >>> (index << 2)) & (0xFFF);
 	}
 
 	/**
@@ -235,10 +236,10 @@ public class Wuerfel {
 		seiten[face] = Integer.rotateLeft(seiten[face], 8);
 		long aussen = 0xFFFF000000000000L;
 		for(int i = 0; i < 4; i++) {
-			for(int j = 0; j < 3; j++) {
-				
-			}
+			aussen |= this.extractStrip(face, this.aussenIndex[face][i]) << (i*12);
+			System.out.println(this.extractStrip(face, this.aussenIndex[face][i]));
 		}
+		System.out.println(Long.toBinaryString(aussen));
 	}
 
 	/**
