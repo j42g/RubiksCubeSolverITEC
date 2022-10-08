@@ -92,8 +92,8 @@ public class Wuerfel {
 				currInteger++;
 			}
 			currIndex++;
-			this.dreheZug(currMove);
-			//System.out.println(this.lookupMove(currMove));
+			// this.dreheZug(currMove);
+			System.out.println(this.lookupMove(currMove));
 			
 		}
 		
@@ -119,6 +119,10 @@ public class Wuerfel {
 				if (i != czuege.length - 1) { // Überprüfen ob es ein Zug wie L' ist und sicherstellen, das man nicht out-of-bounds kommt
 					if(czuege[i + 1] == '\'') {
 						moveKode |= 0b1000; // ' bit setzen
+						i++; // da wir ja 2 Zeichen haben
+					} else if (czuege[i + 1] == '2') {
+						moves[movesIndex] |= moveKode << (intIndex << 2);
+						intIndex++;
 						i++; // da wir ja 2 Zeichen haben
 					}
 				}

@@ -6,19 +6,7 @@ public class Starter {
 			
 		Wuerfel a = new Wuerfel();
 		
-		
-		a.dreheUhrzeigersinn(0);
-		/*a.makeSolved();
-		
-		a.veraendereEinzeln(0, 1, 5);
-		a.veraendereEinzeln(4, 1, 1);
-		a.veraendereEinzeln(2, 3, 5);
-		a.veraendereEinzeln(3, 4, 2);
-		a.veraendereEinzeln(1, 0, 0);
-		
-		a.wuerfelAusgeben();
-		a.dreheZug(0b0000);
-		a.wuerfelAusgeben();*/
+		a.dreheZugsequenz("R2 F2 B2");
 
 	}
 
