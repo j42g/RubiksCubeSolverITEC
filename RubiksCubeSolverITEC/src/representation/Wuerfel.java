@@ -50,6 +50,22 @@ public class Wuerfel {
 			{ { { 1, 6 }, { 4, 4 }, { 3, 6 }, { 2, 6 } }, { { 1, 7 }, { 4, 5 }, { 3, 7 }, { 2, 7 } },
 					{ { 1, 0 }, { 4, 6 }, { 3, 0 }, { 2, 0 } } } };
 
+	
+	private final int[][] aussenIndex = {
+			// U (Blau, Rot, Grün, Orange)
+			{6, 4, 6, 6},
+			// B (Weiß, Orange, Gelb, Rot)
+			{0, 4, 4, 6},
+			// L (Weiß, Grün, Gelb, Blau)
+			{6, 4, 6, 0},
+			// F (Weiß, Rot, Gelb, Orange)
+			{4, 2, 0, 0},
+			// R (Weiß, Blau, Gelb, Grün)
+			{2, 4, 4, 4},
+			// D (Blau, Orange, Grün, Rot)
+			{2, 2, 2, 0}
+	};
+	
 	/**
 	 * TODO Implementieren
 	 */
@@ -213,10 +229,16 @@ public class Wuerfel {
 	/**
 	 * Redundant? DAS MCAHST DU NICK
 	 * 
-	 * @param face
+	 * @param face Index der Seite
 	 */
-	void spinL(int face) {
+	public void dreheUhrzeigersinn(int face) {
 		seiten[face] = Integer.rotateLeft(seiten[face], 8);
+		long aussen = 0xFFFF000000000000L;
+		for(int i = 0; i < 4; i++) {
+			for(int j = 0; j < 3; j++) {
+				
+			}
+		}
 	}
 
 	/**
