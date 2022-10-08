@@ -5,7 +5,7 @@ public class Wuerfel {
 	/**
 	 * Im Array sind die 6 Seiten gespeicht. Die i-te Seite hat die i-te Farbe:
 	 * 
-	 * 0: Weiß 1: Blau 2: Orange 3: Grün 4: Rot 5: Gelb
+	 * 0: Weiß; 1: Blau; 2: Orange; 3: Grün; 4: Rot; 5: Gelb
 	 * 
 	 * Die Binïärdarstellungen dieser Zahlen bilden die 32-bit Zahlen, welche die
 	 * Seiten wiefolgt darstellen:
@@ -14,6 +14,25 @@ public class Wuerfel {
 	 * 
 	 * Die 1 "zeigt" dabei immer auf die nächste Fläche, basierend auf der
 	 * Reihenfolge der Farben. Gelb zeigt auf Grün.
+	 * 
+	 * 
+	 * 
+	 * Vielleicht ändern idk:
+	 * 
+	 * Der Würfel wird "gehalten", sodass Weiß oben und Grün vorne ist. Die Züge
+	 * sind dann immer im Uhrzeigersinn, wenn man auf die Seite direkt draufschaut
+	 * Die Züge sind dann wiefolgt definiert:
+	 * 
+	 * 0: U = Weiß; 1: B = Blau; 2: L = Orange; 3: F = Grün; 4: R = Rot; 5: D = Gelb;
+	 * 
+	 * Ein Zug sind 4 Bits. Das erste Bit steht dafür, ob es gegen den
+	 * Uhrzeigersinn ist.
+	 * 
+	 * 0100 wäre R.
+	 * 1011 wäre F'. 
+	 * 
+	 * 1111 ist ein ungültiger Zug und steht für Ende der Zugsquenz.
+	 *
 	 */
 	private int[] seiten = new int[6];
 
@@ -25,45 +44,38 @@ public class Wuerfel {
 	}
 
 	/**
-	 * Dreht die Fläche am Index "face".
 	 * 
-	 * @param face Index der zu drehenden Fläche
+	 * @param zug Züge als Kode
 	 */
-	void spinR(int face) {
-		seiten[face] = Integer.rotateRight(seiten[face], 8);
-		switch (face) {
-		case 0:
-			break;
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
+	public void dreheZugsequenz(int[] zug) {
+		int curInteger = 0;
+		int curIndex = 0;
+		int curMove;
+		while(true) {
+			curMove = this.extractMove(zug[curInteger], curIndex);
+			if(curMove == 0xF) {
+				break;
+			}
+			if(curIndex == 7) {
+				curIndex = 0;
+				curInteger++;
+			}
 		}
 	}
-
+	
 	/**
-	 * DAS MCAHST DU NICK
-	 * 
-	 * @param face0
-	 * @param face1
-	 * @param face2
-	 * @param face3
-	 * @param offset0
-	 * @param offset1
-	 * @param offset2
-	 * @param offset3
+	 * Übersetzt und ruft dreheZugSquenz auf.
+	 * @param zuege Züge in Notation
 	 */
-	void sideSpin(int face0, int face1, int face2, int face3, int offset0, int offset1, int offset2, int offset3) {
-		int cache = 0;
-		cache = seiten[face0] >> offset0 & 0xF;
-
+	public void dreheZugsequenz(String zuege) {
+		
 	}
+	
+	
+	public void dreheZug(int zug) {
+		
+	}
+
 
 	/**
 	 * Ändert an der Fläche "seitenIndex" an den "feldIndex"-ten Position die Farbe
@@ -99,6 +111,7 @@ public class Wuerfel {
 	}
 
 	/**
+	 * Redundant?
 	 * DAS MCAHST DU NICK
 	 * 
 	 * @param face
@@ -110,6 +123,7 @@ public class Wuerfel {
 	}
 
 	/**
+	 * Redundant?
 	 * DAS MCAHST DU NICK
 	 * 
 	 * @param face
@@ -132,7 +146,8 @@ public class Wuerfel {
 	}
 
 	/**
-	 * Gibt zu einer Fläche an einem Stelle die Farbe in Binär zuräck.
+	 * Gibt zu einer Fläche an einem Stelle die Farbe in Binär zurück.
+	 * Diese Funktion funktioniert auch für die Züge (denke ich).
 	 * 
 	 * @param face  Index der Seite.
 	 * @param index Index in der Seite.
@@ -141,6 +156,16 @@ public class Wuerfel {
 	public int extractColor(int face, int index) {
 		return (face >>> (index * 4)) & (0xF);
 	}
+	
+	/**
+	 * Gibt den "index"-ten Zug in seq zurück.
+	 * @param seq Sequenz der Züge.
+	 * @param index Index in der Sequenz 0-7.
+	 * @return Zug in "seq" bei "index".
+	 */
+	public int extractMove(int seq, int index) {
+		return (seq >>> (index * 4)) & (0xF);
+	} 
 
 	/**
 	 * Gibt zu gegebenem Binärkode die Farbe zuräck. Bei einem ungültigen Kode, wird
