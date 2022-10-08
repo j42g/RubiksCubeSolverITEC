@@ -253,6 +253,7 @@ public class Wuerfel {
 			overwriteStrip((int)(aussen>>>i*16)&0xFFF,aussenIndex[face][i]);
 		}
 	}
+	
 	public void overwriteStrip(int a, int[] pos) {
 		a = Integer.rotateLeft(a, pos[1] << 2) ;
 		seiten[pos[0]] &= ~(Integer.rotateLeft(0xFFF, (pos[1] << 2)));
