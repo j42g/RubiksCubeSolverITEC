@@ -279,12 +279,9 @@ public class Wuerfel {
 		System.out.println(la + s[0][7] + sm + "W" + sm + s[0][3]);
 		System.out.println(la + s[0][6] + sm + s[0][5] + sm + s[0][4]);
 		// Orange Grün Rot Blau
-		System.out.println(s[2][6] + sm + s[2][7] + sm + s[2][0] + md + s[3][0] + sm + s[3][1] + sm + s[3][2] + md
-				+ s[4][0] + sm + s[4][1] + sm + s[4][2] + md + s[1][0] + sm + s[1][1] + sm + s[1][2]);
-		System.out.println(s[2][5] + sm + "O" + sm + s[2][1] + md + s[3][7] + sm + "G" + sm + s[3][3] + md + s[4][7]
-				+ sm + "R" + sm + s[4][3] + md + s[1][7] + sm + "B" + sm + s[1][3]);
-		System.out.println(s[2][4] + sm + s[2][3] + sm + s[2][2] + md + s[3][6] + sm + s[3][5] + sm + s[3][4] + md
-				+ s[4][6] + sm + s[4][5] + sm + s[4][4] + md + s[1][6] + sm + s[1][5] + sm + s[1][4]);
+		System.out.println(s[2][6] + sm + s[2][7] + sm + s[2][0] + md + s[3][6] + sm + s[3][7] + sm + s[3][0] + md + s[4][4] + sm + s[4][5] + sm + s[4][6] + md + s[1][6] + sm + s[1][7] + sm + s[1][0]);
+		System.out.println(s[2][5] + sm + "O"     + sm + s[2][1] + md + s[3][5] + sm + "G"     + sm + s[3][1] + md + s[4][3]+ sm +     "R"  + sm + s[4][7] + md + s[1][5] + sm + "B"     + sm + s[1][1]);
+		System.out.println(s[2][4] + sm + s[2][3] + sm + s[2][2] + md + s[3][4] + sm + s[3][3] + sm + s[3][2] + md + s[4][2] + sm + s[4][1] + sm + s[4][0] + md + s[1][4] + sm + s[1][3] + sm + s[1][2]);
 		// Gelb
 		System.out.println(la + s[5][0] + sm + s[5][1] + sm + s[5][2]);
 		System.out.println(la + s[5][7] + sm + "Y" + sm + s[5][3]);
