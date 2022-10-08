@@ -24,13 +24,13 @@ public class Wuerfel {
 	 * sind dann immer im Uhrzeigersinn, wenn man auf die Seite direkt draufschaut
 	 * Die Züge sind dann wiefolgt definiert:
 	 * 
-	 * 0: U = Weiß; 1: B = Blau; 2: L = Orange; 3: F = Grün; 4: R = Rot; 5: D = Gelb;
+	 * 0: U = Weiß; 1: B = Blau; 2: L = Orange; 3: F = Grün; 4: R = Rot; 5: D =
+	 * Gelb;
 	 * 
-	 * Ein Zug sind 4 Bits. Das erste Bit steht dafür, ob es gegen den
-	 * Uhrzeigersinn ist.
+	 * Ein Zug sind 4 Bits. Das erste Bit steht dafür, ob es gegen den Uhrzeigersinn
+	 * ist.
 	 * 
-	 * 0100 wäre R.
-	 * 1011 wäre F'. 
+	 * 0100 wäre R. 1011 wäre F'.
 	 * 
 	 * 1111 ist ein ungültiger Zug und steht für Ende der Zugsquenz.
 	 * 
@@ -38,22 +38,34 @@ public class Wuerfel {
 	 *
 	 */
 	private int[] seiten = new int[6];
-	
+
 	/**
-	 * Erster Index definiert einen Zug 0-5
-	 * Zweiter Index definiert einen Tauschvorgang im Zug (1,6) -> (4,4) -> (3,6) -> (2,6) und (2,6) -> (1,6)
-	 * Dritte Index definiert die Vertauschungsreihe
-	 * Vierter Index 0 -> Index der Seite und 1 -> Index auf der Seite
+	 * Erster Index definiert einen Zug 0-5 Zweiter Index definiert einen
+	 * Tauschvorgang im Zug (1,6) -> (4,4) -> (3,6) -> (2,6) und (2,6) -> (1,6)
+	 * Dritte Index definiert die Vertauschungsreihe Vierter Index 0 -> Index der
+	 * Seite und 1 -> Index auf der Seite
 	 */
 	private int[][][][] randZuege = {
 			// U
-			{
-			{{1,6},{4,4},{3,6},{2,6}},
-			{{1,7},{4,5},{3,7},{2,7}},
-			{{1,0},{4,6},{3,0},{2,0}}
-			}
-	};
+			{ { { 1, 6 }, { 4, 4 }, { 3, 6 }, { 2, 6 } }, { { 1, 7 }, { 4, 5 }, { 3, 7 }, { 2, 7 } },
+					{ { 1, 0 }, { 4, 6 }, { 3, 0 }, { 2, 0 } } } };
 
+	
+	private final int[][] aussenIndex = {
+			// U (Blau, Rot, Grün, Orange)
+			{6, 4, 6, 6},
+			// B (Weiß, Orange, Gelb, Rot)
+			{0, 4, 4, 6},
+			// L (Weiß, Grün, Gelb, Blau)
+			{6, 4, 6, 0},
+			// F (Weiß, Rot, Gelb, Orange)
+			{4, 2, 0, 0},
+			// R (Weiß, Blau, Gelb, Grün)
+			{2, 4, 4, 4},
+			// D (Blau, Orange, Grün, Rot)
+			{2, 2, 2, 0}
+	};
+	
 	/**
 	 * TODO Implementieren
 	 */
@@ -63,72 +75,112 @@ public class Wuerfel {
 
 	/**
 	 * Dreht Zugsequenz.
+	 * 
 	 * @param zug Züge als Kode
 	 */
 	public void dreheZugsequenz(int[] zug) {
-		int curInteger = 0;
-		int curIndex = 0;
-		int curMove;
-		while(true) {
-			curMove = this.extractMove(zug[curInteger], curIndex);
-			if(curMove == 0xF) {
+		int currInteger = 0;
+		int currIndex = 0;
+		int currMove;
+		while (true) {
+			currMove = this.extractMove(zug[currInteger], currIndex);
+			if (currMove == 0xF) {
 				break;
 			}
-			if(curIndex == 7) {
-				curIndex = 0;
-				curInteger++;
+			if (currIndex == 7) {
+				currIndex = 0;
+				currInteger++;
 			}
-			this.dreheZug(curMove);
+			currIndex++;
+			this.dreheZug(currMove);
+			//System.out.println(this.lookupMove(currMove));
+			
 		}
+		
 	}
-	
+
 	/**
 	 * Übersetzt und ruft dreheZugSquenz auf.
+	 * 
 	 * @param zuege Züge in Notation
 	 */
 	public void dreheZugsequenz(String zuege) {
-		
+		char[] czuege = zuege.toCharArray();
+		int movesIndex = 0;
+		int intIndex = 0;
+		int moveKode;
+		int[] moves = new int[czuege.length / 8 + 1]; // rate Länge
+		for (int i = 0; i < czuege.length; i++) {
+			if(czuege[i] == ' ') {
+				continue;
+			}
+			moveKode = "UBLFRD".indexOf(czuege[i]);
+			if (moveKode != -1) { // Valider Zug
+				if (i != czuege.length - 1) { // Überprüfen ob es ein Zug wie L' ist und sicherstellen, das man nicht out-of-bounds kommt
+					if(czuege[i + 1] == '\'') {
+						moveKode |= 0b1000; // ' bit setzen
+						i++; // da wir ja 2 Zeichen haben
+					}
+				}
+				moves[movesIndex] |= moveKode << (intIndex << 2); // in das Array schieben
+				if(intIndex == 7) {
+					movesIndex++;
+					intIndex = 0;
+				}
+				intIndex++;
+
+			} else {
+				System.out.println("Fehler in dreheZugsequenz.");
+			}
+		}
+		moves[movesIndex] |= 0xF << (intIndex << 2);
+		this.dreheZugsequenz(moves);
 	}
-	
+
 	/**
 	 * Dreht einen Zug
+	 * 
 	 * @param zug Zug als Kode.
 	 */
 	public void dreheZug(int zug) {
 		// Gegen oder mit Uhrzeigersinn
-		int richtungsBit = ((zug >> 3) & 1 );
+		int richtungsBit = ((zug >> 3) & 1);
 		int seiteDesZuges = zug & ~0b1000; // zug & ~0b1000 stellt den Zugkode da, welcher der Index der Seite ist
 		int prev;
 		int curr;
 		int index;
-		if( richtungsBit == 1) {
-			for(int i = 2; i > -1; i--) {
-				prev = this.extractColor(this.randZuege[seiteDesZuges][i][0][0], this.randZuege[seiteDesZuges][i][0][1]);
-				for(int j = 3; j > -1; j--) {
-					index = ((j + 1) % 4 + 4) % 4; // (a % b + b) % b gibt keine negativen Reste 
-					curr = this.extractColor(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1]);
-					this.veraendereEinzeln(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1], prev);
+		if (richtungsBit == 1) {
+			for (int i = 2; i > -1; i--) {
+				prev = this.extractColor(this.randZuege[seiteDesZuges][i][0][0],
+						this.randZuege[seiteDesZuges][i][0][1]);
+				for (int j = 3; j > -1; j--) {
+					index = ((j + 1) % 4 + 4) % 4; // (a % b + b) % b gibt keine negativen Reste
+					curr = this.extractColor(this.randZuege[seiteDesZuges][i][j][0],
+							this.randZuege[seiteDesZuges][i][j][1]);
+					this.veraendereEinzeln(this.randZuege[seiteDesZuges][i][j][0],
+							this.randZuege[seiteDesZuges][i][j][1], prev);
 					prev = curr;
-					
+
 				}
 			}
 			this.seiten[seiteDesZuges] = Integer.rotateRight(this.seiten[seiteDesZuges], 8);
 		} else {
-			for(int i = 0; i < 3; i++) {
-				prev = this.extractColor(this.randZuege[seiteDesZuges][i][3][0], this.randZuege[seiteDesZuges][i][3][1]);
-				for(int j = 0; j < 4; j++) {
-					index = ((j + 1) % 4 + 4) % 4; // (a % b + b) % b gibt keine negativen Reste 
-					curr = this.extractColor(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1]);
-					this.veraendereEinzeln(this.randZuege[seiteDesZuges][i][j][0], this.randZuege[seiteDesZuges][i][j][1], prev);
+			for (int i = 0; i < 3; i++) {
+				prev = this.extractColor(this.randZuege[seiteDesZuges][i][3][0],
+						this.randZuege[seiteDesZuges][i][3][1]);
+				for (int j = 0; j < 4; j++) {
+					index = ((j + 1) % 4 + 4) % 4; // (a % b + b) % b gibt keine negativen Reste
+					curr = this.extractColor(this.randZuege[seiteDesZuges][i][j][0],
+							this.randZuege[seiteDesZuges][i][j][1]);
+					this.veraendereEinzeln(this.randZuege[seiteDesZuges][i][j][0],
+							this.randZuege[seiteDesZuges][i][j][1], prev);
 					prev = curr;
-					
+
 				}
 			}
 			this.seiten[seiteDesZuges] = Integer.rotateLeft(this.seiten[seiteDesZuges], 8);
 		}
 	}
-
-
 
 	/**
 	 * Ändert an der Fläche "seitenIndex" an den "feldIndex"-ten Position die Farbe
@@ -156,35 +208,38 @@ public class Wuerfel {
 	 */
 	public void makeSolved() {
 		seiten[0] = 0x00000000;
-
 		seiten[1] = 0x11111111;
-
 		seiten[2] = 0x22222222;
 		seiten[3] = 0x33333333;
 		seiten[4] = 0x44444444;
 		seiten[5] = 0x55555555;
 	}
-	
+
 	/**
-	 * Redundant?
-	 * DAS MCAHST DU NICK
+	 * Redundant? DAS MCAHST DU NICK
 	 * 
 	 * @param face
 	 * @param index
 	 * @return
 	 */
-	public int extractStrip(int face, int index) {
-		return (face >>> (index << 2)) & (0xFFF);
+	public int extractStrip(int faceInd, int index) {
+		System.out.println();
+		return (this.seiten[faceInd] >>> (index << 2)) & (0xFFF);
 	}
 
 	/**
-	 * Redundant?
-	 * DAS MCAHST DU NICK
+	 * Redundant? DAS MCAHST DU NICK
 	 * 
-	 * @param face
+	 * @param face Index der Seite
 	 */
-	void spinL(int face) {
+	public void dreheUhrzeigersinn(int face) {
 		seiten[face] = Integer.rotateLeft(seiten[face], 8);
+		long aussen = 0xFFFF000000000000L;
+		for(int i = 0; i < 4; i++) {
+			aussen |= this.extractStrip(face, this.aussenIndex[face][i]) << (i*12);
+			System.out.println(this.extractStrip(face, this.aussenIndex[face][i]));
+		}
+		System.out.println(Long.toBinaryString(aussen));
 	}
 
 	/**
@@ -210,16 +265,17 @@ public class Wuerfel {
 	public int extractColor(int face, int index) {
 		return (this.seiten[face] >>> (index * 4)) & (0xF);
 	}
-	
+
 	/**
 	 * Gibt den "index"-ten Zug in seq zurück.
-	 * @param seq Sequenz der Züge.
+	 * 
+	 * @param seq   Sequenz der Züge.
 	 * @param index Index in der Sequenz 0-7.
 	 * @return Zug in "seq" bei "index".
 	 */
 	public int extractMove(int seq, int index) {
 		return (seq >>> (index * 4)) & (0xF);
-	} 
+	}
 
 	/**
 	 * Gibt zu gegebenem Binärkode die Farbe zuräck. Bei einem ungültigen Kode, wird
@@ -244,6 +300,42 @@ public class Wuerfel {
 			return 'Y';
 		}
 		return 'X';
+	}
+	
+	/**
+	 * Gibt zu gegebenem Binärkode den Zug zuräck. Bei einem ungültigen Kode, wird
+	 * 'X' zurückgegeben
+	 * @param code in Binär kodiert.
+	 * @return Move als Buchstabe.
+	 */
+	public String lookupMove(int code) {
+		switch (code) {
+		case 0:
+			return "U";
+		case 1:
+			return "B";
+		case 2:
+			return "L";
+		case 3:
+			return "F";
+		case 4:
+			return "R";
+		case 5:
+			return "D";
+		case 8:
+			return "U'";
+		case 9:
+			return "B'";
+		case 10:
+			return "L'";
+		case 11:
+			return "F'";
+		case 12:
+			return "R'";
+		case 13:
+			return "D'";
+		}
+		return "Invalid";
 	}
 
 	/**
@@ -287,9 +379,12 @@ public class Wuerfel {
 		System.out.println(la + s[0][7] + sm + "W" + sm + s[0][3]);
 		System.out.println(la + s[0][6] + sm + s[0][5] + sm + s[0][4]);
 		// Orange Grün Rot Blau
-		System.out.println(s[2][6] + sm + s[2][7] + sm + s[2][0] + md + s[3][6] + sm + s[3][7] + sm + s[3][0] + md + s[4][4] + sm + s[4][5] + sm + s[4][6] + md + s[1][6] + sm + s[1][7] + sm + s[1][0]);
-		System.out.println(s[2][5] + sm + "O"     + sm + s[2][1] + md + s[3][5] + sm + "G"     + sm + s[3][1] + md + s[4][3]+ sm +     "R"  + sm + s[4][7] + md + s[1][5] + sm + "B"     + sm + s[1][1]);
-		System.out.println(s[2][4] + sm + s[2][3] + sm + s[2][2] + md + s[3][4] + sm + s[3][3] + sm + s[3][2] + md + s[4][2] + sm + s[4][1] + sm + s[4][0] + md + s[1][4] + sm + s[1][3] + sm + s[1][2]);
+		System.out.println(s[2][6] + sm + s[2][7] + sm + s[2][0] + md + s[3][6] + sm + s[3][7] + sm + s[3][0] + md
+				+ s[4][4] + sm + s[4][5] + sm + s[4][6] + md + s[1][6] + sm + s[1][7] + sm + s[1][0]);
+		System.out.println(s[2][5] + sm + "O" + sm + s[2][1] + md + s[3][5] + sm + "G" + sm + s[3][1] + md + s[4][3]
+				+ sm + "R" + sm + s[4][7] + md + s[1][5] + sm + "B" + sm + s[1][1]);
+		System.out.println(s[2][4] + sm + s[2][3] + sm + s[2][2] + md + s[3][4] + sm + s[3][3] + sm + s[3][2] + md
+				+ s[4][2] + sm + s[4][1] + sm + s[4][0] + md + s[1][4] + sm + s[1][3] + sm + s[1][2]);
 		// Gelb
 		System.out.println(la + s[5][0] + sm + s[5][1] + sm + s[5][2]);
 		System.out.println(la + s[5][7] + sm + "Y" + sm + s[5][3]);
