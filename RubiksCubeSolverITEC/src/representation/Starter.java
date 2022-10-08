@@ -6,7 +6,7 @@ public class Starter {
 			
 		Wuerfel a = new Wuerfel();
 		a.makeSolved();
-		a.wuerfelAusgaben();
+		a.wuerfelAusgeben();
 
 	}
 
