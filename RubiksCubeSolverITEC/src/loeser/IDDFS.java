@@ -29,11 +29,6 @@ public class IDDFS {
 	
 	
 	/**
-	 * Debug
-	 */
-	private int counter = 0;
-	
-	/**
 	 * Konstruktor
 	 * @param _startPos
 	 * @param _zielPos
@@ -49,7 +44,7 @@ public class IDDFS {
 	 */
 	public int[] start() { 
 		int tiefe = 0;
-		while(!gefunden) {
+		while(tiefe < 2) {
 			DLS(new int[] {0xF}, tiefe);
 			tiefe++;
 		} 
@@ -70,8 +65,8 @@ public class IDDFS {
 		
 		while(!this.pos.empty()) {
 			int[] aktuelleZuege = this.pos.pop();
-			
-			if((new Wuerfel(startPos)).isMaskSolved(this.zielPos)) {
+			(new Wuerfel(startPos, aktuelleZuege)).wuerfelAusgeben();
+			if((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos)) {
 				System.out.println("POOOGGERS");
 				this.gefunden = true;
 				this.loesung = aktuelleZuege;
@@ -79,23 +74,6 @@ public class IDDFS {
 			}
 			this.genChildMoves(aktuelleZuege, tiefe);
 		}
-		/*
-		if(tiefe == 0 && (new Wuerfel(startPos)).isMaskSolved(this.zielPos)) {
-			this.loesung = new int[] {0xF};
-			return true;
-		}
-		if(tiefe > 0) {
-			if((new Wuerfel(this.startPos, currMoves)).isMaskSolved(this.zielPos)) {
-				this.loesung = currMoves;
-				return true;
-			}
-			if(this.getTiefe(currMoves) >= tiefe) {
-				continue;
-			}
-			genChildMoves(currMoves);
-		}
-		
-		return false;*/
 	}
 	
 	/**
@@ -128,6 +106,7 @@ public class IDDFS {
 		} else {
 			move[moveIndex] |= 0xF << ((intIndex + 1) << 2);
 		}
+		
 		for(int i = 0; i < 6; i++) {
 			int[] a = Arrays.copyOf(move, stackArrayLaenge);
 			a[moveIndex] |= i << ((intIndex) << 2);
@@ -138,11 +117,6 @@ public class IDDFS {
 			a[moveIndex] |= i << ((intIndex) << 2);
 			pos.push(a);
 		}
-		if(counter == 1000000) {
-			System.out.println(this.pos.size() + ", " + tiefe);
-			counter = 0;
-		}
-		counter++;
 		
 	}
 	
