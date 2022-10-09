@@ -61,7 +61,7 @@ public class Wuerfel {
 			// F (Weiß, Rot, Gelb, Orange)
 			{{0,4}, {4,2}, {5,0}, {2,0}},
 			// R (Weiß, Blau, Gelb, Grün)
-			{{0,2}, {1,4}, {5,4}, {3,4}},
+			{{0,2}, {1,4}, {5,2}, {3,0}},
 			// D (Blau, Orange, Grün, Rot)
 			{{1,2}, {2,2}, {3,2}, {4,0}}
 	};
@@ -85,7 +85,6 @@ public class Wuerfel {
 		while (true) {
 			currMove = this.extractMove(zug[currInteger], currIndex);
 			if (currMove == 0xF) {
-				System.out.println(currInteger);
 				break;
 			}
 			if (currIndex == 7) {
