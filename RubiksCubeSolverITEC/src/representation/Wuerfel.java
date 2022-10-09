@@ -321,7 +321,6 @@ public class Wuerfel {
 			}
 			
 		}
-		
 		return true;
 	}
 		

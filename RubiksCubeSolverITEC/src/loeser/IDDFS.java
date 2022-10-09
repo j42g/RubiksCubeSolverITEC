@@ -6,51 +6,104 @@ import java.util.Arrays;
 
 public class IDDFS {
 	
-	private Stack<int[]> pos = new Stack<int[]>();
+	/**
+	 * Stack für IDDFS
+	 */
+	private Stack<int[]> pos;
+	
+	/**
+	 * Länge der Zügespeicher (2*8 = 16 Züge).
+	 */
 	private static int stackArrayLaenge = 2;
-	private boolean found = false;
+	private boolean gefunden = false;
+	/**
+	 * Wuerfel den man haben wollen (0xF heißt beliebig).
+	 */
 	private int[] loesung;
+	/**
+	 * Wuerfel mit dem man anfängt.
+	 */
 	private int[] startPos;
 	// zielPosition muss an den Stellen, an denen es egal ist, 1111 haben.
 	private int[] zielPos;
 	
+	
+	/**
+	 * Debug
+	 */
+	private int counter = 0;
+	
+	/**
+	 * Konstruktor
+	 * @param _startPos
+	 * @param _zielPos
+	 */
 	public IDDFS(int[] _startPos, int[] _zielPos) {
 		this.startPos = _startPos;
 		this.zielPos = _zielPos;
 	}
 	
+	/**
+	 * Starte IDDFS
+	 * @return
+	 */
 	public int[] start() { 
 		int tiefe = 0;
-		while(!found) {
-			DLS(tiefe);
+		while(!gefunden) {
+			DLS(new int[] {0xF}, tiefe);
 			tiefe++;
-		}
+		} 
 		return loesung;
 	}
 	
-	private boolean DLS(int tiefe) {
+	/**
+	 * Funkion, die man für IDDFS brauch (keine Ahnung wie das genau funkioniert,
+	 * obwohl eigentlich schon, aber ist cracked mit Wuerfeln)
+	 * @param startZuege
+	 * @param tiefe
+	 * @return
+	 */
+	private void DLS(int[] startZuege, int tiefe) {
+		this.pos = new Stack<int[]>();
+		
+		this.pos.push(startZuege);
+		
+		while(!this.pos.empty()) {
+			int[] aktuelleZuege = this.pos.pop();
+			
+			if((new Wuerfel(startPos)).isMaskSolved(this.zielPos)) {
+				System.out.println("POOOGGERS");
+				this.gefunden = true;
+				this.loesung = aktuelleZuege;
+				return;
+			}
+			this.genChildMoves(aktuelleZuege, tiefe);
+		}
+		/*
 		if(tiefe == 0 && (new Wuerfel(startPos)).isMaskSolved(this.zielPos)) {
 			this.loesung = new int[] {0xF};
 			return true;
 		}
-		int[] curr;
 		if(tiefe > 0) {
-			genChildMoves(this.startPos);
-			for()
-			if((new Wuerfel(this.startPos, curr)).isMaskSolved(this.zielPos)) {
-				this.loesung = curr;
+			if((new Wuerfel(this.startPos, currMoves)).isMaskSolved(this.zielPos)) {
+				this.loesung = currMoves;
 				return true;
 			}
+			if(this.getTiefe(currMoves) >= tiefe) {
+				continue;
+			}
+			genChildMoves(currMoves);
 		}
 		
-		return false;
+		return false;*/
 	}
 	
 	/**
-	 * Generiert alle möglichen 1-Zug fortsetzungen von move fügt sie dem Stack hinzu
+	 * Generiert alle möglichen 1-Zug fortsetzungen von move fügt sie dem Stack hinzu.
+	 * Falls die Tiefe gleich der Anzahl der Z
 	 * @param move bisherige Züge
 	 */
-	private void genChildMoves(int[] move){
+	private void genChildMoves(int[] move, int tiefe){
 		int intIndex = 0;
 		int moveIndex = 0;
 		// Gehe zum letzten Zug
@@ -64,6 +117,10 @@ public class IDDFS {
 				intIndex = -1;
 			}
 			intIndex++;
+		}
+		// überprüfen ob das rekursionsende erreicht ist
+		if(intIndex + 8 * moveIndex - 1 >= tiefe) {
+			return;
 		}
 		// neues Ende deklarieren
 		if(intIndex == 7) {
@@ -81,6 +138,12 @@ public class IDDFS {
 			a[moveIndex] |= i << ((intIndex) << 2);
 			pos.push(a);
 		}
+		if(counter == 1000000) {
+			System.out.println(this.pos.size() + ", " + tiefe);
+			counter = 0;
+		}
+		counter++;
+		
 	}
 	
 }

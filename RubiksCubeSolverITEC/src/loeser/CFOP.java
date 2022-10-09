@@ -1,5 +1,6 @@
 package loeser;
 
+import representation.Util;
 import representation.Wuerfel;
 
 public class CFOP {
@@ -19,7 +20,9 @@ public class CFOP {
 	 * Startet den Lösungsprozess
 	 */
 	public void start() {
-		
+		// Kreuz
+		IDDFS kreuz = new IDDFS(this.w.seiten, crossMask);
+		Util.printArr(kreuz.start());
 	}
 	
 	
