@@ -1,6 +1,8 @@
 package loeser;
 
 import java.util.Stack;
+
+import representation.Util;
 import representation.Wuerfel;
 import java.util.Arrays;
 
@@ -23,9 +25,9 @@ public class IDDFS {
 	/**
 	 * Wuerfel mit dem man anfängt.
 	 */
-	private int[] startPos;
-	// zielPosition muss an den Stellen, an denen es egal ist, 1111 haben.
-	private int[] zielPos;
+	private final int[] startPos;
+	private final int[] zielPos;
+	private final int[] zielMaske;
 	
 	
 	/**
@@ -33,9 +35,10 @@ public class IDDFS {
 	 * @param _startPos
 	 * @param _zielPos
 	 */
-	public IDDFS(int[] _startPos, int[] _zielPos) {
+	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske) {
 		this.startPos = _startPos;
 		this.zielPos = _zielPos;
+		this.zielMaske = _zielMaske;
 	}
 	
 	/**
@@ -65,13 +68,16 @@ public class IDDFS {
 		
 		while(!this.pos.empty()) {
 			int[] aktuelleZuege = this.pos.pop();
-			(new Wuerfel(startPos, aktuelleZuege)).wuerfelAusgeben();
-			if((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos)) {
+			//(new Wuerfel(startPos, aktuelleZuege)).wuerfelAusgeben();
+			System.out.println("In DLS:");
+			Util.printArr(aktuelleZuege);
+			if((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {
 				System.out.println("POOOGGERS");
 				this.gefunden = true;
 				this.loesung = aktuelleZuege;
 				return;
 			}
+
 			this.genChildMoves(aktuelleZuege, tiefe);
 		}
 	}
@@ -106,15 +112,17 @@ public class IDDFS {
 		} else {
 			move[moveIndex] |= 0xF << ((intIndex + 1) << 2);
 		}
-		
+		System.out.println("In genMoves:");
 		for(int i = 0; i < 6; i++) {
 			int[] a = Arrays.copyOf(move, stackArrayLaenge);
 			a[moveIndex] |= i << ((intIndex) << 2);
+			Util.printArr(a);
 			pos.push(a);
 		}
 		for(int i = 8; i < 14; i++) {
 			int[] a = Arrays.copyOf(move, stackArrayLaenge);
 			a[moveIndex] |= i << ((intIndex) << 2);
+			Util.printArr(a);
 			pos.push(a);
 		}
 		

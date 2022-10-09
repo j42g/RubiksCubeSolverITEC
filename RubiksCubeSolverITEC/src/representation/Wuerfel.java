@@ -38,12 +38,7 @@ public class Wuerfel {
 	 *
 	 */
 	public int[] seiten = new int[6];
-	private final int[] geloest = {0x00000000,
-			0x11111111, 
-			0x22222222, 
-			0x33333333, 
-			0x44444444, 
-			0x55555555};
+	private final int[] geloest = { 0x00000000, 0x11111111, 0x22222222, 0x33333333, 0x44444444, 0x55555555 };
 
 	/**
 	 * Erster Index definiert einen Zug 0-5 Zweiter Index definiert einen
@@ -56,45 +51,49 @@ public class Wuerfel {
 			{ { { 1, 6 }, { 4, 4 }, { 3, 6 }, { 2, 6 } }, { { 1, 7 }, { 4, 5 }, { 3, 7 }, { 2, 7 } },
 					{ { 1, 0 }, { 4, 6 }, { 3, 0 }, { 2, 0 } } } };
 
-	
 	private final int[][][] aussenIndex = {
 			// U (Blau, Rot, Grün, Orange)
-			{{1,6}, {4,4}, {3,6}, {2,6}},
+			{ { 1, 6 }, { 4, 4 }, { 3, 6 }, { 2, 6 } },
 			// B (Weiß, Orange, Gelb, Rot)
-			{{0,0}, {2,4}, {5,4}, {4,6}},
+			{ { 0, 0 }, { 2, 4 }, { 5, 4 }, { 4, 6 } },
 			// L (Weiß, Grün, Gelb, Blau)
-			{{0,6}, {3,4}, {5,6}, {1,0}},
+			{ { 0, 6 }, { 3, 4 }, { 5, 6 }, { 1, 0 } },
 			// F (Weiß, Rot, Gelb, Orange)
-			{{0,4}, {4,2}, {5,0}, {2,0}},
+			{ { 0, 4 }, { 4, 2 }, { 5, 0 }, { 2, 0 } },
 			// R (Weiß, Blau, Gelb, Grün)
-			{{0,2}, {1,4}, {5,2}, {3,0}},
+			{ { 0, 2 }, { 1, 4 }, { 5, 2 }, { 3, 0 } },
 			// D (Blau, Orange, Grün, Rot)
-			{{1,2}, {2,2}, {3,2}, {4,0}}
-	};
-	
+			{ { 1, 2 }, { 2, 2 }, { 3, 2 }, { 4, 0 } } };
+
 	/**
 	 * Geneiert gelösten Würfel.
 	 */
 	public Wuerfel() {
 		this.makeSolved();
 	}
-	
+
 	/**
 	 * Generiert Würfel mit seiten pos.
+	 * 
 	 * @param Würfelkonfiguration
 	 */
 	public Wuerfel(int[] pos) {
 		this.seiten = pos;
 	}
-	
+
 	/**
 	 * Generiert Würfel mit pos und dreht moves.
-	 * @param pos Würfelkonfiguration
+	 * 
+	 * @param pos   Würfelkonfiguration
 	 * @param moves Zugabfolge
 	 */
 	public Wuerfel(int[] pos, int[] moves) {
 		this.seiten = pos;
 		this.dreheZugsequenz(moves);
+		System.out.print("Erzeuge neuen Würfel mit Zügen: ");
+		Util.printArr(moves);
+		System.out.print("Welcher dann so aussieht:\n");
+		this.wuerfelAusgeben();
 	}
 
 	/**
@@ -117,9 +116,9 @@ public class Wuerfel {
 			}
 			currIndex++;
 			this.drehe(currMove);
-			
+
 		}
-		
+
 	}
 
 	/**
@@ -134,18 +133,19 @@ public class Wuerfel {
 		int moveKode;
 		int[] moves = new int[czuege.length / 8 + 1]; // rate Länge
 		for (int i = 0; i < czuege.length; i++) {
-			if(czuege[i] == ' ') {
+			if (czuege[i] == ' ') {
 				continue;
 			}
 			moveKode = "UBLFRD".indexOf(czuege[i]);
 			if (moveKode != -1) { // Valider Zug
-				if (i != czuege.length - 1) { // Überprüfen ob es ein Zug wie L' ist und sicherstellen, das man nicht out-of-bounds kommt
-					if(czuege[i + 1] == '\'') {
+				if (i != czuege.length - 1) { // Überprüfen ob es ein Zug wie L' ist und sicherstellen, das man nicht
+												// out-of-bounds kommt
+					if (czuege[i + 1] == '\'') {
 						moveKode |= 0b1000; // ' bit setzen
 						i++; // da wir ja 2 Zeichen haben
 					} else if (czuege[i + 1] == '2') {
 						moves[movesIndex] |= moveKode << (intIndex << 2); // in das Array schieben
-						if(intIndex == 7) {
+						if (intIndex == 7) {
 							movesIndex++;
 							intIndex = 0;
 						}
@@ -154,7 +154,7 @@ public class Wuerfel {
 					}
 				}
 				moves[movesIndex] |= moveKode << (intIndex << 2); // in das Array schieben
-				if(intIndex == 7) {
+				if (intIndex == 7) {
 					movesIndex++;
 					intIndex = 0;
 				}
@@ -250,24 +250,25 @@ public class Wuerfel {
 	 * Redundant? DAS MCAHST DU NICK
 	 * 
 	 * @param face
-	 * @param pos Komplement aus Seite und Stipindex
+	 * @param pos  Komplement aus Seite und Stipindex
 	 * @return
 	 */
 	public int extractStrip(int[] pos) {
-		return (Integer.rotateRight(this.seiten[pos[0]],(pos[1] << 2))) & (0xFFF);
+		return (Integer.rotateRight(this.seiten[pos[0]], (pos[1] << 2))) & (0xFFF);
 	}
 
 	/**
 	 * Ruft dreheUhr und dreheGUhr auf
 	 */
 	public void drehe(int zug) {
-		if(((zug >> 3) & 1) == 1) {
+		if (((zug >> 3) & 1) == 1) {
 			this.dreheGUhr(zug & ~0b1000);
 		} else {
-			this.dreheUhr(zug & ~0b1000);;
+			this.dreheUhr(zug & ~0b1000);
+			;
 		}
 	}
-	
+
 	/**
 	 * Redundant? DAS MCAHST DU NICK
 	 * 
@@ -276,54 +277,57 @@ public class Wuerfel {
 	public void dreheUhr(int face) {
 		seiten[face] = Integer.rotateLeft(seiten[face], 8);
 		long aussen = 0;
-		for(int i = 0; i < 4; i++) {
-			aussen |= ((long)this.extractStrip(aussenIndex[face][i])) << (i*16);
+		for (int i = 0; i < 4; i++) {
+			aussen |= ((long) this.extractStrip(aussenIndex[face][i])) << (i * 16);
 		}
 		aussen = Long.rotateLeft(aussen, 16);
-		for(int i = 0; i < 4; i++) {
-			overwriteStrip((int)(aussen>>>i*16)&0xFFF,aussenIndex[face][i]);
+		for (int i = 0; i < 4; i++) {
+			overwriteStrip((int) (aussen >>> i * 16) & 0xFFF, aussenIndex[face][i]);
 		}
 	}
-	
+
 	public void dreheGUhr(int face) {
 		seiten[face] = Integer.rotateRight(seiten[face], 8);
 		long aussen = 0;
-		for(int i = 0; i < 4; i++) {
-			aussen |= ((long)this.extractStrip(aussenIndex[face][i])) << (i*16);
+		for (int i = 0; i < 4; i++) {
+			aussen |= ((long) this.extractStrip(aussenIndex[face][i])) << (i * 16);
 		}
 		aussen = Long.rotateRight(aussen, 16);
-		for(int i = 0; i < 4; i++) {
-			overwriteStrip((int)(aussen>>>i*16)&0xFFF,aussenIndex[face][i]);
+		for (int i = 0; i < 4; i++) {
+			overwriteStrip((int) (aussen >>> i * 16) & 0xFFF, aussenIndex[face][i]);
 		}
 	}
-	
+
 	public void overwriteStrip(int a, int[] pos) {
-		a = Integer.rotateLeft(a, pos[1] << 2) ;
+		a = Integer.rotateLeft(a, pos[1] << 2);
 		seiten[pos[0]] &= ~(Integer.rotateLeft(0xFFF, (pos[1] << 2)));
 		seiten[pos[0]] |= a;
 	}
-		
+
 	/**
-	 * Überprüft ob mask = seiten, mit der Einschränkung, dass bei den Felder
-	 * wo in der Maske F steht alles sein darf.
+	 * Überprüft ob mask = seiten, mit der Einschränkung, dass bei den Felder wo in
+	 * der Maske F steht alles sein darf.
+	 * 
 	 * @param mask Maske
 	 * @return true wenn gleich sonst false.
 	 */
-	public boolean isMaskSolved(int[] mask) {
-		for(int i = 0; i < 6; i++) {
-			for(int j = 0; j < 8; j++) {
-				if(this.extractMove(mask[i], j) == 0xF) { // extractMove wird missbraucht um mir die 4 bits rauszuholen
-					continue;
-				}
-				if(this.extractColor(i, j) != this.extractMove(mask[i], j)) {
-					return false;
-				}
-			}
-			
+	public boolean isMaskSolved(int[] daten, int[] maske) {
+		if (daten[0] != (this.seiten[0] & maske[0])) {
+			return false;
+		} else if (daten[1] != (this.seiten[1] & maske[1])) {
+			return false;
+		} else if (daten[2] != (this.seiten[2] & maske[2])) {
+			return false;
+		} else if (daten[3] != (this.seiten[3] & maske[3])) {
+			return false;
+		} else if (daten[4] != (this.seiten[4] & maske[4])) {
+			return false;
+		} else if (daten[5] != (this.seiten[5] & maske[5])) {
+			return false;
 		}
 		return true;
 	}
-		
+
 	/**
 	 * überpräft ob der Würfel gelöst ist.
 	 * 
@@ -383,10 +387,11 @@ public class Wuerfel {
 		}
 		return 'X';
 	}
-	
+
 	/**
 	 * Gibt zu gegebenem Binärkode den Zug zuräck. Bei einem ungültigen Kode, wird
 	 * 'X' zurückgegeben
+	 * 
 	 * @param code in Binär kodiert.
 	 * @return Move als Buchstabe.
 	 */
