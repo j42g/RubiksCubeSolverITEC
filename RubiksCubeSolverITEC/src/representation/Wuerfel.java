@@ -1,5 +1,7 @@
 package representation;
 
+import java.util.Arrays;
+
 public class Wuerfel {
 
 	/**
@@ -37,19 +39,8 @@ public class Wuerfel {
 	 * Jeder Zugkode entspricht dem Index der Seite, die er dreht.
 	 *
 	 */
-	public int[] seiten = new int[6];
+	private int[] seiten = new int[6];
 	private final int[] geloest = { 0x00000000, 0x11111111, 0x22222222, 0x33333333, 0x44444444, 0x55555555 };
-
-	/**
-	 * Erster Index definiert einen Zug 0-5 Zweiter Index definiert einen
-	 * Tauschvorgang im Zug (1,6) -> (4,4) -> (3,6) -> (2,6) und (2,6) -> (1,6)
-	 * Dritte Index definiert die Vertauschungsreihe Vierter Index 0 -> Index der
-	 * Seite und 1 -> Index auf der Seite.
-	 */
-	private int[][][][] randZuege = {
-			// U
-			{ { { 1, 6 }, { 4, 4 }, { 3, 6 }, { 2, 6 } }, { { 1, 7 }, { 4, 5 }, { 3, 7 }, { 2, 7 } },
-					{ { 1, 0 }, { 4, 6 }, { 3, 0 }, { 2, 0 } } } };
 
 	private final int[][][] aussenIndex = {
 			// U (Blau, Rot, Grün, Orange)
@@ -74,7 +65,6 @@ public class Wuerfel {
 
 	/**
 	 * Generiert Würfel mit seiten pos.
-	 * 
 	 * @param Würfelkonfiguration
 	 */
 	public Wuerfel(int[] pos) {
@@ -88,12 +78,8 @@ public class Wuerfel {
 	 * @param moves Zugabfolge
 	 */
 	public Wuerfel(int[] pos, int[] moves) {
-		this.seiten = pos;
+		this.seiten = Arrays.copyOf(pos, 6);
 		this.dreheZugsequenz(moves);
-		System.out.print("Erzeuge neuen Würfel mit Zügen: ");
-		Util.printArr(moves);
-		System.out.print("Welcher dann so aussieht:\n");
-		this.wuerfelAusgeben();
 	}
 
 	/**
@@ -166,51 +152,6 @@ public class Wuerfel {
 		}
 		moves[movesIndex] |= 0xF << (intIndex << 2);
 		this.dreheZugsequenz(moves);
-	}
-
-	/**
-	 * Dreht einen Zug
-	 * 
-	 * @param zug Zug als Kode.
-	 */
-	public void dreheZug(int zug) {
-		// Gegen oder mit Uhrzeigersinn
-		int richtungsBit = ((zug >> 3) & 1);
-		int seiteDesZuges = zug & ~0b1000; // zug & ~0b1000 stellt den Zugkode da, welcher der Index der Seite ist
-		int prev;
-		int curr;
-		int index;
-		if (richtungsBit == 1) {
-			for (int i = 2; i > -1; i--) {
-				prev = this.extractColor(this.randZuege[seiteDesZuges][i][0][0],
-						this.randZuege[seiteDesZuges][i][0][1]);
-				for (int j = 3; j > -1; j--) {
-					index = ((j + 1) % 4 + 4) % 4; // (a % b + b) % b gibt keine negativen Reste
-					curr = this.extractColor(this.randZuege[seiteDesZuges][i][j][0],
-							this.randZuege[seiteDesZuges][i][j][1]);
-					this.veraendereEinzeln(this.randZuege[seiteDesZuges][i][j][0],
-							this.randZuege[seiteDesZuges][i][j][1], prev);
-					prev = curr;
-
-				}
-			}
-			this.seiten[seiteDesZuges] = Integer.rotateRight(this.seiten[seiteDesZuges], 8);
-		} else {
-			for (int i = 0; i < 3; i++) {
-				prev = this.extractColor(this.randZuege[seiteDesZuges][i][3][0],
-						this.randZuege[seiteDesZuges][i][3][1]);
-				for (int j = 0; j < 4; j++) {
-					index = ((j + 1) % 4 + 4) % 4; // (a % b + b) % b gibt keine negativen Reste
-					curr = this.extractColor(this.randZuege[seiteDesZuges][i][j][0],
-							this.randZuege[seiteDesZuges][i][j][1]);
-					this.veraendereEinzeln(this.randZuege[seiteDesZuges][i][j][0],
-							this.randZuege[seiteDesZuges][i][j][1], prev);
-					prev = curr;
-
-				}
-			}
-			this.seiten[seiteDesZuges] = Integer.rotateLeft(this.seiten[seiteDesZuges], 8);
-		}
 	}
 
 	/**
@@ -478,5 +419,14 @@ public class Wuerfel {
 		System.out.println(la + s[5][6] + sm + s[5][5] + sm + s[5][4]);
 		System.out.println("\n\n");
 
+	}
+
+	
+	/**
+	 * Getter für Seiten.
+	 * @return seiten
+	 */
+	public int[] getSeiten() {
+		return seiten;
 	}
 }

@@ -47,7 +47,7 @@ public class IDDFS {
 	 */
 	public int[] start() { 
 		int tiefe = 0;
-		while(tiefe < 2) {
+		while(tiefe < 4) {
 			DLS(new int[] {0xF}, tiefe);
 			tiefe++;
 		} 
@@ -68,9 +68,6 @@ public class IDDFS {
 		
 		while(!this.pos.empty()) {
 			int[] aktuelleZuege = this.pos.pop();
-			//(new Wuerfel(startPos, aktuelleZuege)).wuerfelAusgeben();
-			System.out.println("In DLS:");
-			Util.printArr(aktuelleZuege);
 			if((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {
 				System.out.println("POOOGGERS");
 				this.gefunden = true;
@@ -112,17 +109,14 @@ public class IDDFS {
 		} else {
 			move[moveIndex] |= 0xF << ((intIndex + 1) << 2);
 		}
-		System.out.println("In genMoves:");
 		for(int i = 0; i < 6; i++) {
 			int[] a = Arrays.copyOf(move, stackArrayLaenge);
 			a[moveIndex] |= i << ((intIndex) << 2);
-			Util.printArr(a);
 			pos.push(a);
 		}
 		for(int i = 8; i < 14; i++) {
 			int[] a = Arrays.copyOf(move, stackArrayLaenge);
 			a[moveIndex] |= i << ((intIndex) << 2);
-			Util.printArr(a);
 			pos.push(a);
 		}
 		

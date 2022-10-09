@@ -1,5 +1,7 @@
 package loeser;
 
+import java.util.Arrays;
+
 import representation.Util;
 import representation.Wuerfel;
 
@@ -22,7 +24,7 @@ public class CFOP {
 	 */
 	public void start() {
 		// Kreuz
-		IDDFS kreuz = new IDDFS(this.w.seiten, this.kreuzDaten, this.kreuzMaske);
+		IDDFS kreuz = new IDDFS(this.w.getSeiten(), this.kreuzDaten, this.kreuzMaske);
 		Util.printArr(kreuz.start());
 	}
 	
