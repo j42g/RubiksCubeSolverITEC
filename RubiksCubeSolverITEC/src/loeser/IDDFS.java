@@ -47,7 +47,7 @@ public class IDDFS {
 	 */
 	public int[] start() { 
 		int tiefe = 0;
-		while(tiefe < 4) {
+		while(!this.gefunden) {
 			DLS(new int[] {0xF}, tiefe);
 			tiefe++;
 		} 
@@ -69,7 +69,7 @@ public class IDDFS {
 		while(!this.pos.empty()) {
 			int[] aktuelleZuege = this.pos.pop();
 			if((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {
-				System.out.println("POOOGGERS");
+				Util.printArr(aktuelleZuege);
 				this.gefunden = true;
 				this.loesung = aktuelleZuege;
 				return;
