@@ -38,6 +38,12 @@ public class Wuerfel {
 	 *
 	 */
 	public int[] seiten = new int[6];
+	private final int[] geloest = {0x00000000,
+			0x11111111, 
+			0x22222222, 
+			0x33333333, 
+			0x44444444, 
+			0x55555555};
 
 	/**
 	 * Erster Index definiert einen Zug 0-5 Zweiter Index definiert einen
@@ -67,10 +73,28 @@ public class Wuerfel {
 	};
 	
 	/**
-	 * TODO Implementieren
+	 * Geneiert gelösten Würfel.
 	 */
 	public Wuerfel() {
-
+		this.makeSolved();
+	}
+	
+	/**
+	 * Generiert Würfel mit seiten pos.
+	 * @param Würfelkonfiguration
+	 */
+	public Wuerfel(int[] pos) {
+		this.seiten = pos;
+	}
+	
+	/**
+	 * Generiert Würfel mit pos und dreht moves.
+	 * @param pos Würfelkonfiguration
+	 * @param moves Zugabfolge
+	 */
+	public Wuerfel(int[] pos, int[] moves) {
+		this.seiten = pos;
+		this.dreheZugsequenz(moves);
 	}
 
 	/**
@@ -260,6 +284,7 @@ public class Wuerfel {
 			overwriteStrip((int)(aussen>>>i*16)&0xFFF,aussenIndex[face][i]);
 		}
 	}
+	
 	public void dreheGUhr(int face) {
 		seiten[face] = Integer.rotateRight(seiten[face], 8);
 		long aussen = 0;
@@ -277,9 +302,29 @@ public class Wuerfel {
 		seiten[pos[0]] &= ~(Integer.rotateLeft(0xFFF, (pos[1] << 2)));
 		seiten[pos[0]] |= a;
 	}
-	
-	
-	
+		
+	/**
+	 * Überprüft ob mask = seiten, mit der Einschränkung, dass bei den Felder
+	 * wo in der Maske F steht alles sein darf.
+	 * @param mask Maske
+	 * @return true wenn gleich sonst false.
+	 */
+	public boolean isMaskSolved(int[] mask) {
+		for(int i = 0; i < 6; i++) {
+			for(int j = 0; j < 8; j++) {
+				if(this.extractMove(mask[i], j) == 0xF) { // extractMove wird missbraucht um mir die 4 bits rauszuholen
+					continue;
+				}
+				if(this.extractColor(i, j) != this.extractMove(mask[i], j)) {
+					return false;
+				}
+			}
+			
+		}
+		
+		return true;
+	}
+		
 	/**
 	 * überpräft ob der Würfel gelöst ist.
 	 * 
@@ -293,7 +338,6 @@ public class Wuerfel {
 		return false;
 	}
 
-	
 	/**
 	 * Gibt zu einer Fläche an einem Stelle die Farbe in Binär zurück.
 	 * 
@@ -313,7 +357,7 @@ public class Wuerfel {
 	 * @return Zug in "seq" bei "index".
 	 */
 	public int extractMove(int seq, int index) {
-		return (seq >>> (index * 4)) & (0xF);
+		return (seq >>> (index << 2)) & (0xF);
 	}
 
 	/**
