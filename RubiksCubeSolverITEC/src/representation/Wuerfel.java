@@ -85,6 +85,7 @@ public class Wuerfel {
 		while (true) {
 			currMove = this.extractMove(zug[currInteger], currIndex);
 			if (currMove == 0xF) {
+				System.out.println(currInteger);
 				break;
 			}
 			if (currIndex == 7) {
@@ -92,8 +93,7 @@ public class Wuerfel {
 				currInteger++;
 			}
 			currIndex++;
-			// this.dreheZug(currMove);
-			System.out.println(this.lookupMove(currMove));
+			this.drehe(currMove);
 			
 		}
 		
@@ -121,7 +121,11 @@ public class Wuerfel {
 						moveKode |= 0b1000; // ' bit setzen
 						i++; // da wir ja 2 Zeichen haben
 					} else if (czuege[i + 1] == '2') {
-						moves[movesIndex] |= moveKode << (intIndex << 2);
+						moves[movesIndex] |= moveKode << (intIndex << 2); // in das Array schieben
+						if(intIndex == 7) {
+							movesIndex++;
+							intIndex = 0;
+						}
 						intIndex++;
 						i++; // da wir ja 2 Zeichen haben
 					}
@@ -230,6 +234,17 @@ public class Wuerfel {
 		return (Integer.rotateRight(this.seiten[pos[0]],(pos[1] << 2))) & (0xFFF);
 	}
 
+	/**
+	 * Ruft dreheUhr und dreheGUhr auf
+	 */
+	public void drehe(int zug) {
+		if(((zug >> 3) & 1) == 1) {
+			this.dreheGUhr(zug & ~0b1000);
+		} else {
+			this.dreheUhr(zug & ~0b1000);;
+		}
+	}
+	
 	/**
 	 * Redundant? DAS MCAHST DU NICK
 	 * 
