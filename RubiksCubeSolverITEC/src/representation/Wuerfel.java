@@ -92,12 +92,15 @@ public class Wuerfel {
 		int currIndex = 0;
 		int currMove;
 		while (true) {
+			if(currInteger == 5) {
+				Util.printArr(zug);
+			}
 			currMove = this.extractMove(zug[currInteger], currIndex);
 			if (currMove == 0xF) {
 				break;
 			}
 			if (currIndex == 7) {
-				currIndex = 0;
+				currIndex = -1;
 				currInteger++;
 			}
 			currIndex++;
@@ -133,7 +136,7 @@ public class Wuerfel {
 						moves[movesIndex] |= moveKode << (intIndex << 2); // in das Array schieben
 						if (intIndex == 7) {
 							movesIndex++;
-							intIndex = 0;
+							intIndex = -1;
 						}
 						intIndex++;
 						i++; // da wir ja 2 Zeichen haben
@@ -142,7 +145,7 @@ public class Wuerfel {
 				moves[movesIndex] |= moveKode << (intIndex << 2); // in das Array schieben
 				if (intIndex == 7) {
 					movesIndex++;
-					intIndex = 0;
+					intIndex = -1;
 				}
 				intIndex++;
 

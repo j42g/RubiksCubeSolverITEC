@@ -109,14 +109,17 @@ public class IDDFS {
 		} else {
 			move[moveIndex] |= 0xF << ((intIndex + 1) << 2);
 		}
+		//System.out.println("IN GEN:");
 		for(int i = 0; i < 6; i++) {
 			int[] a = Arrays.copyOf(move, stackArrayLaenge);
 			a[moveIndex] |= i << ((intIndex) << 2);
+			//Util.printArr(a);
 			pos.push(a);
 		}
 		for(int i = 8; i < 14; i++) {
 			int[] a = Arrays.copyOf(move, stackArrayLaenge);
 			a[moveIndex] |= i << ((intIndex) << 2);
+			//Util.printArr(a);
 			pos.push(a);
 		}
 		
