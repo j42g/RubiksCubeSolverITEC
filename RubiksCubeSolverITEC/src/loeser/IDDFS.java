@@ -16,7 +16,7 @@ public class IDDFS {
 	/**
 	 * Länge der Zügespeicher (2*8 = 16 Züge).
 	 */
-	private static int stackArrayLaenge = 5;
+	private static int stackArrayLaenge = 2;
 	private boolean gefunden = false;
 	/**
 	 * Wuerfel den man haben wollen (0xF heißt beliebig).
@@ -47,9 +47,12 @@ public class IDDFS {
 	 */
 	public int[] start() { 
 		int tiefe = 0;
+		
 		while(!this.gefunden) {
+			long time1 = System.currentTimeMillis();
 			DLS(new int[] {0xF}, tiefe);
 			tiefe++;
+			System.out.println(tiefe+" " + (System.currentTimeMillis()-time1));
 		} 
 		return loesung;
 	}
