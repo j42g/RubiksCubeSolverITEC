@@ -331,7 +331,7 @@ public class Wuerfel {
 
 	/**
 	 * Gibt zu gegebenem Binärkode den Zug zuräck. Bei einem ungültigen Kode, wird
-	 * 'X' zurückgegeben
+	 * 'X' zurückgegeben.
 	 * 
 	 * @param code in Binär kodiert.
 	 * @return Move als Buchstabe.
