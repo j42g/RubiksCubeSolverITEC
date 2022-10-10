@@ -23,7 +23,7 @@ public class Util {
 				break;
 			}
 			if (currIndex == 7) {
-				currIndex = 0;
+				currIndex = -1;
 				currInteger++;
 			}
 			currIndex++;

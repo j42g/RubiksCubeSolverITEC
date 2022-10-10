@@ -92,9 +92,6 @@ public class Wuerfel {
 		int currIndex = 0;
 		int currMove;
 		while (true) {
-			if(currInteger == 5) {
-				Util.printArr(zug);
-			}
 			currMove = this.extractMove(zug[currInteger], currIndex);
 			if (currMove == 0xF) {
 				break;
