@@ -11,8 +11,7 @@ public class Starter {
 		a.dreheZugsequenz("R F' D' F' U2 B D2 L2 B' R2 F L2 R2 B U L' B U B' U2 B");//
 		a.wuerfelAusgeben();
 		CFOP solver = new CFOP(a);
-		String zuege = solver.start();
-		a.dreheZugsequenz(zuege);
+		solver.start();
 		a.wuerfelAusgeben();
 		
 		
