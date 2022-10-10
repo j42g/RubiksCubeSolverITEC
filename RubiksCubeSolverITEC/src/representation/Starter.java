@@ -17,6 +17,7 @@ public class Starter {
 		//System.out.println(solver.hatKreuz());
 		
 		
+		
 		/*a.veraendereEinzeln(0, 7, 5);
 		a.veraendereEinzeln(1, 6, 5);
 		a.veraendereEinzeln(2, 7, 5);
