@@ -16,7 +16,7 @@ public class IDDFS {
 	/**
 	 * Länge der Zügespeicher (2*8 = 16 Züge).
 	 */
-	private static int stackArrayLaenge = 2;
+	private static int stackArrayLaenge = 5;
 	private boolean gefunden = false;
 	/**
 	 * Wuerfel den man haben wollen (0xF heißt beliebig).
