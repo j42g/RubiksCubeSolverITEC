@@ -63,4 +63,51 @@ public class Util {
 		return "Invalid";
 	}
 	
+	/**
+	 * Übersetzt und gibt es zurück.
+	 * 
+	 * @param zuege Züge in Notation
+	 */
+	public static int[] gebeZugsequenz(String zuege) {
+		char[] czuege = zuege.toCharArray();
+		int movesIndex = 0;
+		int intIndex = 0;
+		int moveKode;
+		int[] moves = new int[czuege.length / 8 + 1]; // rate Länge
+		for (int i = 0; i < czuege.length; i++) {
+			if (czuege[i] == ' ') {
+				continue;
+			}
+			moveKode = "UBLFRD".indexOf(czuege[i]);
+			if (moveKode != -1) { // Valider Zug
+				if (i != czuege.length - 1) { // Überprüfen ob es ein Zug wie L' ist und sicherstellen, das man nicht
+												// out-of-bounds kommt
+					if (czuege[i + 1] == '\'') {
+						moveKode |= 0b1000; // ' bit setzen
+						i++; // da wir ja 2 Zeichen haben
+					} else if (czuege[i + 1] == '2') {
+						moves[movesIndex] |= moveKode << (intIndex << 2); // in das Array schieben
+						if (intIndex == 7) {
+							movesIndex++;
+							intIndex = -1;
+						}
+						intIndex++;
+						i++; // da wir ja 2 Zeichen haben
+					}
+				}
+				moves[movesIndex] |= moveKode << (intIndex << 2); // in das Array schieben
+				if (intIndex == 7) {
+					movesIndex++;
+					intIndex = -1;
+				}
+				intIndex++;
+
+			} else {
+				System.out.println("Fehler in dreheZugsequenz.");
+			}
+		}
+		moves[movesIndex] |= 0xF << (intIndex << 2);
+		return moves;
+	}
+	
 }
