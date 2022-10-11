@@ -48,9 +48,7 @@ public class IDDFS {
 	}
 	
 	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske) {
-		this.startPos = _startPos;
-		this.zielPos = _zielPos;
-		this.zielMaske = _zielMaske;
+		this(_startPos, _zielPos, _zielMaske, new int[] {0, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13});
 	}
 	
 	/**
@@ -127,17 +125,13 @@ public class IDDFS {
 		} else {
 			move[moveIndex] |= 0xF << ((intIndex + 1) << 2);
 		}
-		//System.out.println("IN GEN:");
-		for(int i = 0; i < 6; i++) {
+		// Zuege adden
+		for(int i : this.zuege) {
 			int[] a = Arrays.copyOf(move, stackArrayLaenge);
+			if(i == lastmove) {
+				continue;
+			}
 			a[moveIndex] |= i << ((intIndex) << 2);
-			//Util.printArr(a);
-			pos.push(a);
-		}
-		for(int i = 8; i < 14; i++) {
-			int[] a = Arrays.copyOf(move, stackArrayLaenge);
-			a[moveIndex] |= i << ((intIndex) << 2);
-			//Util.printArr(a);
 			pos.push(a);
 		}
 		
