@@ -206,7 +206,6 @@ public class Wuerfel {
 			this.dreheGUhr(zug & ~0b1000);
 		} else {
 			this.dreheUhr(zug & ~0b1000);
-			;
 		}
 	}
 

@@ -49,14 +49,13 @@ public class IDDFS {
 		int tiefe = 0;
 		
 		while(!this.gefunden) {
-			long time1 = System.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			DLS(new int[] {0xF}, tiefe);
 			tiefe++;
-			System.out.println(tiefe+" " + (System.currentTimeMillis()-time1));
+			System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
 		} 
 		return loesung;
 	}
-	
 	/**
 	 * Funkion, die man für IDDFS brauch (keine Ahnung wie das genau funkioniert,
 	 * obwohl eigentlich schon, aber ist cracked mit Wuerfeln)
@@ -72,16 +71,13 @@ public class IDDFS {
 		while(!this.pos.empty()) {
 			int[] aktuelleZuege = this.pos.pop();
 			if((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {
-				Util.printArr(aktuelleZuege);
 				this.gefunden = true;
 				this.loesung = aktuelleZuege;
 				return;
 			}
-
 			this.genChildMoves(aktuelleZuege, tiefe);
 		}
 	}
-	
 	/**
 	 * Generiert alle möglichen 1-Zug fortsetzungen von move fügt sie dem Stack hinzu.
 	 * Falls die Tiefe gleich der Anzahl der Z
@@ -125,7 +121,5 @@ public class IDDFS {
 			//Util.printArr(a);
 			pos.push(a);
 		}
-		
 	}
-	
 }
