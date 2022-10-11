@@ -29,16 +29,22 @@ public class IDDFS {
 	private final int[] zielPos;
 	private final int[] zielMaske;
 	
+	/**
+	 * Zuge in Zugkode, welche gemacht werden sollen
+	 */
+	private final int[] zuege;
+	
 	
 	/**
 	 * Konstruktor
 	 * @param _startPos
 	 * @param _zielPos
 	 */
-	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske) {
+	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[] _zuege) {
 		this.startPos = _startPos;
 		this.zielPos = _zielPos;
 		this.zielMaske = _zielMaske;
+		this.zuege = _zuege;
 	}
 	
 	/**
@@ -90,10 +96,13 @@ public class IDDFS {
 	private void genChildMoves(int[] move, int tiefe){
 		int intIndex = 0;
 		int moveIndex = 0;
+		//letzer Zug in move
+		int lastmove = 0;
 		// Gehe zum letzten Zug
 		while(true) {
 			if(((move[moveIndex] >>> (intIndex << 2)) & (0xF)) == 0xF) {
 				move[moveIndex] &= ~(0xF << (intIndex << 2));
+				lastmove = ((move[moveIndex] >>> (intIndex - 1) << 2)) & (0xF));
 				break;
 			}
 			if(intIndex == 7) {
