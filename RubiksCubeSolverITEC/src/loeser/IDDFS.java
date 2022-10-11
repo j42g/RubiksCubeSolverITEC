@@ -47,6 +47,12 @@ public class IDDFS {
 		this.zuege = _zuege;
 	}
 	
+	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske) {
+		this.startPos = _startPos;
+		this.zielPos = _zielPos;
+		this.zielMaske = _zielMaske;
+	}
+	
 	/**
 	 * Starte IDDFS
 	 * @return
