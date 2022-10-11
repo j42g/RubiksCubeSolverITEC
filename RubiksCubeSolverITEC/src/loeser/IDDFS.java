@@ -48,7 +48,10 @@ public class IDDFS {
 	}
 	
 	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske) {
-		this(_startPos, _zielPos, _zielMaske, new int[] {0, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13});
+		this.startPos = _startPos;
+		this.zielPos = _zielPos;
+		this.zielMaske = _zielMaske;
+		this.zuege = new int[] {0, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13};
 	}
 	
 	/**
@@ -57,12 +60,11 @@ public class IDDFS {
 	 */
 	public int[] start() { 
 		int tiefe = 0;
-		
 		while(!this.gefunden) {
-			long time1 = System.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			DLS(new int[] {0xF}, tiefe);
 			tiefe++;
-			System.out.println(tiefe+" " + (System.currentTimeMillis()-time1));
+			System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
 		} 
 		return loesung;
 	}
@@ -100,13 +102,13 @@ public class IDDFS {
 		int intIndex = 0;
 		int moveIndex = 0;
 		//letzer Zug in move
-		int lastmove = 0;
+		int invLastMove = 0;
 		// Gehe zum letzten Zug
 		while(true) {
 			if(((move[moveIndex] >>> (intIndex << 2)) & (0xF)) == 0xF) {
 				move[moveIndex] &= ~(0xF << (intIndex << 2));
-				lastmove = ((move[moveIndex] >>> (intIndex - 1) << 2)) & (0xF); // Letzter Zug
-				lastmove ^= 0b1000; // zu dem inv. Move machen
+				// invLastZug bestimmen
+				invLastMove = ((move[moveIndex] >>> ((intIndex - 1) << 2)) & (0xF)) ^ 0b1000;
 				break;
 			}
 			if(intIndex == 7) {
@@ -116,7 +118,7 @@ public class IDDFS {
 			intIndex++;
 		}
 		// überprüfen ob das rekursionsende erreicht ist
-		if(intIndex + 8 * moveIndex - 1 >= tiefe) {
+		if(intIndex + (moveIndex << 3) - 1 >= tiefe) {
 			return;
 		}
 		// neues Ende deklarieren
@@ -126,14 +128,15 @@ public class IDDFS {
 			move[moveIndex] |= 0xF << ((intIndex + 1) << 2);
 		}
 		// Zuege adden
-		for(int i : this.zuege) {
-			int[] a = Arrays.copyOf(move, stackArrayLaenge);
-			if(i == lastmove) {
+		for(int i = 0; i < this.zuege.length; i++) {
+			if(zuege[i] == invLastMove) {
 				continue;
 			}
-			a[moveIndex] |= i << ((intIndex) << 2);
+			int[] a = Arrays.copyOf(move, stackArrayLaenge);
+			a[moveIndex] |= zuege[i] << ((intIndex) << 2);
 			pos.push(a);
 		}
+
 		
 	}
 	
