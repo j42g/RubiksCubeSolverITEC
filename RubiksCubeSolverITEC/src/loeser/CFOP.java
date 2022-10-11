@@ -95,7 +95,7 @@ public class CFOP {
 		 * System.out.println(Util.kodeZuegeZuNotation(pattern.start()));
 		 * w.wuerfelAusgeben();
 		 */
-		
+
 	}
 
 	/*
@@ -108,5 +108,5 @@ public class CFOP {
 	 * 
 	 */
 	// the exact cubie is known if two colors in a certain order
-	
+
 }
