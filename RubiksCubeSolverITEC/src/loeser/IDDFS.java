@@ -82,7 +82,6 @@ public class IDDFS {
 		while(!this.pos.empty()) {
 			int[] aktuelleZuege = this.pos.pop();
 			if((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {
-				Util.printArr(aktuelleZuege);
 				this.gefunden = true;
 				this.loesung = aktuelleZuege;
 				return;
@@ -106,7 +105,8 @@ public class IDDFS {
 		while(true) {
 			if(((move[moveIndex] >>> (intIndex << 2)) & (0xF)) == 0xF) {
 				move[moveIndex] &= ~(0xF << (intIndex << 2));
-				lastmove = ((move[moveIndex] >>> (intIndex - 1) << 2)) & (0xF));
+				lastmove = ((move[moveIndex] >>> (intIndex - 1) << 2)) & (0xF); // Letzter Zug
+				lastmove ^= 0b1000; // zu dem inv. Move machen
 				break;
 			}
 			if(intIndex == 7) {
