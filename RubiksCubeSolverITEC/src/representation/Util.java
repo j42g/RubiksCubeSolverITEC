@@ -1,17 +1,17 @@
 package representation;
 
 public class Util {
-	
+
 	public static void printArr(int[] arr) {
-		for(int i = 0; i < arr.length; i++) {
-			if(i == arr.length - 1) {
-				System.out.print(Integer.toBinaryString(arr[i])+ "\n");
+		for (int i = 0; i < arr.length; i++) {
+			if (i == arr.length - 1) {
+				System.out.print(Integer.toBinaryString(arr[i]) + "\n");
 			} else {
 				System.out.print(Integer.toBinaryString(arr[i]) + ", ");
 			}
 		}
 	}
-	
+
 	public static String kodeZuegeZuNotation(int[] zuege) {
 		String output = "";
 		int currInteger = 0;
@@ -32,7 +32,7 @@ public class Util {
 		}
 		return output;
 	}
-	
+
 	public static String lookupMove(int code) {
 		switch (code) {
 		case 0:
@@ -62,5 +62,40 @@ public class Util {
 		}
 		return "Invalid";
 	}
-	
+
+	/**
+	 * @param zuege
+	 * @return
+	 */
+	public static String kuerzen(String zuege) {
+		char[] s = zuege.toCharArray();
+		String bessereZuege = "";
+		boolean changed = false;
+		for (int i = 0; i < s.length - 3; i++) {
+			if (s[i] == ' ') {
+				continue;
+			} else if (s[i] == s[i + 2] && s[i + 3] == '\'') { // R R'
+				i += 3;
+				changed = true;
+				continue;
+			} else if (s[i] == s[i + 3] && s[i + 1] == '\'' && s[i + 4] != '\'') { // R' R
+				i += 3;
+				changed = true;
+				continue;
+			} else {
+				if (s[i + 1] == '\'') {
+					bessereZuege += s[i] + "' ";
+					i++;
+				} else {
+					bessereZuege += s[i] + " ";
+				}
+			}
+		}
+
+		if (changed) {
+			return kuerzen(bessereZuege);
+		}
+		return bessereZuege;
+	}
+
 }
