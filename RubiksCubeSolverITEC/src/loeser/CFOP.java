@@ -90,17 +90,17 @@ public class CFOP {
 	
 	private void Dot() {
 		w.dreheZugsequenz("B R D R' D' B' F D L D' L' F'");
-		this.solveSequenz += "B R D R' D' B' F D L D' L' F'";
+		this.solveSequenz += "B R D R' D' B' F D L D' L' F' ";
 	}
 
 	private void IShape() {
 		w.dreheZugsequenz("B R D R' D' B'");
-		this.solveSequenz += "B R D R' D' B'";
+		this.solveSequenz += "B R D R' D' B' ";
 	}
 
 	private void LShape() {
 		w.dreheZugsequenz("B D R D' R' B'");
-		this.solveSequenz += "B D R D' R' B'";
+		this.solveSequenz += "B D R D' R' B' ";
 		//new int[]{0xFBA8203}
 	}
 	
@@ -117,7 +117,7 @@ public class CFOP {
 
 	private void L() {
 		w.dreheZugsequenz("B R' B' L B R B' L'");
-		this.solveSequenz += "B R' B' L B R B' L'";
+		this.solveSequenz += "B R' B' L B R B' L' ";
 	}
 
 	private void Pi() {
@@ -132,7 +132,7 @@ public class CFOP {
 
 	private void T() {
 		w.dreheZugsequenz("L B R' B' L' B R B'");
-		this.solveSequenz += "L B R' B' L' B R B'";
+		this.solveSequenz += "L B R' B' L' B R B' ";
 	}
 
 	private void U() {
@@ -228,7 +228,9 @@ public class CFOP {
 			}
 			if(this.debug == 1) w.wuerfelAusgeben();
 			w.dreheUhr(5);
+			this.solveSequenz += "D";
 		}
+		System.out.println("Gelöst mit: " + this.solveSequenz);
 		
 	}
 

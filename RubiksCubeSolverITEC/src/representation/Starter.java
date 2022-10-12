@@ -10,7 +10,7 @@ public class Starter {
 		a.makeSolved();
 		a.dreheZugsequenz("R F' D' F' U2 B D2 L2 B' R2 F L2 R2 B U L' B U B' U2 B");
 		a.wuerfelAusgeben();
-		CFOP solver = new CFOP(a);
+		CFOP solver = new CFOP(a, 1);
 		long time1 = System.currentTimeMillis();
 		solver.start();
 		long time2 = System.currentTimeMillis();
