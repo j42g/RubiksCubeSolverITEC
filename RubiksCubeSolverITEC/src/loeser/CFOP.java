@@ -1,8 +1,5 @@
 package loeser;
 
-import java.util.Arrays;
-
-import representation.Util;
 import representation.Wuerfel;
 
 public class CFOP {

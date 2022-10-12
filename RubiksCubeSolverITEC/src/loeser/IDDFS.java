@@ -2,7 +2,6 @@ package loeser;
 
 import java.util.Stack;
 
-import representation.Util;
 import representation.Wuerfel;
 import java.util.Arrays;
 
