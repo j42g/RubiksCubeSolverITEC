@@ -203,7 +203,6 @@ public class CFOP {
 				break;
 			} else if (mask(PiMaske, PiDaten)) {
 				Pi();
-				System.out.println("hi");
 				break;
 			} else if (mask(LMaske, LDaten)) {
 				L();
@@ -228,9 +227,11 @@ public class CFOP {
 			}
 			if(this.debug == 1) w.wuerfelAusgeben();
 			w.dreheUhr(5);
-			this.solveSequenz += "D";
+			this.solveSequenz += "D ";
 		}
+		//this.solveSequenz = Util.kuerzen(this.solveSequenz);
 		System.out.println("Gelöst mit: " + this.solveSequenz);
+		System.out.println("Gelöst mit: " + Util.kuerzen(this.solveSequenz));
 		
 	}
 
