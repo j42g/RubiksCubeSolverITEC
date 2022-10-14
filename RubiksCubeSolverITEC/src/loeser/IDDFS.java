@@ -71,7 +71,7 @@ public class IDDFS {
 	
 	/**
 	 * Funkion, die man für IDDFS brauch (keine Ahnung wie das genau funkioniert,
-	 * obwohl eigentlich schon, aber ist cracked mit Wuerfeln)
+	 * obwohl eigentlich schon, aber ist cracked mit Wuerfeln).
 	 * @param startZuege
 	 * @param tiefe
 	 * @return
