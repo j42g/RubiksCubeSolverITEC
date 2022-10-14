@@ -2,7 +2,6 @@ package loeser;
 
 import java.util.Stack;
 
-import representation.Util;
 import representation.Wuerfel;
 import java.util.Arrays;
 
@@ -29,29 +28,16 @@ public class IDDFS {
 	private final int[] zielPos;
 	private final int[] zielMaske;
 	
-	/**
-	 * Zuge in Zugkode, welche gemacht werden sollen
-	 */
-	private final int[] zuege;
-	
 	
 	/**
 	 * Konstruktor
 	 * @param _startPos
 	 * @param _zielPos
 	 */
-	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[] _zuege) {
-		this.startPos = _startPos;
-		this.zielPos = _zielPos;
-		this.zielMaske = _zielMaske;
-		this.zuege = _zuege;
-	}
-	
 	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske) {
 		this.startPos = _startPos;
 		this.zielPos = _zielPos;
 		this.zielMaske = _zielMaske;
-		this.zuege = new int[] {0, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13};
 	}
 	
 	/**
@@ -60,6 +46,7 @@ public class IDDFS {
 	 */
 	public int[] start() { 
 		int tiefe = 0;
+		
 		while(!this.gefunden) {
 			long time = System.currentTimeMillis();
 			DLS(new int[] {0xF}, tiefe);
@@ -68,7 +55,6 @@ public class IDDFS {
 		} 
 		return loesung;
 	}
-	
 	/**
 	 * Funkion, die man für IDDFS brauch (keine Ahnung wie das genau funkioniert,
 	 * obwohl eigentlich schon, aber ist cracked mit Wuerfeln).
@@ -88,11 +74,9 @@ public class IDDFS {
 				this.loesung = aktuelleZuege;
 				return;
 			}
-
 			this.genChildMoves(aktuelleZuege, tiefe);
 		}
 	}
-	
 	/**
 	 * Generiert alle möglichen 1-Zug fortsetzungen von move fügt sie dem Stack hinzu.
 	 * Falls die Tiefe gleich der Anzahl der Z.
@@ -101,14 +85,10 @@ public class IDDFS {
 	private void genChildMoves(int[] move, int tiefe){
 		int intIndex = 0;
 		int moveIndex = 0;
-		//letzer Zug in move
-		int invLastMove = 0;
 		// Gehe zum letzten Zug
 		while(true) {
 			if(((move[moveIndex] >>> (intIndex << 2)) & (0xF)) == 0xF) {
 				move[moveIndex] &= ~(0xF << (intIndex << 2));
-				// invLastZug bestimmen
-				invLastMove = ((move[moveIndex] >>> ((intIndex - 1) << 2)) & (0xF)) ^ 0b1000;
 				break;
 			}
 			if(intIndex == 7) {
@@ -118,7 +98,7 @@ public class IDDFS {
 			intIndex++;
 		}
 		// überprüfen ob das rekursionsende erreicht ist
-		if(intIndex + (moveIndex << 3) - 1 >= tiefe) {
+		if(intIndex + 8 * moveIndex - 1 >= tiefe) {
 			return;
 		}
 		// neues Ende deklarieren
@@ -127,17 +107,18 @@ public class IDDFS {
 		} else {
 			move[moveIndex] |= 0xF << ((intIndex + 1) << 2);
 		}
-		// Zuege adden
-		for(int i = 0; i < this.zuege.length; i++) {
-			if(zuege[i] == invLastMove) {
-				continue;
-			}
+		//System.out.println("IN GEN:");
+		for(int i = 0; i < 6; i++) {
 			int[] a = Arrays.copyOf(move, stackArrayLaenge);
-			a[moveIndex] |= zuege[i] << ((intIndex) << 2);
+			a[moveIndex] |= i << ((intIndex) << 2);
+			//Util.printArr(a);
 			pos.push(a);
 		}
-
-		
+		for(int i = 8; i < 14; i++) {
+			int[] a = Arrays.copyOf(move, stackArrayLaenge);
+			a[moveIndex] |= i << ((intIndex) << 2);
+			//Util.printArr(a);
+			pos.push(a);
+		}
 	}
-	
 }
