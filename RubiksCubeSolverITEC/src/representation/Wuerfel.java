@@ -186,6 +186,26 @@ public class Wuerfel {
 		seiten[4] = 0x44444444;
 		seiten[5] = 0x55555555;
 	}
+	
+	
+	/**
+	 * mach "laenge" zufällig Züge. An sich braucht man nie mehr als 26.
+	 * @param laenge Anzahl der Züge
+	 * @param ausgeben Anzeigen der Züge
+	 */
+	public void verdrehe(int laenge, boolean ausgeben){
+		final int[] a = {0, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13}; // alle Züge
+		int zug;
+		String zuege = "";
+		for(int i = 0; i < laenge; i++) {
+			zug = a[(int)(13*Math.random())];
+			this.drehe(zug);
+			zuege += this.lookupMove(zug);
+		}
+		if(ausgeben) {
+			System.out.println("Verdreht mit: " + zuege);
+		}
+	}
 
 	/**
 	 * Redundant? DAS MCAHST DU NICK
