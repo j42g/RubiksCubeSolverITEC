@@ -226,7 +226,7 @@ public class CFOP {
 				continue;
 			}
 			if(this.debug == 1) w.wuerfelAusgeben();
-			w.dreheUhr(5);
+			w.drehe(5);
 			this.solveSequenz += "D ";
 		}
 		//this.solveSequenz = Util.kuerzen(this.solveSequenz);
