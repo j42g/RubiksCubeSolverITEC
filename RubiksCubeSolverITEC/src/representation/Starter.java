@@ -9,8 +9,8 @@ public class Starter {
 		
 		Wuerfel a = new Wuerfel();
 		a.verdrehe(26, true);
-		a.wuerfelAusgeben(); // R F R' F U F' R' U R' F2 U'
-		ZweiMalZwi loeser = new ZweiMalZwi(a);
+		a.wuerfelAusgeben();
+		ZweiMalZwei loeser = new ZweiMalZwei(a);
 		loeser.loese();
 		a.wuerfelAusgeben();
 		

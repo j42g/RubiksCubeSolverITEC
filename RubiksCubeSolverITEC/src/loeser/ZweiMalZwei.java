@@ -3,7 +3,7 @@ package loeser;
 import representation.Util;
 import representation.Wuerfel;
 
-public class ZweiMalZwi {
+public class ZweiMalZwei {
 	
 	private Wuerfel w;
 	private String solveSequenz;
@@ -18,7 +18,7 @@ public class ZweiMalZwi {
 	private final int[] loeseMasken = { 0x0F0F0F0F, 0x0F0F0F0F, 0x0F0F0F0F, 0x0F0F0F0F, 0x0F0F0F0F, 0x0F0F0F0F };
 	private final int[] loeseZuege = {12, 11, 8, 4, 3, 0};
 	
-	public ZweiMalZwi(Wuerfel _w) {
+	public ZweiMalZwei(Wuerfel _w) {
 		this.w = _w;
 		this.solveSequenz = "";
 	}
