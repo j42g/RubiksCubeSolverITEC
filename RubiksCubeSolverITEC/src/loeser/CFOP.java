@@ -147,48 +147,48 @@ public class CFOP {
 	public void start() {
 		// Kreuz
 		IDDFS pattern = new IDDFS(this.w.getSeiten(), this.kreuzDaten, this.kreuzMaske);
-		w.dreheZugsequenz(pattern.start());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.start());
+		w.dreheZugsequenz(pattern.loese());
+		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
 		if(this.debug == 1) w.wuerfelAusgeben();
 		
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LOG1Daten, this.F2LOG1Maske);
-		w.dreheZugsequenz(pattern.start());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.start());
+		w.dreheZugsequenz(pattern.loese());
+		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
 		if(this.debug == 1) w.wuerfelAusgeben();
 		
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LOG2Daten, this.F2LOG2Maske);
-		w.dreheZugsequenz(pattern.start());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.start());
+		w.dreheZugsequenz(pattern.loese());
+		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
 		if(this.debug == 1) w.wuerfelAusgeben();
 		
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LGR1Daten, this.F2LGR1Maske);
-		w.dreheZugsequenz(pattern.start());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.start());
+		w.dreheZugsequenz(pattern.loese());
+		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
 		if(this.debug == 1) w.wuerfelAusgeben();
 		
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LGR2Daten, this.F2LGR2Maske);
-		w.dreheZugsequenz(pattern.start());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.start());
+		w.dreheZugsequenz(pattern.loese());
+		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
 		if(this.debug == 1) w.wuerfelAusgeben();
 		
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LRB1Daten, this.F2LRB1Maske);
-		w.dreheZugsequenz(pattern.start());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.start());
+		w.dreheZugsequenz(pattern.loese());
+		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
 		if(this.debug == 1) w.wuerfelAusgeben();
 		
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LRB2Daten, this.F2LRB2Maske);
-		w.dreheZugsequenz(pattern.start());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.start());
+		w.dreheZugsequenz(pattern.loese());
+		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
 		if(this.debug == 1) w.wuerfelAusgeben();
 		
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LBO1Daten, this.F2LBO1Maske);
-		w.dreheZugsequenz(pattern.start());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.start());
+		w.dreheZugsequenz(pattern.loese());
+		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
 		if(this.debug == 1) w.wuerfelAusgeben();
 		
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LBO2Daten, this.F2LBO2Maske);
-		w.dreheZugsequenz(pattern.start());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.start());
+		w.dreheZugsequenz(pattern.loese());
+		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
 		if(this.debug == 1) w.wuerfelAusgeben();
 		
 		while(!mask(OLLDaten, OLLMaske)) {

@@ -6,7 +6,7 @@ import representation.Util;
 import representation.Wuerfel;
 import java.util.Arrays;
 
-public class IDDFS {
+public class TIDDFS extends Thread {
 	
 	/**
 	 * Stack für IDDFS
@@ -40,18 +40,8 @@ public class IDDFS {
 	 * @param _startPos
 	 * @param _zielPos
 	 */
-	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[] _zuege) {
-		this.startPos = _startPos;
-		this.zielPos = _zielPos;
-		this.zielMaske = _zielMaske;
-		this.zuege = _zuege;
-	}
-	
-	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske) {
-		this.startPos = _startPos;
-		this.zielPos = _zielPos;
-		this.zielMaske = _zielMaske;
-		this.zuege = new int[] {0, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13};
+	public TIDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[] _zuege) {
+		
 	}
 	
 	/**

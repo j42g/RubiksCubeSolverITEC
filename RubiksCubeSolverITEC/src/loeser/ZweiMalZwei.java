@@ -31,8 +31,8 @@ public class ZweiMalZwei {
 		this.w.wuerfelAusgeben();*/
 		
 		IDDFS pattern = new IDDFS(this.w.getSeiten(), this.loeseDaten, this.loeseMasken, this.loeseZuege);
-		w.dreheZugsequenz(pattern.start());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.start());
+		w.dreheZugsequenz(pattern.loese());
+		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
 		
 		System.out.println("Gelöst mit: " + this.solveSequenz);
 	}

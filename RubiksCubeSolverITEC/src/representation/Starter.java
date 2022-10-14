@@ -8,10 +8,10 @@ public class Starter {
 			
 		
 		Wuerfel a = new Wuerfel();
-		a.dreheZugsequenz("R U R' U' R' F R2 U' R' U' R U R' F'");
+		a.verdrehe(26, true);
 		a.wuerfelAusgeben();
-		ZweiMalZwei loeser = new ZweiMalZwei(a);
-		loeser.loese();
+		CFOP loeser = new CFOP(a);
+		loeser.start();
 		a.wuerfelAusgeben();
 		
 		/*System.out.println("KEKW:" + Util.kuerzen("F F"));
