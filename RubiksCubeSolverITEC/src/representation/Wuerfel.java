@@ -198,9 +198,9 @@ public class Wuerfel {
 		int zug;
 		String zuege = "";
 		for(int i = 0; i < laenge; i++) {
-			zug = a[(int)(13*Math.random())];
+			zug = a[(int)(12*Math.random())];
 			this.drehe(zug);
-			zuege += this.lookupMove(zug);
+			zuege += this.lookupMove(zug) + " ";
 		}
 		if(ausgeben) {
 			System.out.println("Verdreht mit: " + zuege);
