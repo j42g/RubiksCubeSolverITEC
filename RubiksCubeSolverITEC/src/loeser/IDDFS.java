@@ -99,12 +99,18 @@ public class IDDFS {
 	 * @param move bisherige Züge
 	 */
 	private void genChildMoves(int[] move, int tiefe){
+		// ist move leer? (wird für lastmove gebraucht)
+		boolean nleer = true;
+		if(move[0] == 0xF) {
+			move[0] &= ~(0xF);
+			nleer = false;
+		}
 		int intIndex = 0;
 		int moveIndex = 0;
 		//letzer Zug in move
 		int invLastMove = -1;
 		// Gehe zum letzten Zug
-		while(true) {
+		while(nleer) {
 			if(((move[moveIndex] >>> (intIndex << 2)) & (0xF)) == 0xF) {
 				move[moveIndex] &= ~(0xF << (intIndex << 2));
 				// invLastZug bestimmen
@@ -137,8 +143,6 @@ public class IDDFS {
 			a[moveIndex] |= zug << intIndex;
 			pos.push(a);
 		}
-
-		
 	}
 	
 }
