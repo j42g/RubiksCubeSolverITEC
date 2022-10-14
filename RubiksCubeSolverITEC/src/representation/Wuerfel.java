@@ -214,7 +214,7 @@ public class Wuerfel {
 	 * @param pos  Komplement aus Seite und Stipindex
 	 * @return
 	 */
-	public int extractStrip(int[] pos) {
+	private int extractStrip(int[] pos) {
 		return (Integer.rotateRight(this.seiten[pos[0]], (pos[1] << 2))) & (0xFFF);
 	}
 
@@ -234,7 +234,7 @@ public class Wuerfel {
 	 * 
 	 * @param face Index der Seite
 	 */
-	public void dreheUhr(int face) {
+	private void dreheUhr(int face) {
 		seiten[face] = Integer.rotateLeft(seiten[face], 8);
 		long aussen = 0;
 		for (int i = 0; i < 4; i++) {
@@ -246,7 +246,7 @@ public class Wuerfel {
 		}
 	}
 
-	public void dreheGUhr(int face) {
+	private void dreheGUhr(int face) {
 		seiten[face] = Integer.rotateRight(seiten[face], 8);
 		long aussen = 0;
 		for (int i = 0; i < 4; i++) {
@@ -258,7 +258,7 @@ public class Wuerfel {
 		}
 	}
 
-	public void overwriteStrip(int a, int[] pos) {
+	private void overwriteStrip(int a, int[] pos) {
 		a = Integer.rotateLeft(a, pos[1] << 2);
 		seiten[pos[0]] &= ~(Integer.rotateLeft(0xFFF, (pos[1] << 2)));
 		seiten[pos[0]] |= a;
@@ -308,7 +308,7 @@ public class Wuerfel {
 	 * @param index Index in der Seite.
 	 * @return Die Farbe in Binär kodiert.
 	 */
-	public int extractColor(int face, int index) {
+	private int extractColor(int face, int index) {
 		return (this.seiten[face] >>> (index * 4)) & (0xF);
 	}
 
@@ -319,7 +319,7 @@ public class Wuerfel {
 	 * @param index Index in der Sequenz 0-7.
 	 * @return Zug in "seq" bei "index".
 	 */
-	public int extractMove(int seq, int index) {
+	private int extractMove(int seq, int index) {
 		return (seq >>> (index << 2)) & (0xF);
 	}
 
@@ -330,7 +330,7 @@ public class Wuerfel {
 	 * @param Farbe in Binär kodiert.
 	 * @return Farbe als Buchstabe.
 	 */
-	public char lookupColor(int code) {
+	private char lookupColor(int code) {
 		switch (code) {
 		case 0:
 			return 'W';
@@ -355,7 +355,7 @@ public class Wuerfel {
 	 * @param code in Binär kodiert.
 	 * @return Move als Buchstabe.
 	 */
-	public String lookupMove(int code) {
+	private String lookupMove(int code) {
 		switch (code) {
 		case 0:
 			return "U";
