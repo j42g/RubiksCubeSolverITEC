@@ -95,7 +95,7 @@ public class IDDFS {
 	
 	/**
 	 * Generiert alle möglichen 1-Zug fortsetzungen von move fügt sie dem Stack hinzu.
-	 * Falls die Tiefe gleich der Anzahl der Z
+	 * Falls die Tiefe gleich der Anzahl der Z.
 	 * @param move bisherige Züge
 	 */
 	private void genChildMoves(int[] move, int tiefe){
