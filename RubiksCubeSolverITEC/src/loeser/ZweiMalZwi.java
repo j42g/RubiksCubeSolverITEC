@@ -24,6 +24,8 @@ public class ZweiMalZwi {
 		w.dreheZugsequenz(pattern.start());
 		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.start());
 		
+		this.w.wuerfelAusgeben();
+		
 		pattern = new IDDFS(this.w.getSeiten(), this.loeseDaten, this.loeseMasken);
 		w.dreheZugsequenz(pattern.start());
 		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.start());
