@@ -97,7 +97,7 @@ public class IDDFS {
 			}
 			intIndex++;
 		}
-		// überprüfen ob das rekursionsende erreicht ist
+		// überprüfen, ob das rekursionsende erreicht ist
 		if(intIndex + 8 * moveIndex - 1 >= tiefe) {
 			return;
 		}
