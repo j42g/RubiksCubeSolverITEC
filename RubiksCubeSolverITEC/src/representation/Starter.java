@@ -8,7 +8,7 @@ public class Starter {
 			
 		
 		Wuerfel a = new Wuerfel();
-		a.verdrehe(26, true);
+		a.dreheZugsequenz("R U R' U' R' F R2 U' R' U' R U R' F'");
 		a.wuerfelAusgeben();
 		ZweiMalZwei loeser = new ZweiMalZwei(a);
 		loeser.loese();
