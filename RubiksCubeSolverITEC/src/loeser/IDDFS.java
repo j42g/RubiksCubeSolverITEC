@@ -102,7 +102,7 @@ public class IDDFS {
 		int intIndex = 0;
 		int moveIndex = 0;
 		//letzer Zug in move
-		int invLastMove = 0;
+		int invLastMove = -1;
 		// Gehe zum letzten Zug
 		while(true) {
 			if(((move[moveIndex] >>> (intIndex << 2)) & (0xF)) == 0xF) {
