@@ -129,12 +129,12 @@ public class IDDFS {
 		}
 		// Zuege adden
 		intIndex = (intIndex) << 2; // reduziert Operationen
-		for(int i = 0; i < this.zuege.length; i++) {
-			if(zuege[i] == invLastMove) {
+		for(int zug : this.zuege) {
+			if(zug == invLastMove) {
 				continue;
 			}
 			int[] a = Arrays.copyOf(move, stackArrayLaenge);
-			a[moveIndex] |= zuege[i] << intIndex;
+			a[moveIndex] |= zug << intIndex;
 			pos.push(a);
 		}
 
