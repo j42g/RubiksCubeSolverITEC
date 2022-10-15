@@ -61,10 +61,10 @@ public class IDDFS {
 	public int[] loese() { 
 		int tiefe = 0;
 		while(!this.gefunden) {
-			long time = System.currentTimeMillis();
+			//long time = System.currentTimeMillis();
 			DLS(new int[] {0xF}, tiefe);
 			tiefe++;
-			System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
+			//System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
 		} 
 		return loesung;
 	}
