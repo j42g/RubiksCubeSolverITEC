@@ -41,7 +41,10 @@ public class TIDDFS extends Thread {
 	 * @param _zielPos
 	 */
 	public TIDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[] _zuege) {
-		
+		startPos = null;
+		zielPos = null;
+		zielMaske = null;
+		zuege = null;
 	}
 	
 	/**
