@@ -218,7 +218,7 @@ public class Wuerfel {
 	}
 
 	/**
-	 * Ruft dreheUhr und dreheGUhr auf
+	 * Ruft dreheUhr und dreheGUhr auf KEKW
 	 */
 	public void drehe(int zug) {
 		if (((zug >> 3) & 1) == 1) {
