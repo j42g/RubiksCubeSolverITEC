@@ -1,6 +1,7 @@
 package representation;
 
 import loeser.*;
+import kociembaDarstellung.*;
 
 public class Starter {
 
@@ -8,10 +9,7 @@ public class Starter {
 			
 		
 		Wuerfel a = new Wuerfel();
-		a.verdrehe(26, true);
-		a.wuerfelAusgeben();
-		CFOP loeser = new CFOP(a);
-		loeser.start();
+		a.drehe(Zuege.U1);
 		a.wuerfelAusgeben();
 		
 		/*System.out.println("KEKW:" + Util.kuerzen("F F"));
