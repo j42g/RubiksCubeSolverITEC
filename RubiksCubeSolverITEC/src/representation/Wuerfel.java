@@ -40,7 +40,6 @@ public class Wuerfel {
 	 *
 	 */
 	private int[] seiten = new int[6];
-	private final int[] geloest = { 0x00000000, 0x11111111, 0x22222222, 0x33333333, 0x44444444, 0x55555555 };
 
 	private final int[][][] aussenIndex = {
 			// U (Blau, Rot, Grün, Orange)
