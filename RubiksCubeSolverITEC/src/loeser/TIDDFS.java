@@ -3,7 +3,7 @@ package loeser;
 import java.util.Stack;
 
 import representation.Util;
-import representation.Wuerfel;
+import representation.FaceletWuerfel;
 import java.util.Arrays;
 
 public class TIDDFS extends Thread {
@@ -76,7 +76,7 @@ public class TIDDFS extends Thread {
 		
 		while(!this.pos.empty()) {
 			int[] aktuelleZuege = this.pos.pop();
-			if((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {
+			if((new FaceletWuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {
 				this.gefunden = true;
 				this.loesung = aktuelleZuege;
 				return;

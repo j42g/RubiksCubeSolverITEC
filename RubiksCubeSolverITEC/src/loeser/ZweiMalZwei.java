@@ -1,11 +1,11 @@
 package loeser;
 
 import representation.Util;
-import representation.Wuerfel;
+import representation.FaceletWuerfel;
 
 public class ZweiMalZwei {
 	
-	private Wuerfel w;
+	private FaceletWuerfel w;
 	private String solveSequenz;
 	
 	//private final int[] ersteEckeDaten = { 0x00000000, 0x01000001, 0x02000002, 0x03000003, 0x04040000, 0x00000000 };
@@ -18,7 +18,7 @@ public class ZweiMalZwei {
 	private final int[] loeseMasken = { 0x0F0F0F0F, 0x0F0F0F0F, 0x0F0F0F0F, 0x0F0F0F0F, 0x0F0F0F0F, 0x0F0F0F0F };
 	private final int[] loeseZuege = {12, 11, 8, 4, 3, 0};
 	
-	public ZweiMalZwei(Wuerfel _w) {
+	public ZweiMalZwei(FaceletWuerfel _w) {
 		this.w = _w;
 		this.solveSequenz = "";
 	}
