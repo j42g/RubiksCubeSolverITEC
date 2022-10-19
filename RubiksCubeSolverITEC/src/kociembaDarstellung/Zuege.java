@@ -1,5 +1,7 @@
 package kociembaDarstellung;
 
+import representation.CubieWuerfel;
+
 public class Zuege {
 	/**
 	 * Definition der Züge nach Kociemba
@@ -22,4 +24,6 @@ public class Zuege {
 	public static final int B1 = 15;
 	public static final int B2 = 16;
 	public static final int B3 = 17;
+	
+	public static final CubieWuerfel[] zuege = {};
 }
