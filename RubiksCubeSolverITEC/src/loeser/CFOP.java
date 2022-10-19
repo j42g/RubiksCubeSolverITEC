@@ -1,11 +1,11 @@
 package loeser;
 
-import representation.FaceletWuerfel;
+import representation.Wuerfel;
 import representation.Util;
 
 public class CFOP {
 
-	private FaceletWuerfel w;
+	private Wuerfel w;
 	
 	/**
 	 * 0: kein Debug; 1: Würfel nach jeden Schritt ausgeben
@@ -77,14 +77,14 @@ public class CFOP {
 	
 	//----------------------------------------------------------------------------------------------------------
 
-	public CFOP(FaceletWuerfel _w, int _debug) {
+	public CFOP(Wuerfel _w, int _debug) {
 		this.w = _w;
 		this.debug = _debug;
 		this.solveSequenz = "";
 	}
 	
 	
-	public CFOP(FaceletWuerfel _w) {
+	public CFOP(Wuerfel _w) {
 		this(_w, 0);
 	}
 	

@@ -3,7 +3,7 @@ package loeser;
 import java.util.Stack;
 
 import representation.Util;
-import representation.FaceletWuerfel;
+import representation.Wuerfel;
 import java.util.Arrays;
 
 public class IDDFS {
@@ -83,7 +83,7 @@ public class IDDFS {
 		
 		while(!this.pos.empty()) {
 			int[] aktuelleZuege = this.pos.pop();
-			if((new FaceletWuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {
+			if((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {
 				this.gefunden = true;
 				this.loesung = aktuelleZuege;
 				return;

@@ -2,7 +2,7 @@ package representation;
 
 import java.util.Arrays;
 
-public class FaceletWuerfel {
+public class Wuerfel {
 
 	/**
 	 * 
@@ -58,7 +58,7 @@ public class FaceletWuerfel {
 	/**
 	 * Geneiert gelösten Würfel.
 	 */
-	public FaceletWuerfel() {
+	public Wuerfel() {
 		this.makeSolved();
 	}
 
@@ -66,7 +66,7 @@ public class FaceletWuerfel {
 	 * Generiert Würfel mit seiten pos.
 	 * @param Würfelkonfiguration
 	 */
-	public FaceletWuerfel(int[] pos) {
+	public Wuerfel(int[] pos) {
 		this.seiten = pos;
 	}
 
@@ -76,7 +76,7 @@ public class FaceletWuerfel {
 	 * @param pos   Würfelkonfiguration
 	 * @param moves Zugabfolge
 	 */
-	public FaceletWuerfel(int[] pos, int[] moves) {
+	public Wuerfel(int[] pos, int[] moves) {
 		this.seiten = Arrays.copyOf(pos, 6);
 		this.dreheZugsequenz(moves);
 	}
