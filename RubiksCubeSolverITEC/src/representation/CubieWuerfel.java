@@ -5,40 +5,40 @@ import kociembaDarstellung.*;
 public class CubieWuerfel {
 
 	// U
-	private static final int[] epU = { Ecken.UBR, Ecken.URF, Ecken.UFL, Ecken.ULB, Ecken.DFR, Ecken.DLF, Ecken.DBL,Ecken.DRB };
-	private static final int[] eoU = { 0, 0, 0, 0, 0, 0, 0, 0 };
-	private static final int[] kpU = { Kanten.UB, Kanten.UR, Kanten.UF, Kanten.UL, Kanten.DR, Kanten.DF, Kanten.DL, Kanten.DB,Kanten.FR, Kanten.FL, Kanten.BL, Kanten.BR };
-	private static final int[] koU = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	public static final int[] epU = { Ecken.UBR, Ecken.URF, Ecken.UFL, Ecken.ULB, Ecken.DFR, Ecken.DLF, Ecken.DBL,Ecken.DRB };
+	public static final int[] eoU = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	public static final int[] kpU = { Kanten.UB, Kanten.UR, Kanten.UF, Kanten.UL, Kanten.DR, Kanten.DF, Kanten.DL, Kanten.DB,Kanten.FR, Kanten.FL, Kanten.BL, Kanten.BR };
+	public static final int[] koU = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 	// R
-	private static final int[] epR = { Ecken.DFR, Ecken.UFL, Ecken.ULB, Ecken.URF, Ecken.DRB, Ecken.DLF, Ecken.DBL,Ecken.UBR };
-	private static final int[] eoR = { 2, 0, 0, 1, 1, 0, 0, 2 };
-	private static final int[] kpR = { Kanten.FR, Kanten.UF, Kanten.UL, Kanten.UB, Kanten.BR, Kanten.DF, Kanten.DL, Kanten.DB,Kanten.DR, Kanten.FL, Kanten.BL, Kanten.UR };
-	private static final int[] koR = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	public static final int[] epR = { Ecken.DFR, Ecken.UFL, Ecken.ULB, Ecken.URF, Ecken.DRB, Ecken.DLF, Ecken.DBL,Ecken.UBR };
+	public static final int[] eoR = { 2, 0, 0, 1, 1, 0, 0, 2 };
+	public static final int[] kpR = { Kanten.FR, Kanten.UF, Kanten.UL, Kanten.UB, Kanten.BR, Kanten.DF, Kanten.DL, Kanten.DB,Kanten.DR, Kanten.FL, Kanten.BL, Kanten.UR };
+	public static final int[] koR = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 	// F
-	private static final int[] epF = { Ecken.UFL, Ecken.DLF, Ecken.ULB, Ecken.UBR, Ecken.URF, Ecken.DFR, Ecken.DBL, Ecken.DRB };
-	private static final int[] eoF = { 1, 2, 0, 0, 2, 1, 0, 0 };
-	private static final int[] kpF = { Kanten.UR, Kanten.FL, Kanten.UL, Kanten.UB, Kanten.DR, Kanten.FR, Kanten.DL, Kanten.DB, Kanten.UF, Kanten.DF, Kanten.BL, Kanten.BR };
-	private static final int[] koF = { 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0 };
+	public static final int[] epF = { Ecken.UFL, Ecken.DLF, Ecken.ULB, Ecken.UBR, Ecken.URF, Ecken.DFR, Ecken.DBL, Ecken.DRB };
+	public static final int[] eoF = { 1, 2, 0, 0, 2, 1, 0, 0 };
+	public static final int[] kpF = { Kanten.UR, Kanten.FL, Kanten.UL, Kanten.UB, Kanten.DR, Kanten.FR, Kanten.DL, Kanten.DB, Kanten.UF, Kanten.DF, Kanten.BL, Kanten.BR };
+	public static final int[] koF = { 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0 };
 	
 	// D
-	private static final int[] epD = { Ecken.URF, Ecken.UFL, Ecken.ULB, Ecken.UBR, Ecken.DLF, Ecken.DBL, Ecken.DRB, Ecken.DFR };
-	private static final int[] eoD = { 0, 0, 0, 0, 0, 0, 0, 0 };
-	private static final int[] kpD = { Kanten.UR, Kanten.UF, Kanten.UL, Kanten.UB, Kanten.DF, Kanten.DL, Kanten.DB, Kanten.DR, Kanten.FR, Kanten.FL, Kanten.BL, Kanten.BR };
-	private static final int[] koD = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	public static final int[] epD = { Ecken.URF, Ecken.UFL, Ecken.ULB, Ecken.UBR, Ecken.DLF, Ecken.DBL, Ecken.DRB, Ecken.DFR };
+	public static final int[] eoD = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	public static final int[] kpD = { Kanten.UR, Kanten.UF, Kanten.UL, Kanten.UB, Kanten.DF, Kanten.DL, Kanten.DB, Kanten.DR, Kanten.FR, Kanten.FL, Kanten.BL, Kanten.BR };
+	public static final int[] koD = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	
 	// L
-	private static final int[] epL = { Ecken.URF, Ecken.ULB, Ecken.DBL, Ecken.UBR, Ecken.DFR, Ecken.UFL, Ecken.DLF, Ecken.DRB };
-	private static final int[] eoL = { 0, 1, 2, 0, 0, 2, 1, 0 };
-	private static final int[] kpL = { Kanten.UR, Kanten.UF, Kanten.BL, Kanten.UB, Kanten.DR, Kanten.DF, Kanten.FL, Kanten.DB, Kanten.FR, Kanten.UL, Kanten.DL, Kanten.BR };
-	private static final int[] koL = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	public static final int[] epL = { Ecken.URF, Ecken.ULB, Ecken.DBL, Ecken.UBR, Ecken.DFR, Ecken.UFL, Ecken.DLF, Ecken.DRB };
+	public static final int[] eoL = { 0, 1, 2, 0, 0, 2, 1, 0 };
+	public static final int[] kpL = { Kanten.UR, Kanten.UF, Kanten.BL, Kanten.UB, Kanten.DR, Kanten.DF, Kanten.FL, Kanten.DB, Kanten.FR, Kanten.UL, Kanten.DL, Kanten.BR };
+	public static final int[] koL = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	
 	// B
-	private static final int[] epB = { Ecken.URF, Ecken.UFL, Ecken.UBR, Ecken.DRB, Ecken.DFR, Ecken.DLF, Ecken.ULB, Ecken.DBL };
-	private static final int[] eoB = { 0, 0, 1, 2, 0, 0, 2, 1 };
-	private static final int[] kpB = { Kanten.UR, Kanten.UF, Kanten.UL, Kanten.BR, Kanten.DR, Kanten.DF, Kanten.DL, Kanten.BL, Kanten.FR, Kanten.FL, Kanten.UB, Kanten.DB };
-	private static final int[] koB = { 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1 };
+	public static final int[] epB = { Ecken.URF, Ecken.UFL, Ecken.UBR, Ecken.DRB, Ecken.DFR, Ecken.DLF, Ecken.ULB, Ecken.DBL };
+	public static final int[] eoB = { 0, 0, 1, 2, 0, 0, 2, 1 };
+	public static final int[] kpB = { Kanten.UR, Kanten.UF, Kanten.UL, Kanten.BR, Kanten.DR, Kanten.DF, Kanten.DL, Kanten.BL, Kanten.FR, Kanten.FL, Kanten.UB, Kanten.DB };
+	public static final int[] koB = { 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1 };
 	
 	// 
 	private int[] ep;
@@ -61,7 +61,7 @@ public class CubieWuerfel {
 		this(new int[8], new int[8], new int[12], new int[12]);
 	}
 
-	public void eckenMul(CubieWuerfel b) { // http://kociemba.org/cube.htm
+	private void eckenMul(CubieWuerfel b) { // http://kociemba.org/cube.htm
 		int[] eckenPerm = new int[8];
 		int[] eckenOri = new int[8];
 		int ori = 0;
@@ -130,6 +130,22 @@ public class CubieWuerfel {
 			return true;
 		}
 		return false;
+	}
+
+	public int[] getEp() {
+		return ep;
+	}
+
+	public int[] getEo() {
+		return eo;
+	}
+
+	public int[] getKp() {
+		return kp;
+	}
+
+	public int[] getKo() {
+		return ko;
 	}
 
 }
