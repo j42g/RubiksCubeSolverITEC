@@ -126,7 +126,7 @@ public class Util {
 	}
 
 	public static void testLauf(int durchgaenge) {
-		Wuerfel w = new Wuerfel();
+		FaceletWuerfel w = new FaceletWuerfel();
 		long summe = 0;
 		long time;
 		for (int i = 0; i < durchgaenge; i++) {
