@@ -110,9 +110,9 @@ public class CubieWuerfel {
 			kantenOri[k] = (this.ko[b.kp[k]] + b.ko[k]) % 2;
 		}
 		// in Cube schreiben
-		for (int e = 0; e < 12; e++) {
-			this.kp[e] = kantenPerm[e];
-			this.ko[e] = kantenOri[e];
+		for (int k = 0; k < 12; k++) {
+			this.kp[k] = kantenPerm[k];
+			this.ko[k] = kantenOri[k];
 		}
 	}
 
