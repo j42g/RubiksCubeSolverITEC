@@ -24,6 +24,24 @@ public class Zuege {
 	public static final int B1 = 15;
 	public static final int B2 = 16;
 	public static final int B3 = 17;
+
+	public static final CubieWuerfel[] grundZuege = {
+			new CubieWuerfel(CubieWuerfel.epU, CubieWuerfel.eoU, CubieWuerfel.kpU, CubieWuerfel.koU),
+			new CubieWuerfel(CubieWuerfel.epR, CubieWuerfel.eoR, CubieWuerfel.kpR, CubieWuerfel.koR),
+			new CubieWuerfel(CubieWuerfel.epF, CubieWuerfel.eoF, CubieWuerfel.kpF, CubieWuerfel.koF),
+			new CubieWuerfel(CubieWuerfel.epD, CubieWuerfel.eoD, CubieWuerfel.kpD, CubieWuerfel.koD),
+			new CubieWuerfel(CubieWuerfel.epL, CubieWuerfel.eoL, CubieWuerfel.kpL, CubieWuerfel.koL),
+			new CubieWuerfel(CubieWuerfel.epB, CubieWuerfel.eoB, CubieWuerfel.kpB, CubieWuerfel.koB)};
 	
-	public static final CubieWuerfel[] zuege = {};
+	public static final CubieWuerfel[] alleZuege = new CubieWuerfel[18];
+	static {
+		for(int f = 0; f < 6; f++) { // f ist Farbe
+			CubieWuerfel cw = new CubieWuerfel();
+			for(int zugArt = 0; zugArt < 3; zugArt++) {
+				cw.mul(grundZuege[f]);
+				alleZuege[3 * f + zugArt] = new CubieWuerfel(cw.getEp(), cw.getEo(), cw.getKp(), cw.getKo());
+			}
+		}
+	}
+
 }
