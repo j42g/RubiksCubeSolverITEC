@@ -147,10 +147,6 @@ public class CubieWuerfel {
 		}
 		return faceletW;
 	}
-	
-	public void zuWuerfel() {
-		
-	}
 
 	public boolean equals(CubieWuerfel b) {
 		if (this.ep == b.ep && this.eo == b.eo && this.kp == b.kp && this.ko == b.ko) {
