@@ -1,6 +1,6 @@
 package kociembaDarstellung;
 
-public class Oberflaeche {
+public class Facelet {
 	/**
 	 * Facelet Numerierung nach Kociemba
 	 */
@@ -58,4 +58,16 @@ public class Oberflaeche {
 	public static final int B7 = 51;
 	public static final int B8 = 52;
 	public static final int B9 = 53;
+
+	public static final int[][] eckenFacelet = { { U9, R1, F3 }, { U7, F1, L3 }, { U1, L1, B3 }, { U3, B1, R3 },
+			{ D3, F9, R7 }, { D1, L9, F7 }, { D7, B9, L7 }, { D9, R9, B7 } };
+	public static final int[][] kantenFacelet = { { U6, R2 }, { U8, F2 }, { U4, L2 }, { U2, B2 }, { D6, R8 },
+			{ D2, F8 }, { D4, L8 }, { D8, B8 }, { F6, R4 }, { F4, L6 }, { B6, L4 }, { B4, R6 } };
+	public static final int[][] eckenFarbe = { { Farbe.U, Farbe.R, Farbe.F }, { Farbe.U, Farbe.F, Farbe.L },
+			{ Farbe.U, Farbe.L, Farbe.B }, { Farbe.U, Farbe.B, Farbe.R }, { Farbe.D, Farbe.F, Farbe.R },
+			{ Farbe.D, Farbe.L, Farbe.F }, { Farbe.D, Farbe.B, Farbe.L }, { Farbe.D, Farbe.R, Farbe.B } };
+	public static final int[][] kantenFarbe = { { Farbe.U, Farbe.R }, { Farbe.U, Farbe.F }, { Farbe.U, Farbe.L },
+			{ Farbe.U, Farbe.B }, { Farbe.D, Farbe.R }, { Farbe.D, Farbe.F }, { Farbe.D, Farbe.L },
+			{ Farbe.D, Farbe.B }, { Farbe.F, Farbe.R }, { Farbe.F, Farbe.L }, { Farbe.B, Farbe.L },
+			{ Farbe.B, Farbe.R } };
 }

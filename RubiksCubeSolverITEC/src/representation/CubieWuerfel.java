@@ -1,5 +1,7 @@
 package representation;
 
+import java.util.Arrays;
+
 import kociembaDarstellung.*;
 
 public class CubieWuerfel {
@@ -50,15 +52,19 @@ public class CubieWuerfel {
 	 * Diese Klasse stellt einen Würfel auf dem "Cubie"-Level da
 	 */
 	public CubieWuerfel(int[] _ep, int[] _eo, int[] _kp, int[] _ko) {
-		this.ep = _ep;
-		this.eo = _eo;
-		this.kp = _kp;
-		this.ko = _ko;
+		this.ep = Arrays.copyOf(_ep, _ep.length);
+		this.eo = Arrays.copyOf(_eo, _eo.length);
+		this.kp = Arrays.copyOf(_kp, _kp.length);
+		this.ko = Arrays.copyOf(_ko, _ko.length);
 
 	}
 
 	public CubieWuerfel() {
-		this(new int[8], new int[8], new int[12], new int[12]);
+		this(
+				new int[]{0, 1, 2, 3, 4, 5, 6, 7},
+				new int[]{0, 0, 0, 0, 0, 0, 0, 0},
+				new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11},
+				new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
 	}
 
 	private void eckenMul(CubieWuerfel b) { // http://kociemba.org/cube.htm
@@ -119,6 +125,27 @@ public class CubieWuerfel {
 	public void mul(CubieWuerfel b) {
 		this.eckenMul(b);
 		this.kantenMul(b);
+	}
+	
+	public FaceletWuerfel zuFaceletWuerfel() {
+		FaceletWuerfel faceletW = new FaceletWuerfel();
+		int j;
+		int ori;
+		for(int e = 0; e < 8; e++) { // Ecken
+			j = this.ep[e];
+			ori = this.eo[e];
+			for(int k = 0; k < 3; k++) {
+				faceletW.setzeFacelet(Facelet.eckenFacelet[e][(k + ori) % 3], Facelet.eckenFarbe[j][k]);
+			}
+		}
+		for(int k = 0; k < 12; k++) { // Kanten
+			j = this.kp[k];
+			ori = this.ko[k];
+			for(int i = 0; i < 2; i++) {
+				faceletW.setzeFacelet(Facelet.kantenFacelet[k][(i + ori) % 2], Facelet.kantenFarbe[j][i]);
+			}
+		}
+		return faceletW;
 	}
 	
 	public void zuWuerfel() {
