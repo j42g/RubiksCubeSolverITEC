@@ -10,4 +10,6 @@ public class Farbe {
 	public static final int D = 3;
 	public static final int L = 4;
 	public static final int B = 5;
+	
+	public static final int[] farben = {U, R, F, D, L, B};
 }
