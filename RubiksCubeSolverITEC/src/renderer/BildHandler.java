@@ -21,6 +21,7 @@ public class BildHandler extends Thread {
 			this.update();
 			this.render();
 		}
+		window.destory();
 	}
 
 	private void render() {
