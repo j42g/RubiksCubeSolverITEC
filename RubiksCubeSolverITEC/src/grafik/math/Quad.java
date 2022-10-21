@@ -1,4 +1,4 @@
-package grafikMath;
+package grafik.math;
 
 public class Quad {
 	private double q0;
@@ -48,6 +48,22 @@ public class Quad {
 
 	public void print() {
 		System.out.println(this.toString());
+	}
+
+	public double getQ0() {
+		return q0;
+	}
+
+	public double getQ1() {
+		return q1;
+	}
+
+	public double getQ2() {
+		return q2;
+	}
+
+	public double getQ3() {
+		return q3;
 	}
 
 }

@@ -1,4 +1,4 @@
-package renderer;
+package grafik.render;
 
 import org.lwjgl.glfw.GLFW;
 
