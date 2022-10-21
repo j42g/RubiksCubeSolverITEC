@@ -1,6 +1,14 @@
 package graphic.renderer;
 
-import javafx.*;
+import javafx.application.Application;
+import javafx.scene.Camera;
+import javafx.scene.Group;
+import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Sphere;
+import javafx.stage.Stage;
 
 public class Screen extends Application {
 	
@@ -26,11 +34,26 @@ public class Screen extends Application {
 
 		primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
 			switch (event.getCode()) {
-			case W:
-				camera.translateZProperty().set(camera.getTranslateZ() + 100);
+			case U:
+				// U
+				System.out.println("U");
 				break;
-			case S:
-				camera.translateZProperty().set(camera.getTranslateZ() - 100);
+			case R:
+				// R
+				System.out.println("R");
+				break;
+			case F:
+				// F
+				System.out.println("F");
+				break;
+			case D:
+				// D
+				break;
+			case L:
+				// L
+				break;
+			case B:
+				// B
 				break;
 			}
 		});
@@ -38,6 +61,12 @@ public class Screen extends Application {
 		primaryStage.setTitle("Genuine Coder");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+	
+	
+	public static void anfangen() {
+		Screen a = new Screen();
+		a.launch();
 	}
 
 }
