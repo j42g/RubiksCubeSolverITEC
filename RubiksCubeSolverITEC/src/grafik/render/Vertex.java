@@ -10,6 +10,10 @@ public class Vertex {
 		this.pos = new Vector3f(_x, _y, _z);
 	}
 	
+	public Vertex(Vector3f a) {
+		this.pos = a;
+	}
+	
 	public Vector3f getPosition() {
 		return this.pos;
 	}

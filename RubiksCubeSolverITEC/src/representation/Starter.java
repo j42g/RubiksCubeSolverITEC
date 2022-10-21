@@ -10,8 +10,8 @@ public class Starter {
 	public static void main(String[] args) {
 
 		
-		/*BildHandler a = new BildHandler();
-		a.start();*/
+		BildHandler a = new BildHandler();
+		a.start();
 		
 		/*CubieWuerfel cubie = new CubieWuerfel();
 		cubie.mul(Zuege.alleZuege[Zuege.F1]);
