@@ -1,4 +1,5 @@
-package grafik.math;
+package graphic.math;
+
 
 public class Quad {
 	private double q0;
