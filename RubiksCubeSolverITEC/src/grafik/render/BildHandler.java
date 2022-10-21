@@ -25,8 +25,9 @@ public class BildHandler extends Thread {
 	public void init() {
 		this.window = new Window(width, height, "RubiksCube");
 		this.renderer = new Renderer();
-		window.create();
 		m.create();
+		window.create();
+		
 		
 		
 	}
