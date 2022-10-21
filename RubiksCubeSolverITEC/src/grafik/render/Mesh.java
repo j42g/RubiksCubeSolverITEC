@@ -23,6 +23,7 @@ public class Mesh {
 	}
 	
 	public void create() {
+		
 		this.vao = GL30.glGenVertexArrays();
 		GL30.glBindVertexArray(vao);
 		
@@ -36,13 +37,16 @@ public class Mesh {
 		positionBuffer.put(positionData).flip();
 		
 		this.pbo = GL15.glGenBuffers();
+		
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, pbo);
 		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, positionBuffer, GL15.GL_STATIC_DRAW);
-		GL20.glVertexAttribPointer(0, 3, GL11.GL_DOUBLE, false, 0, 0);
+		GL20.glVertexAttribPointer(0, 3, GL20.GL_DOUBLE, false, 0, 0);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+		
 		
 		IntBuffer indicesBuffer = MemoryUtil.memAllocInt(this.indices.length);
 		indicesBuffer.put(this.indices).flip();
+
 		
 		ibo = GL15.glGenBuffers();
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ibo);
