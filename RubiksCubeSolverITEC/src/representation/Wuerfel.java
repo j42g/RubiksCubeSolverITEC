@@ -213,7 +213,7 @@ public class Wuerfel {
 	 * @param pos  Komplement aus Seite und Stipindex
 	 * @return
 	 */
-	private int extractStrip(int[] pos) {
+	public int extractStrip(int[] pos) {
 		return (Integer.rotateRight(this.seiten[pos[0]], (pos[1] << 2))) & (0xFFF);
 	}
 
