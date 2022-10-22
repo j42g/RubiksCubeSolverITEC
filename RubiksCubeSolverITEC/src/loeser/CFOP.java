@@ -6,12 +6,12 @@ import representation.Util;
 public class CFOP {
 
 	private Wuerfel w;
-	
+
 	/**
 	 * 0: kein Debug; 1: Würfel nach jeden Schritt ausgeben
 	 */
 	private final int debug;
-	
+
 	private String solveSequenz;
 
 	private final int[] kreuzDaten = { 0x00000000, 0x10000000, 0x20000000, 0x30000000, 0x00400000, 0x00000000 };
@@ -40,7 +40,7 @@ public class CFOP {
 	// Blue Orange F2L
 	private final int[] F2LBO2Maske = { 0xFFFFFFFF, 0xFFF000FF, 0xFFF000FF, 0xFFF000FF, 0xFFFFF000, 0x00000000 };
 	private final int[] F2LBO2Daten = { 0x00000000, 0x11100011, 0x22200022, 0x33300033, 0x44444000, 0x00000000 };
-	
+
 	// ------------------------------------------Patterns-for-Y-Layer------------------------------------------
 	private final int[] DotMaske = { 0xFFFFFFFF, 0xFFF0F0FF, 0xFFF0F0FF, 0xFFF0F0FF, 0xFFFFF0F0, 0x00000000 };
 	private final int[] DotDaten = { 0x00000000, 0x11105011, 0x22205022, 0x33305033, 0x44444050, 0x00000000 };
@@ -71,23 +71,24 @@ public class CFOP {
 
 	private final int[] UMaske = { 0xFFFFFFFF, 0xFFFF0FFF, 0xFFF000FF, 0xFFF000FF, 0xFFFFF000, 0xF0F0FFFF };
 	private final int[] UDaten = { 0x00000000, 0x11150511, 0x22200022, 0x33300033, 0x44444000, 0x50505555 };
-	
+
 	private final int[] OLLMaske = { 0xFFFFFFFF, 0xFFF000FF, 0xFFF000FF, 0xFFF000FF, 0xFFFFF000, 0xFFFFFFFF };
 	private final int[] OLLDaten = { 0x00000000, 0x11100011, 0x22200022, 0x33300033, 0x44444000, 0x55555555 };
-	
-	//----------------------------------------------------------------------------------------------------------
+
+	// -------------------------------------2-Look-PLL------------------------------------------------------------
+	private final int[] cornerMaske = { 0xFFFFFFFF, 0xFFFF0FFF, 0xFFFF0FFF, 0xFFFF0FFF, 0xFFFFFF0F, 0xFFFFFFFF };
+	private final int[] cornerDaten = { 0x00000000, 0x11110111, 0x22220222, 0x33330333, 0x44444404, 0x55555555 };
 
 	public CFOP(Wuerfel _w, int _debug) {
 		this.w = _w;
 		this.debug = _debug;
 		this.solveSequenz = "";
 	}
-	
-	
+
 	public CFOP(Wuerfel _w) {
 		this(_w, 0);
 	}
-	
+
 	private void Dot() {
 		w.dreheZugsequenz("B R D R' D' B' F D L D' L' F'");
 		this.solveSequenz += "B R D R' D' B' F D L D' L' F' ";
@@ -101,18 +102,17 @@ public class CFOP {
 	private void LShape() {
 		w.dreheZugsequenz("B D R D' R' B'");
 		this.solveSequenz += "B D R D' R' B' ";
-		//new int[]{0xFBA8203}
-	}
-	
-	private void Antisune() {
-		w.dreheZugsequenz(new int[]{0xCD4DC554,0xF});
-		this.solveSequenz += Util.kodeZuegeZuNotation(new int[]{0xCD4DC554,0xF});
+		// new int[]{0xFBA8203}
 	}
 
-	
+	private void Antisune() {
+		w.dreheZugsequenz(new int[] { 0xCD4DC554, 0xF });
+		this.solveSequenz += Util.kodeZuegeZuNotation(new int[] { 0xCD4DC554, 0xF });
+	}
+
 	private void H() {
-		w.dreheZugsequenz(new int[]{0x5CD45C54,0xFC554});
-		this.solveSequenz += Util.kodeZuegeZuNotation(new int[]{0x5CD45C54,0xFC554});
+		w.dreheZugsequenz(new int[] { 0x5CD45C54, 0xFC554 });
+		this.solveSequenz += Util.kodeZuegeZuNotation(new int[] { 0x5CD45C54, 0xFC554 });
 	}
 
 	private void L() {
@@ -121,13 +121,13 @@ public class CFOP {
 	}
 
 	private void Pi() {
-		w.dreheZugsequenz(new int[]{0x55D44554, 0xF45544D});
-		this.solveSequenz += Util.kodeZuegeZuNotation(new int[]{0x55D44554, 0xF45544D});
+		w.dreheZugsequenz("R D2 R2 D' R2 D' R2 D2 R");
+		this.solveSequenz += "R D2 R2 D' R2 D' R2 D2 R";
 	}
 
 	private void Sune() {
-		w.dreheZugsequenz(new int[]{0xC5545C54, 0xF});
-		this.solveSequenz += Util.kodeZuegeZuNotation(new int[]{0xC5545C54, 0xF});
+		w.dreheZugsequenz(new int[] { 0xC5545C54, 0xF });
+		this.solveSequenz += Util.kodeZuegeZuNotation(new int[] { 0xC5545C54, 0xF });
 	}
 
 	private void T() {
@@ -136,63 +136,73 @@ public class CFOP {
 	}
 
 	private void U() {
-		w.dreheZugsequenz(new int[]{0x8455C044, 0xFC55C});
-		this.solveSequenz += Util.kodeZuegeZuNotation(new int[]{0x8455C044, 0xFC55C});
+		w.dreheZugsequenz(new int[] { 0x8455C044, 0xFC55C });
+		this.solveSequenz += Util.kodeZuegeZuNotation(new int[] { 0x8455C044, 0xFC55C });
 	}
 
 	/**
 	 * Startet den Lösungsprozess
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	public void start() {
 		// Kreuz
 		IDDFS pattern = new IDDFS(this.w.getSeiten(), this.kreuzDaten, this.kreuzMaske);
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
-		if(this.debug == 1) w.wuerfelAusgeben();
-		
+		if (this.debug == 1)
+			w.wuerfelAusgeben();
+
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LOG1Daten, this.F2LOG1Maske);
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
-		if(this.debug == 1) w.wuerfelAusgeben();
-		
+		if (this.debug == 1)
+			w.wuerfelAusgeben();
+
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LOG2Daten, this.F2LOG2Maske);
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
-		if(this.debug == 1) w.wuerfelAusgeben();
-		
+		if (this.debug == 1)
+			w.wuerfelAusgeben();
+
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LGR1Daten, this.F2LGR1Maske);
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
-		if(this.debug == 1) w.wuerfelAusgeben();
-		
+		if (this.debug == 1)
+			w.wuerfelAusgeben();
+
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LGR2Daten, this.F2LGR2Maske);
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
-		if(this.debug == 1) w.wuerfelAusgeben();
-		
+		if (this.debug == 1)
+			w.wuerfelAusgeben();
+
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LRB1Daten, this.F2LRB1Maske);
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
-		if(this.debug == 1) w.wuerfelAusgeben();
-		
+		if (this.debug == 1)
+			w.wuerfelAusgeben();
+
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LRB2Daten, this.F2LRB2Maske);
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
-		if(this.debug == 1) w.wuerfelAusgeben();
-		
+		if (this.debug == 1)
+			w.wuerfelAusgeben();
+
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LBO1Daten, this.F2LBO1Maske);
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
-		if(this.debug == 1) w.wuerfelAusgeben();
-		
+		if (this.debug == 1)
+			w.wuerfelAusgeben();
+
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LBO2Daten, this.F2LBO2Maske);
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
-		if(this.debug == 1) w.wuerfelAusgeben();
-		
-		while(!mask(OLLDaten, OLLMaske)) {
-			if (mask(UDaten, UMaske)) {
+		if (this.debug == 1)
+			w.wuerfelAusgeben();
+
+		while (!mask(OLLMaske, OLLDaten)) {
+			if (mask(UMaske, UDaten)) {
 				U();
 				break;
 			} else if (mask(TMaske, TDaten)) {
@@ -207,32 +217,85 @@ public class CFOP {
 			} else if (mask(LMaske, LDaten)) {
 				L();
 				break;
-			} else if(mask(HMaske, HDaten)) {
+			} else if (mask(HMaske, HDaten)) {
 				H();
 				break;
-			} else if(mask(AntisuneMaske, AntisuneDaten)) {
+			} else if (mask(AntisuneMaske, AntisuneDaten)) {
 				Antisune();
 				break;
-			} else if(mask(LShapeMaske, LShapeDaten)) {
+			} else if (mask(LShapeMaske, LShapeDaten)) {
 				LShape();
-				w.wuerfelAusgeben();
 				continue;
-			} else if(mask(IShapeMaske, IShapeDaten)) {
+			} else if (mask(IShapeMaske, IShapeDaten)) {
 				IShape();
 				continue;
-			} else if(mask(DotMaske, DotDaten)) {
+			} else if (mask(DotMaske, DotDaten)) {
 				Dot();
-				w.wuerfelAusgeben();
 				continue;
 			}
-			if(this.debug == 1) w.wuerfelAusgeben();
+			if (this.debug == 1)
+				w.wuerfelAusgeben();
 			w.drehe(5);
 			this.solveSequenz += "D ";
 		}
-		//this.solveSequenz = Util.kuerzen(this.solveSequenz);
+		if (this.debug == 1)
+			w.wuerfelAusgeben();
+
+		long cache = 0;
+		cache = w.extractStrip(new int[] { 1, 2 }); // Blue
+		System.out.println(Long.toBinaryString(cache));
+		cache |= w.extractStrip(new int[] { 2, 2 }) << 16; // Orange
+		System.out.println(Long.toBinaryString(cache));
+		cache |= ((long) w.extractStrip(new int[] { 3, 2 })) << 32; // Green
+		System.out.println(Long.toBinaryString(cache));
+		cache |= ((long) w.extractStrip(new int[] { 4, 0 })) << 48; // Red
+		System.out.println(Long.toBinaryString(cache));
+		if (!mask(cornerMaske, cornerDaten)) { // Corner Phase of PLL
+			int pairs = 0;
+			for (int i = 0; i < 4; i++) {
+				if (((cache >>> (i * 16)) & 0xF) == ((cache >>> (i * 16 + 8)) & 0xF)) {
+					pairs += 1 << i;
+				}
+			}
+			System.out.println(Long.toBinaryString(pairs));
+			if (pairs == 0xF) { // Die Corners sind zueinander schon richtig orientiert
+				System.out.println("All");
+			} else if (pairs != 0) {
+				System.out.println("One");
+				int pos = 0;
+				while (pairs != 1) {
+					pairs >>>= 1;
+					pos++;
+				}
+				for (int i = 0; i < pos; i++) { // dreht das richtige corner Paar so das es bei Blau landet (Headlights
+												// PLL)
+					w.drehe(13);
+				}
+				w.dreheZugsequenz("F D F' D' F' R F2 D' F' D' F D F' R'");
+			} else { // Keine Corner ist richtig (Diagonal PLL)
+				System.out.println("None");
+				w.dreheZugsequenz("F L D' L' D' L D L' F' L D L' D' L' F L F'");
+			}
+			while (!mask(cornerMaske, cornerDaten)) {
+				w.drehe(13);
+			}
+		}
+		//2. Schritt von PLL, mache ich später
+		if (w.isSolved()) {
+			int edgePos = 0;
+			edgePos = (int) (cache >>> 4 & 0xF);
+			edgePos |= (int) (cache >>> 20 & 0xF) << 3;
+			edgePos |= (int) (cache >>> 36 & 0xF) << 6;
+			edgePos |= (int) (cache >>> 52 & 0xF) << 9;
+			for (int i = 0; i < 4; i++) {
+				
+			}
+		}
+
+		// this.solveSequenz = Util.kuerzen(this.solveSequenz);
 		System.out.println("Gelöst mit: " + this.solveSequenz);
 		System.out.println("Gelöst mit: " + Util.kuerzen(this.solveSequenz));
-		
+
 	}
 
 	private boolean mask(int[] maske, int[] daten) {
