@@ -9,14 +9,12 @@ public class Starter {
 
 	public static void main(String[] args) {
 		
-		ScreenThread a = new ScreenThread();
-		a.start();
 		
-		/*CubieWuerfel cubie = new CubieWuerfel();
-		cubie.mul(Zuege.alleZuege[Zuege.F1]);
-		cubie.zuFaceletWuerfel().ausgeben();*/
+		FaceletWuerfel a = new FaceletWuerfel("BFFDUUDDRFRUBRULBBBLUFFRDFDFRFBDDBLLDRLULLULRLDRFBBUUR", true);
+		CubieWuerfel b = a.toCubieWuerfel();
+		System.out.println(b.cornerParity());
+		System.out.println(b.edgeParity());
 		
-		Zuege.alleZuege[Zuege.U2].zuFaceletWuerfel().ausgeben();
 	}
 
 }
