@@ -147,6 +147,30 @@ public class CubieWuerfel {
 		}
 		return faceletW;
 	}
+	
+	public int cornerParity() {
+		int s = 0;
+		for(int i = 7; i > -1; i--) { // Rückwarts durch die Ecken
+			for(int j = i - 1; j > -1; j--) { // Von der Ecke i bis zur ersten Ecke
+				if(this.ep[j] > this.ep[i]) {
+					s++;
+				}
+			}
+		}
+		return s % 2;
+	}
+	
+	public int edgeParity() {
+		int s = 0;
+		for(int i = 12; i > -1; i--) { // Rückwarts durch die Kanten
+			for(int j = i - 1; j > -1; j--) { // Von der Kante i bis zur ersten Kante
+				if(this.kp[j] > this.kp[i]) {
+					s++;
+				}
+			}
+		}
+		return s % 2;
+	}
 
 	public boolean equals(CubieWuerfel b) {
 		if (this.ep == b.ep && this.eo == b.eo && this.kp == b.kp && this.ko == b.ko) {
