@@ -127,7 +127,7 @@ public class CubieWuerfel {
 		this.kantenMul(b);
 	}
 	
-	public FaceletWuerfel zuFaceletWuerfel() {
+	public FaceletWuerfel toFaceletWuerfel() {
 		FaceletWuerfel faceletW = new FaceletWuerfel();
 		int j;
 		int ori;

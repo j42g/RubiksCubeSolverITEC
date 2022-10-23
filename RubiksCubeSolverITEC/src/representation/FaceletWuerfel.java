@@ -51,7 +51,7 @@ public class FaceletWuerfel {
 		this.facelets[index] = wert;
 	}
 
-	public CubieWuerfel toCubie() {
+	public CubieWuerfel toCubieWuerfel() {
 		CubieWuerfel cw = new CubieWuerfel();
 		int[] fac;
 		int[] col;
@@ -81,14 +81,14 @@ public class FaceletWuerfel {
 		}
 		for (int i = 0; i < 12; i++) { // alle Kanten
 			for (int j = 0; j < 12; j++) {
-				if (this.facelets[Facelet.kantenFacelet[i][0]] == Facelet.eckenFarbe[j][0]
-						&& this.facelets[Facelet.kantenFacelet[i][1]] == Facelet.eckenFarbe[j][1]) {
+				if (this.facelets[Facelet.kantenFacelet[i][0]] == Facelet.kantenFarbe[j][0]
+						&& this.facelets[Facelet.kantenFacelet[i][1]] == Facelet.kantenFarbe[j][1]) {
 					cw.getKp()[i] = j;
 					cw.getKo()[i] = 0;
 					break;
 				}
-				if (this.facelets[Facelet.kantenFacelet[i][0]] == Facelet.eckenFarbe[j][1]
-						&& this.facelets[Facelet.kantenFacelet[i][1]] == Facelet.eckenFarbe[j][0]) {
+				if (this.facelets[Facelet.kantenFacelet[i][0]] == Facelet.kantenFarbe[j][1]
+						&& this.facelets[Facelet.kantenFacelet[i][1]] == Facelet.kantenFarbe[j][0]) {
 					cw.getKp()[i] = j;
 					cw.getKo()[i] = 1;
 					break;
