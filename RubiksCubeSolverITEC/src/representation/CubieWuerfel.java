@@ -162,7 +162,7 @@ public class CubieWuerfel {
 	
 	public int edgeParity() {
 		int s = 0;
-		for(int i = 12; i > -1; i--) { // Rückwarts durch die Kanten
+		for(int i = 11; i > -1; i--) { // Rückwarts durch die Kanten
 			for(int j = i - 1; j > -1; j--) { // Von der Kante i bis zur ersten Kante
 				if(this.kp[j] > this.kp[i]) {
 					s++;
