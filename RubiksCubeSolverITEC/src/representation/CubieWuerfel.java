@@ -163,7 +163,7 @@ public class CubieWuerfel {
 
 	
 	public int[] symmetries() {
-		
+		return null;
 	}
 	
 	
