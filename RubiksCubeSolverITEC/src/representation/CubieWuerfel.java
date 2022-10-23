@@ -148,6 +148,32 @@ public class CubieWuerfel {
 		return faceletW;
 	}
 	
+	
+	public void invCubieWuerfel(CubieWuerfel b) { // speichert den inv Wüerfel zu this in d
+		for(int k = 0; k < 12; k++) { // Kanten
+			b.kp[this.kp[k]] = k;
+		}
+		for(int k = 0; k < 12; k++) {
+			b.ko[k] = this.ko[b.kp[k]];
+		}
+		
+		for(int e = 0; e < 8; e++) { // Ecken
+			b.ep[this.ep[e]] = e;
+		}
+		int ori;
+		for(int e = 0; e < 8; e++) {
+			ori = this.eo[b.ep[e]];
+			if(ori > 2) {
+				b.eo[e] = ori;
+			} else {
+				b.eo[e] = -ori;
+				if(b.eo[e] < 0) {
+					b.eo[e] += 3;
+				}
+			}
+		}
+	}
+	
 	public int cornerParity() {
 		int s = 0;
 		for(int i = 7; i > -1; i--) { // Rückwarts durch die Ecken
