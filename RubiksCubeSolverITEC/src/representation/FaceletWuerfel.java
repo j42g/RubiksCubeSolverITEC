@@ -20,6 +20,32 @@ public class FaceletWuerfel {
 		this.facelets = _facelets;
 	}
 	
+	public FaceletWuerfel(String s) {
+		char[] cs = s.toCharArray();
+		for(int i = 0; i < 54; i++) {
+			switch (cs[i]) {
+			case 'W':
+				this.facelets[i] = Farbe.U;
+				break;
+			case 'R':
+				this.facelets[i] = Farbe.R;
+				break;
+			case 'G':
+				this.facelets[i] = Farbe.F;
+				break;
+			case 'Y':
+				this.facelets[i] = Farbe.D;
+				break;
+			case 'O':
+				this.facelets[i] = Farbe.L;
+				break;
+			case 'B':
+				this.facelets[i] = Farbe.B;
+				break;
+			}
+		}
+	}
+	
 	public void setzeFacelet(int index, int wert) {
 		this.facelets[index] = wert;
 	}
