@@ -37,8 +37,6 @@ public class CubieWuerfel {
 		int ori = 0;
 		int ori_a;
 		int ori_b;
-		Util.printArr(this.ep);
-		Util.printArr(b.ep);
 		for (int e = 0; e < 8; e++) { // 0-7 sind die Ecken in kociembaDarstellung
 			eckenPerm[e] = this.ep[b.ep[e]];
 			ori_a = this.eo[b.ep[e]];
@@ -169,7 +167,7 @@ public class CubieWuerfel {
 		ArrayList<Integer> s = new ArrayList<Integer>();
 		
 		CubieWuerfel c;
-		CubieWuerfel d = null;
+		CubieWuerfel d = new CubieWuerfel();
 		for(int j = 0; j < Andere.N_SYM; j++) {
 			c = new CubieWuerfel(Symmetrie.alleSym[j].ep, Symmetrie.alleSym[j].eo, Symmetrie.alleSym[j].kp, Symmetrie.alleSym[j].ko);
 			c.mul(this);
@@ -193,10 +191,17 @@ public class CubieWuerfel {
 	
 	
 	public boolean equals(CubieWuerfel b) {
-		if (this.ep == b.ep && this.eo == b.eo && this.kp == b.kp && this.ko == b.ko) {
-			return true;
+		for(int i = 0; i < 8; i++) { // Ecken
+			if(this.ep[i] != b.ep[i] || this.eo[i] != b.eo[i]) {
+				return false;
+			}
 		}
-		return false;
+		for(int i = 0; i < 12; i++) { // Kanten
+			if(this.kp[i] != b.kp[i] || this.ko[i] != b.ko[i]) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public int[] getEp() {
