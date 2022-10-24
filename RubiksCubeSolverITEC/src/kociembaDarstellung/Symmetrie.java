@@ -48,6 +48,7 @@ public class Symmetrie {
 				for(int u4 = 0; u4 < 4; u4++) {
 					for(int lr2 = 0; lr2 < 2; lr2++) {
 						alleSym[index] = new CubieWuerfel(cw.getEp(), cw.getEo(), cw.getKp(), cw.getKo());
+						index++;
 						cw.mul(grundSym[MIRR_LR2]);
 					}
 					cw.mul(grundSym[ROT_U4]);
@@ -56,7 +57,6 @@ public class Symmetrie {
 			}
 			cw.mul(grundSym[ROT_URF3]);
 		}
-		System.out.println("Sym generated");
 	}
 	
 	public static int[] inv_idx = new int[Andere.N_SYM];
@@ -73,7 +73,6 @@ public class Symmetrie {
 				}
 			}
 		}
-		Util.printArr(inv_idx);
 	}
 	
 	

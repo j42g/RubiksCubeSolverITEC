@@ -9,10 +9,11 @@ public class Starter {
 
 	public static void main(String[] args) {
 		
-		
 		FaceletWuerfel a = new FaceletWuerfel("BFFDUUDDRFRUBRULBBBLUFFRDFDFRFBDDBLLDRLULLULRLDRFBBUUR", true);
 		CubieWuerfel b = a.toCubieWuerfel();
-		Util.printBinArr(b.symmetries());
+		b.mul(Symmetrie.alleSym[0]);
+		Util.printArr(b.symmetries());
+		
 		
 	}
 

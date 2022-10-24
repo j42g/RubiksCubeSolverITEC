@@ -162,6 +162,7 @@ public class FaceletWuerfel {
 		System.out.println("    " + s[27] + s[28] + s[29]);
 		System.out.println("    " + s[30] + s[31] + s[32]);
 		System.out.println("    " + s[33] + s[34] + s[35]);
+		System.out.println("\n");
 
 	}
 }
