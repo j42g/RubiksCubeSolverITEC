@@ -4,12 +4,22 @@ import loeser.ZweiMalZwei;
 
 public class Util {
 
-	public static void printArr(int[] arr) {
+	public static void printBinArr(int[] arr) {
 		for (int i = 0; i < arr.length; i++) {
 			if (i == arr.length - 1) {
 				System.out.print(Integer.toBinaryString(arr[i]) + "\n");
 			} else {
 				System.out.print(Integer.toBinaryString(arr[i]) + ", ");
+			}
+		}
+	}
+	
+	public static void printArr(int[] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			if (i == arr.length - 1) {
+				System.out.print(arr[i] + "\n");
+			} else {
+				System.out.print(arr[i] + ", ");
 			}
 		}
 	}
