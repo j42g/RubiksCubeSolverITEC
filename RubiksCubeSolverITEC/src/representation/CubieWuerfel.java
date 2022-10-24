@@ -165,7 +165,6 @@ public class CubieWuerfel {
 	
 	public int[] symmetries() {
 		ArrayList<Integer> s = new ArrayList<Integer>();
-		
 		CubieWuerfel c;
 		CubieWuerfel d = new CubieWuerfel();
 		for(int j = 0; j < Andere.N_SYM; j++) {
