@@ -1,5 +1,6 @@
 package representation;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import kociembaDarstellung.*;
@@ -36,6 +37,8 @@ public class CubieWuerfel {
 		int ori = 0;
 		int ori_a;
 		int ori_b;
+		Util.printArr(this.ep);
+		Util.printArr(b.ep);
 		for (int e = 0; e < 8; e++) { // 0-7 sind die Ecken in kociembaDarstellung
 			eckenPerm[e] = this.ep[b.ep[e]];
 			ori_a = this.eo[b.ep[e]];
@@ -163,7 +166,29 @@ public class CubieWuerfel {
 
 	
 	public int[] symmetries() {
-		return null;
+		ArrayList<Integer> s = new ArrayList<Integer>();
+		
+		CubieWuerfel c;
+		CubieWuerfel d = null;
+		for(int j = 0; j < Andere.N_SYM; j++) {
+			c = new CubieWuerfel(Symmetrie.alleSym[j].ep, Symmetrie.alleSym[j].eo, Symmetrie.alleSym[j].kp, Symmetrie.alleSym[j].ko);
+			c.mul(this);
+			c.mul(Symmetrie.alleSym[Symmetrie.inv_idx[j]]);
+			if(this.equals(c)) {
+				s.add(j);
+			}
+			c.invCubieWuerfel(d);
+			if(this.equals(d)) {
+				s.add(j + Andere.N_SYM);
+			}
+		}
+		
+		
+		int[] arr = new int[s.size()];
+		for(int i = 0; i < arr.length; i++) {
+			arr[i] = s.get(i);
+		}
+		return arr;
 	}
 	
 	

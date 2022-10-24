@@ -12,8 +12,7 @@ public class Starter {
 		
 		FaceletWuerfel a = new FaceletWuerfel("BFFDUUDDRFRUBRULBBBLUFFRDFDFRFBDDBLLDRLULLULRLDRFBBUUR", true);
 		CubieWuerfel b = a.toCubieWuerfel();
-		System.out.println(b.cornerParity());
-		System.out.println(b.edgeParity());
+		Util.printBinArr(b.symmetries());
 		
 	}
 

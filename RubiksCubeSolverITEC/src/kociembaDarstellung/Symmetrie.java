@@ -1,6 +1,7 @@
 package kociembaDarstellung;
 
 import representation.CubieWuerfel;
+import representation.Util;
 
 public class Symmetrie {
 	
@@ -55,6 +56,7 @@ public class Symmetrie {
 			}
 			cw.mul(grundSym[ROT_URF3]);
 		}
+		System.out.println("Sym generated");
 	}
 	
 	public static int[] inv_idx = new int[Andere.N_SYM];
@@ -62,8 +64,8 @@ public class Symmetrie {
 		CubieWuerfel cc;
 		for(int j = 0; j < Andere.N_SYM; j++) {
 			for(int i = 0; i < Andere.N_SYM; i++) {
-				cc = new CubieWuerfel(alleSym[i].getEp(), alleSym[i].getEo(), alleSym[i].getKp(),alleSym[i].getKo());
-				cc.eckenMul(alleSym[j]);
+				cc = new CubieWuerfel(alleSym[j].getEp(), alleSym[j].getEo(), alleSym[j].getKp(),alleSym[j].getKo());
+				cc.eckenMul(alleSym[i]);
 				if(cc.getEp()[Ecken.URF] == Ecken.URF &&
 				   cc.getEp()[Ecken.UFL] == Ecken.UFL &&
 				   cc.getEp()[Ecken.ULB] == Ecken.ULB) {
@@ -71,6 +73,7 @@ public class Symmetrie {
 				}
 			}
 		}
+		Util.printArr(inv_idx);
 	}
 	
 	
