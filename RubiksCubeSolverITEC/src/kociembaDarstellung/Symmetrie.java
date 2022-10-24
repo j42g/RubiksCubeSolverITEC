@@ -57,4 +57,22 @@ public class Symmetrie {
 		}
 	}
 	
+	public static int[] inv_idx = new int[Andere.N_SYM];
+	static {
+		CubieWuerfel cc;
+		for(int j = 0; j < Andere.N_SYM; j++) {
+			for(int i = 0; i < Andere.N_SYM; i++) {
+				cc = new CubieWuerfel(alleSym[i].getEp(), alleSym[i].getEo(), alleSym[i].getKp(),alleSym[i].getKo());
+				cc.eckenMul(alleSym[j]);
+				if(cc.getEp()[Ecken.URF] == Ecken.URF &&
+				   cc.getEp()[Ecken.UFL] == Ecken.UFL &&
+				   cc.getEp()[Ecken.ULB] == Ecken.ULB) {
+					inv_idx[j] = i;
+				}
+			}
+		}
+	}
+	
+	
+	
 }
