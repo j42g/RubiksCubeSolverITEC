@@ -30,7 +30,7 @@ public class CubieWuerfel {
 				new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
 	}
 
-	private void eckenMul(CubieWuerfel b) { // http://kociemba.org/cube.htm
+	public void eckenMul(CubieWuerfel b) { // http://kociemba.org/cube.htm
 		int[] eckenPerm = new int[8];
 		int[] eckenOri = new int[8];
 		int ori = 0;
@@ -71,7 +71,7 @@ public class CubieWuerfel {
 		}
 	}
 
-	private void kantenMul(CubieWuerfel b) {
+	public void kantenMul(CubieWuerfel b) {
 		int[] kantenPerm = new int[12];
 		int[] kantenOri = new int[12];
 		for (int k = 0; k < 12; k++) {
