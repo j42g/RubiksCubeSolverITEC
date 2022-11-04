@@ -8,7 +8,9 @@ import kociembaDarstellung.*;
 public class Starter {
 
 	public static void main(String[] args) {
-		
+
+		System.out.println("KEKW");
+
 		FaceletWuerfel a = new FaceletWuerfel("BFFDUUDDRFRUBRULBBBLUFFRDFDFRFBDDBLLDRLULLULRLDRFBBUUR", true);
 		CubieWuerfel b = a.toCubieWuerfel();
 		b.mul(Symmetrie.alleSym[0]);
