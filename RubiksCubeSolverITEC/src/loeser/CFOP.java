@@ -242,56 +242,126 @@ public class CFOP {
 			w.wuerfelAusgeben();
 
 		long cache = 0;
-		cache = w.extractStrip(new int[] { 1, 2 }); // Blue
-		System.out.println(Long.toBinaryString(cache));
-		cache |= w.extractStrip(new int[] { 2, 2 }) << 16; // Orange
-		System.out.println(Long.toBinaryString(cache));
-		cache |= ((long) w.extractStrip(new int[] { 3, 2 })) << 32; // Green
-		System.out.println(Long.toBinaryString(cache));
-		cache |= ((long) w.extractStrip(new int[] { 4, 0 })) << 48; // Red
-		System.out.println(Long.toBinaryString(cache));
 		if (!mask(cornerMaske, cornerDaten)) { // Corner Phase of PLL
+			cache = w.extractStrip(new int[] { 1, 2 }); // Blue
+			cache |= w.extractStrip(new int[] { 2, 2 }) << 16; // Orange
+			cache |= ((long) w.extractStrip(new int[] { 3, 2 })) << 32; // Green
+			cache |= ((long) w.extractStrip(new int[] { 4, 0 })) << 48; // Red
 			int pairs = 0;
 			for (int i = 0; i < 4; i++) {
 				if (((cache >>> (i * 16)) & 0xF) == ((cache >>> (i * 16 + 8)) & 0xF)) {
 					pairs += 1 << i;
 				}
 			}
-			System.out.println(Long.toBinaryString(pairs));
 			if (pairs == 0xF) { // Die Corners sind zueinander schon richtig orientiert
-				System.out.println("All");
 			} else if (pairs != 0) {
-				System.out.println("One");
 				int pos = 0;
 				while (pairs != 1) {
 					pairs >>>= 1;
 					pos++;
 				}
 				for (int i = 0; i < pos; i++) { // dreht das richtige corner Paar so das es bei Blau landet (Headlights
-												// PLL)
+					if (pos == 3) {// PLL)
+						w.drehe(5);
+						this.solveSequenz += "D";
+						break;
+					}
 					w.drehe(13);
+					this.solveSequenz += "D\'";
 				}
 				w.dreheZugsequenz("F D F' D' F' R F2 D' F' D' F D F' R'");
+				this.solveSequenz += "F D F' D' F' R F2 D' F' D' F D F' R'";
 			} else { // Keine Corner ist richtig (Diagonal PLL)
-				System.out.println("None");
 				w.dreheZugsequenz("F L D' L' D' L D L' F' L D L' D' L' F L F'");
+				this.solveSequenz += "F L D' L' D' L D L' F' L D L' D' L' F L F'";
 			}
 			while (!mask(cornerMaske, cornerDaten)) {
 				w.drehe(13);
+				this.solveSequenz += "D'";
 			}
 		}
-		//2. Schritt von PLL, mache ich später
-		if (w.isSolved()) {
+		w.wuerfelAusgeben();
+		// 2. Schritt von PLL, mache ich später
+		if (!w.isSolved()) {
+			cache = w.extractStrip(new int[] { 1, 2 }); // Blue
+			cache |= w.extractStrip(new int[] { 2, 2 }) << 16; // Orange
+			cache |= ((long) w.extractStrip(new int[] { 3, 2 })) << 32; // Green
+			cache |= ((long) w.extractStrip(new int[] { 4, 0 })) << 48; // Red
 			int edgePos = 0;
 			edgePos = (int) (cache >>> 4 & 0xF);
-			edgePos |= (int) (cache >>> 20 & 0xF) << 3;
-			edgePos |= (int) (cache >>> 36 & 0xF) << 6;
-			edgePos |= (int) (cache >>> 52 & 0xF) << 9;
-			for (int i = 0; i < 4; i++) {
-				
-			}
-		}
+			edgePos |= (int) ((cache >>> 20 & 0xF) << 4);
+			edgePos |= (int) ((cache >>> 36 & 0xF) << 8);
+			edgePos |= (int) ((cache >>> 52 & 0xF) << 12);
+			
+			
+			 if(edgePos == 0x1234) { //parrallel edge swap blue red
+				 System.out.println("parrallel edge swap blue red");
 
+				 
+				 w.dreheZugsequenz("R' D' R2 D R D R' D' R D R D' R D' R' D2");
+
+			 } else if (edgePos == 0x3412) { //parrallel edge swap green red
+				 System.out.println("parrallel edge swap green red");
+				 w.dreheZugsequenz("F' D' F2 D F D F' D' F D F D' F D' F' D2");
+
+			 } else if (edgePos == 0x2143) { //diagonal edge swap
+				 System.out.println("diagonal edge swap");
+				 w.dreheZugsequenz("R2 D2 R D2 R2 D2 R2 D2 R D2 R2");
+				 this.solveSequenz += "R2 D2 R D2 R2 D2 R2 D2 R D2 R2";
+
+			 } else { // has to be triangle swap
+				 System.out.println("triangle swap");
+				 int pos = 0xFFFF;
+				 for(int i = 0; i<4;i++) { // Determines where the one right edge is
+					 if(((edgePos & (0xF<<i*4)) >>> i*4) == (i+1)){
+						 pos = i;
+					 }
+				 }				 
+				 //now we want to know which direction the triangle has to be rotated in
+				 System.out.println(Integer.toHexString(edgePos));
+				 System.out.println(((edgePos >>> ((pos+1)%4)*4) & 0xF)%4);
+				 if(pos%4 < ((edgePos >>> ((pos+1)%4)*4) & 0xF)) {
+					 pos+=0b100;							//sets the 3rd bit to 1 if the triangle has to be rotated counterclockwise 
+				 }
+				 System.out.println(Integer.toBinaryString(pos));
+				 switch(pos) {
+				 case 0: 
+					 w.dreheZugsequenz("L2 D L D L' D' L' D' L' D L'");
+					 break;
+				 case 1: 
+					 w.dreheZugsequenz("F2 D F D F' D' F' D' F' D F'");
+
+					 break;
+				 case 2: 
+					 w.dreheZugsequenz("R2 D R D R' D' R' D' R' D R'");
+
+					 break;
+				 case 3:
+					 w.dreheZugsequenz("B2 D B D B' D' B' D' B' D B'");
+
+					 break;
+					 
+				 case 4:
+					 w.dreheZugsequenz("R2 D' R' D' R D R D R D' R");
+
+					 break;
+				 case 5: 
+					 w.dreheZugsequenz("B2 D' B' D' B D B D B D' B");
+
+					 break;
+				 case 6: 
+					 w.dreheZugsequenz("L2 D' L' D' L D L D L D' L");
+
+					 break;
+				 case 7: 
+					 w.dreheZugsequenz("F2 D' F' D' F D F D F D' F");
+
+					 break;
+				 }
+			 }
+			 
+			w.wuerfelAusgeben();
+			}
 		// this.solveSequenz = Util.kuerzen(this.solveSequenz);
 		System.out.println("Gelöst mit: " + this.solveSequenz);
 		System.out.println("Gelöst mit: " + Util.kuerzen(this.solveSequenz));
