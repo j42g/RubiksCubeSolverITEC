@@ -9,7 +9,7 @@ public class Starter {
 
 	public static void main(String[] args) {
 
-		System.out.println("KEajifsisfijfdKW");
+		System.out.println("KEajiadfsisfijfdKW");
 
 		FaceletWuerfel a = new FaceletWuerfel("BFFDUUDDRFRUBRULBBBLUFFRDFDFRFBDDBLLDRLULLULRLDRFBBUUR", true);
 		CubieWuerfel b = a.toCubieWuerfel();
