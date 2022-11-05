@@ -219,4 +219,52 @@ public class CubieWuerfel {
 		return ko;
 	}
 
+	// ------------------ Methoden für KoordWuerfel-------------
+	public int getTwist() {
+		int twist = 0;
+		for(int e = 0; e < 8; e++){ // für alle Ecken
+			twist = 3 * twist + this.eo[e];
+		}
+		return twist;
+	}
+
+	public void setTwist(int twist){
+		int twistparity	= 0;
+		for(int e = 6; e > -1; e--){ // alle Ecken außer DRB
+			this.eo[e] = twist % 3;
+			twistparity += this.eo[e];
+			twist /= 3;
+		}
+		this.eo[7] = ((3 - twistparity % 3) % 3);
+	}
+
+	public int getFlip(){
+		int flip = 0;
+		for(int k = 0; k < 12; k++){ // für alle Ecken
+			flip = flip * 2 + this.eo[k];
+		}
+		return flip;
+	}
+
+	public void setFlip(int flip){
+		int flipparity = 0;
+		for(int i = 10; i > -1; i--) {
+			this.eo[i] = flip % 2;
+			flipparity += this.eo[i];
+			flip /= 2;
+			this.eo[11] = ((2 - flipparity % 2) % 2);
+		}
+	}
+
+	public int getSlice(){
+		int a = 0;
+		int x = 0;
+		for(int j = 11; j > -1; j--){
+			if(Kanten.FR <= this.kp[j] && this.kp[j] <= Kanten.BR){
+				x++;
+				a += Util.cnk(12 - j, x);
+			}
+		}
+		return a;
+	}
 }
