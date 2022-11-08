@@ -269,7 +269,7 @@ public class CFOP extends Thread{
 						this.solveSequenz += "D";
 						break;
 					}
-					w.drehe(13);
+					w.drehe(13); 
 					this.solveSequenz += "D\'";
 				}
 				w.dreheZugsequenz("F D F' D' F' R F2 D' F' D' F D F' R'");
