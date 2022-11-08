@@ -301,10 +301,12 @@ public class CFOP extends Thread{
 
 				 
 				 w.dreheZugsequenz("R' D' R2 D R D R' D' R D R D' R D' R' D2");
+				 this.solveSequenz += "R' D' R2 D R D R' D' R D R D' R D' R' D2";
 
 			 } else if (edgePos == 0x3412) { //parrallel edge swap green red
 				 System.out.println("parrallel edge swap green red");
 				 w.dreheZugsequenz("F' D' F2 D F D F' D' F D F D' F D' F' D2");
+				 this.solveSequenz += "F' D' F2 D F D F' D' F D F D' F D' F' D2";
 
 			 } else if (edgePos == 0x2143) { //diagonal edge swap
 				 System.out.println("diagonal edge swap");
