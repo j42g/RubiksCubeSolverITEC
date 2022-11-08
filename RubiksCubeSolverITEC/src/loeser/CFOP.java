@@ -3,7 +3,7 @@ package loeser;
 import representation.Wuerfel;
 import representation.Util;
 
-public class CFOP {
+public class CFOP extends Thread{
 
 	private Wuerfel w;
 
@@ -145,7 +145,10 @@ public class CFOP {
 	 * 
 	 * @throws Exception
 	 */
-	public void start() {
+	public void run() {
+		beginne();
+	}
+	public void beginne() {
 		// Kreuz
 		IDDFS pattern = new IDDFS(this.w.getSeiten(), this.kreuzDaten, this.kreuzMaske);
 		w.dreheZugsequenz(pattern.loese());
@@ -280,7 +283,6 @@ public class CFOP {
 				this.solveSequenz += "D'";
 			}
 		}
-		w.wuerfelAusgeben();
 		// 2. Schritt von PLL, mache ich später
 		if (!w.isSolved()) {
 			cache = w.extractStrip(new int[] { 1, 2 }); // Blue
@@ -318,53 +320,56 @@ public class CFOP {
 					 }
 				 }				 
 				 //now we want to know which direction the triangle has to be rotated in
-				 System.out.println(Integer.toHexString(edgePos));
-				 System.out.println(((edgePos >>> ((pos+1)%4)*4) & 0xF)%4);
-				 if(pos%4 < ((edgePos >>> ((pos+1)%4)*4) & 0xF)) {
+				  if(((pos+3)%4)+1 == (edgePos >>> ((((pos+1)%4)*4)) & 0xF)) {
 					 pos+=0b100;							//sets the 3rd bit to 1 if the triangle has to be rotated counterclockwise 
 				 }
-				 System.out.println(Integer.toBinaryString(pos));
 				 switch(pos) {
 				 case 0: 
 					 w.dreheZugsequenz("L2 D L D L' D' L' D' L' D L'");
+					 this.solveSequenz += "L2 D L D L' D' L' D' L' D L'";
 					 break;
 				 case 1: 
 					 w.dreheZugsequenz("F2 D F D F' D' F' D' F' D F'");
-
+					 this.solveSequenz += "F2 D F D F' D' F' D' F' D F'";
 					 break;
 				 case 2: 
 					 w.dreheZugsequenz("R2 D R D R' D' R' D' R' D R'");
+					 this.solveSequenz += "R2 D R D R' D' R' D' R' D R'";
 
 					 break;
 				 case 3:
 					 w.dreheZugsequenz("B2 D B D B' D' B' D' B' D B'");
+					 this.solveSequenz += "B2 D B D B' D' B' D' B' D B'";
 
 					 break;
 					 
 				 case 4:
 					 w.dreheZugsequenz("R2 D' R' D' R D R D R D' R");
+					 this.solveSequenz += "R2 D' R' D' R D R D R D' R";
 
 					 break;
 				 case 5: 
 					 w.dreheZugsequenz("B2 D' B' D' B D B D B D' B");
+					 this.solveSequenz += "B2 D' B' D' B D B D B D' B";
 
 					 break;
 				 case 6: 
 					 w.dreheZugsequenz("L2 D' L' D' L D L D L D' L");
+					 this.solveSequenz += "L2 D' L' D' L D L D L D' L";
 
 					 break;
 				 case 7: 
 					 w.dreheZugsequenz("F2 D' F' D' F D F D F D' F");
+					 this.solveSequenz += "F2 D' F' D' F D F D F D' F";
 
 					 break;
 				 }
 			 }
 			 
-			w.wuerfelAusgeben();
 			}
 		// this.solveSequenz = Util.kuerzen(this.solveSequenz);
-		System.out.println("Gelöst mit: " + this.solveSequenz);
-		System.out.println("Gelöst mit: " + Util.kuerzen(this.solveSequenz));
+		//System.out.println("Gelöst mit: " + this.solveSequenz);
+		//System.out.println("Gelöst mit: " + Util.kuerzen(this.solveSequenz));
 
 	}
 
