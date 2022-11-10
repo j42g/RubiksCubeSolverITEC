@@ -266,21 +266,21 @@ public class CFOP extends Thread{
 				for (int i = 0; i < pos; i++) { // dreht das richtige corner Paar so das es bei Blau landet (Headlights
 					if (pos == 3) {// PLL)
 						w.drehe(5);
-						this.solveSequenz += "D";
+						this.solveSequenz += "D ";
 						break;
 					}
 					w.drehe(13); 
-					this.solveSequenz += "D\'";
+					this.solveSequenz += "D\' ";
 				}
 				w.dreheZugsequenz("F D F' D' F' R F2 D' F' D' F D F' R'");
-				this.solveSequenz += "F D F' D' F' R F2 D' F' D' F D F' R'";
+				this.solveSequenz += "F D F' D' F' R F2 D' F' D' F D F' R' ";
 			} else { // Keine Corner ist richtig (Diagonal PLL)
 				w.dreheZugsequenz("F L D' L' D' L D L' F' L D L' D' L' F L F'");
-				this.solveSequenz += "F L D' L' D' L D L' F' L D L' D' L' F L F'";
+				this.solveSequenz += "F L D' L' D' L D L' F' L D L' D' L' F L F' ";
 			}
 			while (!mask(cornerMaske, cornerDaten)) {
 				w.drehe(13);
-				this.solveSequenz += "D'";
+				this.solveSequenz += "D' ";
 			}
 		}
 		// 2. Schritt von PLL, mache ich später
@@ -301,17 +301,17 @@ public class CFOP extends Thread{
 
 				 
 				 w.dreheZugsequenz("R' D' R2 D R D R' D' R D R D' R D' R' D2");
-				 this.solveSequenz += "R' D' R2 D R D R' D' R D R D' R D' R' D2";
+				 this.solveSequenz += "R' D' R2 D R D R' D' R D R D' R D' R' D2 ";
 
 			 } else if (edgePos == 0x3412) { //parrallel edge swap green red
 				 System.out.println("parrallel edge swap green red");
 				 w.dreheZugsequenz("F' D' F2 D F D F' D' F D F D' F D' F' D2");
-				 this.solveSequenz += "F' D' F2 D F D F' D' F D F D' F D' F' D2";
+				 this.solveSequenz += "F' D' F2 D F D F' D' F D F D' F D' F' D2 ";
 
 			 } else if (edgePos == 0x2143) { //diagonal edge swap
 				 System.out.println("diagonal edge swap");
 				 w.dreheZugsequenz("R2 D2 R D2 R2 D2 R2 D2 R D2 R2");
-				 this.solveSequenz += "R2 D2 R D2 R2 D2 R2 D2 R D2 R2";
+				 this.solveSequenz += "R2 D2 R D2 R2 D2 R2 D2 R D2 R2 ";
 
 			 } else { // has to be triangle swap
 				 System.out.println("triangle swap");
@@ -328,50 +328,49 @@ public class CFOP extends Thread{
 				 switch(pos) {
 				 case 0: 
 					 w.dreheZugsequenz("L2 D L D L' D' L' D' L' D L'");
-					 this.solveSequenz += "L2 D L D L' D' L' D' L' D L'";
+					 this.solveSequenz += "L2 D L D L' D' L' D' L' D L' ";
 					 break;
 				 case 1: 
 					 w.dreheZugsequenz("F2 D F D F' D' F' D' F' D F'");
-					 this.solveSequenz += "F2 D F D F' D' F' D' F' D F'";
+					 this.solveSequenz += "F2 D F D F' D' F' D' F' D F' ";
 					 break;
 				 case 2: 
 					 w.dreheZugsequenz("R2 D R D R' D' R' D' R' D R'");
-					 this.solveSequenz += "R2 D R D R' D' R' D' R' D R'";
+					 this.solveSequenz += "R2 D R D R' D' R' D' R' D R' ";
 
 					 break;
 				 case 3:
 					 w.dreheZugsequenz("B2 D B D B' D' B' D' B' D B'");
-					 this.solveSequenz += "B2 D B D B' D' B' D' B' D B'";
+					 this.solveSequenz += "B2 D B D B' D' B' D' B' D B' ";
 
 					 break;
 					 
 				 case 4:
 					 w.dreheZugsequenz("R2 D' R' D' R D R D R D' R");
-					 this.solveSequenz += "R2 D' R' D' R D R D R D' R";
+					 this.solveSequenz += "R2 D' R' D' R D R D R D' R ";
 
 					 break;
 				 case 5: 
 					 w.dreheZugsequenz("B2 D' B' D' B D B D B D' B");
-					 this.solveSequenz += "B2 D' B' D' B D B D B D' B";
+					 this.solveSequenz += "B2 D' B' D' B D B D B D' B ";
 
 					 break;
 				 case 6: 
 					 w.dreheZugsequenz("L2 D' L' D' L D L D L D' L");
-					 this.solveSequenz += "L2 D' L' D' L D L D L D' L";
+					 this.solveSequenz += "L2 D' L' D' L D L D L D' L ";
 
 					 break;
 				 case 7: 
 					 w.dreheZugsequenz("F2 D' F' D' F D F D F D' F");
-					 this.solveSequenz += "F2 D' F' D' F D F D F D' F";
+					 this.solveSequenz += "F2 D' F' D' F D F D F D' F ";
 
 					 break;
 				 }
 			 }
 			 
 			}
-		// this.solveSequenz = Util.kuerzen(this.solveSequenz);
-		//System.out.println("Gelöst mit: " + this.solveSequenz);
-		//System.out.println("Gelöst mit: " + Util.kuerzen(this.solveSequenz));
+		System.out.println("Gelöst mit: " + this.solveSequenz);
+		System.out.println("Gelöst mit: " + Util.kuerzen(this.solveSequenz));
 
 	}
 

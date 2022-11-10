@@ -70,41 +70,62 @@ public class Util {
 	 * @return
 	 */
 	public static String kuerzen(String zuege) {
-		char[] s = zuege.toCharArray();
-		String bessereZuege = "";
-		boolean changed = false;
-		for (int i = 0; i < s.length - 3; i++) {
-			if (s[i] == ' ') {
-				continue;
-			} else if (s[i] == s[i + 2] && s[i + 3] == '\'') { // R R'
-				i += 3;
-				changed = true;
-				continue;
-			} else if (s[i] == s[i + 3] && s[i + 1] == '\'' && s[i + 4] != '\'') { // R' R
-				i += 3;
-				changed = true;
-				continue;
-			} else {
-				if (s[i + 1] == '\'') {
-					bessereZuege += s[i] + "' ";
+		boolean changed = true;
+		System.out.println(zuege);
+		while (changed) {
+			changed = false;
+			String[] s = zuege.split(" ");
+			String bessereZuege = "";
+			for (int i = 0; i < s.length - 1; i++) {
+				if (s[i].equals(s[i + 1])) { // D + D => D2
+					bessereZuege += s[i].charAt(0) + "2";
 					i++;
+					changed = true;
+				} else if (s[i].equals(s[i + 1] + "'")) { // D + D'
+					i++;
+					changed = true;
+				} else if ((s[i] + "'").equals(s[i + 1])) { // D' + D
+					i++;
+					changed = true;
+				} else if (s[i].charAt(0) == s[i + 1].charAt(0)) { // D* + D*
+					if ((s[i].charAt(0)+"2").equals(s[i]) && (s[i+1].charAt(0)+"2").equals(s[i+1])) {
+
+					} else if ((s[i].charAt(0)+"2").equals(s[i])) {
+						if ((s[i + 1].charAt(0)+"'").equals(s[i+1])) {
+							bessereZuege += s[i].charAt(0);
+						} else {
+							bessereZuege += s[i].charAt(0) + "'";
+						}
+					} else {
+						if ((s[i].charAt(0)+"'").equals(s[i])) {
+							bessereZuege += s[i].charAt(0);
+						} else {
+							bessereZuege += s[i].charAt(0) + "'";
+						}
+					}
+					changed = true;
+					i++;
+
 				} else {
-					bessereZuege += s[i] + " ";
+					bessereZuege += s[i];
+				}
+				bessereZuege += " ";
+				if(i==s.length-2) {
+					bessereZuege += s[s.length - 1];
 				}
 			}
+			
+			System.out.println(bessereZuege);
+			zuege = bessereZuege;
 		}
-
-		if (changed) {
-			return kuerzen(bessereZuege);
-		}
-		return bessereZuege;
+		return zuege;
 	}
-	
+
 	public static void testLauf(int durchgaenge) {
 		Wuerfel w = new Wuerfel();
 		long summe = 0;
 		long time;
-		for(int i = 0; i < durchgaenge; i++) {
+		for (int i = 0; i < durchgaenge; i++) {
 			w.verdrehe(26, false);
 			ZweiMalZwei a = new ZweiMalZwei(w);
 			time = System.currentTimeMillis();
@@ -113,7 +134,7 @@ public class Util {
 			System.out.println((i + 1) + "/" + durchgaenge + " fertig.");
 		}
 		// Bilde Durchschnitt
-		System.out.println("Durchschnitt: " + summe/durchgaenge);
+		System.out.println("Durchschnitt: " + summe / durchgaenge);
 	}
 
 }
