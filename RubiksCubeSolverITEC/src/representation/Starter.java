@@ -8,10 +8,9 @@ public class Starter {
 
 	public static void main(String[] args) {
 
-		FaceletWuerfel a = new FaceletWuerfel("BFFDUUDDRFRUBRULBBBLUFFRDFDFRFBDDBLLDRLULLULRLDRFBBUUR", true);
+		FaceletWuerfel a = new FaceletWuerfel("DUUBULDBFRBFRRULLLBRDFFFBLURDBFDFDRFRULBLUFDURRBLBDUDL", true);
 		CubieWuerfel b = a.toCubieWuerfel();
-		b.mul(Symmetrie.alleSym[0]);
-		Util.printArr(b.symmetries());
+		System.out.println(b.getFlip());
 		
 		
 	}

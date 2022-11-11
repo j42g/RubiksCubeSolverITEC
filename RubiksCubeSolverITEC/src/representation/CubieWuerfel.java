@@ -187,7 +187,11 @@ public class CubieWuerfel {
 		}
 		return arr;
 	}
-	
+
+	public boolean equals(Object b) {
+		if(b instanceof CubieWuerfel c) return this.equals((CubieWuerfel) c);
+		return false;
+	}
 	
 	public boolean equals(CubieWuerfel b) {
 		for(int i = 0; i < 8; i++) { // Ecken
@@ -222,7 +226,7 @@ public class CubieWuerfel {
 	// ------------------ Methoden für KoordWuerfel-------------
 	public int getTwist() {
 		int twist = 0;
-		for(int e = 0; e < 8; e++){ // für alle Ecken
+		for(int e = 0; e < 7; e++){ // für alle Ecken (außer letzte?)
 			twist = 3 * twist + this.eo[e];
 		}
 		return twist;
@@ -240,15 +244,15 @@ public class CubieWuerfel {
 
 	public int getFlip(){
 		int flip = 0;
-		for(int k = 0; k < 12; k++){ // für alle Ecken
-			flip = flip * 2 + this.eo[k];
+		for(int k = 0; k < 11; k++){ // für alle Ecken (außer letzte)
+			flip = flip * 2 + this.ko[k];
 		}
 		return flip;
 	}
 
 	public void setFlip(int flip){
 		int flipparity = 0;
-		for(int i = 10; i > -1; i--) {
+		for(int i = 10; i > -1; i--) { // Ecken
 			this.eo[i] = flip % 2;
 			flipparity += this.eo[i];
 			flip /= 2;
@@ -259,12 +263,33 @@ public class CubieWuerfel {
 	public int getSlice(){
 		int a = 0;
 		int x = 0;
-		for(int j = 11; j > -1; j--){
+		for(int j = 11; j > -1; j--){ // Kanten
 			if(Kanten.FR <= this.kp[j] && this.kp[j] <= Kanten.BR){
-				x++;
-				a += Util.cnk(12 - j, x);
+				a += Util.cnk(11 - j, ++x);
 			}
 		}
 		return a;
+	}
+
+	public void setSlice(int idx){
+		int[] sliceEdge = new int[]{8, 9, 10, 11};
+		int[] otherEdge = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
+		int a = idx;
+		for(int k = 0; k < 12; k++){
+			this.kp[k] = -1;
+		}
+		int x = 4;
+		for(int k = 0; k < 12; k++){
+			if(a - Util.cnk(11 - k, x) > -1){
+				this.kp[k] = sliceEdge[4 - x];
+				a -= Util.cnk(11 - k, x--);
+			}
+		}
+		x = 0;
+		for(int k = 0; k < 12; k++){
+			if(this.ep[k] == -1){
+				this.ep[k] = otherEdge[x++];
+			}
+		}
 	}
 }
