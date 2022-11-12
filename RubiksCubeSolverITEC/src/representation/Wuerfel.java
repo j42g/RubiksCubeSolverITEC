@@ -1,6 +1,7 @@
 package representation;
 
 import java.util.Arrays;
+import kociembaDarstellung.Zuege;
 
 public class Wuerfel {
 
@@ -40,6 +41,8 @@ public class Wuerfel {
 	 *
 	 */
 	private int[] seiten = new int[6];
+
+	private int[] kZuU = new int[]{0, 4, 3, 5, 2, 1};
 
 	private final int[][][] aussenIndex = {
 			// U (Blau, Rot, Grün, Orange)
@@ -221,11 +224,13 @@ public class Wuerfel {
 	 * Ruft dreheUhr und dreheGUhr auf
 	 */
 	public void drehe(int zug) {
-		if (((zug >> 3) & 1) == 1) {
-			this.dreheGUhr(zug & ~0b1000);
-		} else {
-			this.dreheUhr(zug & ~0b1000);
+		if(zug % 3 == 2){
+			this.dreheGUhr(kZuU[zug / 3]);
 		}
+
+
+		int seite = zug /= 3;
+		int art = zug % 3;
 	}
 
 	/**
@@ -237,11 +242,11 @@ public class Wuerfel {
 		seiten[face] = Integer.rotateLeft(seiten[face], 8);
 		long aussen = 0;
 		for (int i = 0; i < 4; i++) {
-			aussen |= ((long) this.extractStrip(aussenIndex[face][i])) << (i * 16);
+			aussen |= ((long) this.extractStrip(aussenIndex[face][i])) << (i << 4);
 		}
 		aussen = Long.rotateLeft(aussen, 16);
 		for (int i = 0; i < 4; i++) {
-			overwriteStrip((int) (aussen >>> i * 16) & 0xFFF, aussenIndex[face][i]);
+			overwriteStrip((int) (aussen >>> (i << 4)) & 0xFFF, aussenIndex[face][i]);
 		}
 	}
 
@@ -249,11 +254,11 @@ public class Wuerfel {
 		seiten[face] = Integer.rotateRight(seiten[face], 8);
 		long aussen = 0;
 		for (int i = 0; i < 4; i++) {
-			aussen |= ((long) this.extractStrip(aussenIndex[face][i])) << (i * 16);
+			aussen |= ((long) this.extractStrip(aussenIndex[face][i])) << (i << 4);
 		}
 		aussen = Long.rotateRight(aussen, 16);
 		for (int i = 0; i < 4; i++) {
-			overwriteStrip((int) (aussen >>> i * 16) & 0xFFF, aussenIndex[face][i]);
+			overwriteStrip((int) (aussen >>> (i << 4)) & 0xFFF, aussenIndex[face][i]);
 		}
 	}
 
