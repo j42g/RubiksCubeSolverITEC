@@ -24,7 +24,7 @@ public class Wuerfel {
 	 */
 	private int[] seiten = new int[6];
 
-	private final int[][][] aussenIndex = {
+	private static final int[][][] aussenIndex = {
 			// U (Blau, Rot, Grün, Orange)
 			{ { 1, 6 }, { 4, 4 }, { 3, 6 }, { 2, 6 } },
 			// B (Weiß, Orange, Gelb, Rot)
