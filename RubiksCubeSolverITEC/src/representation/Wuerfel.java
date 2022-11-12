@@ -129,9 +129,13 @@ public class Wuerfel {
 		int currZug;
 		StringBuilder s = new StringBuilder();
 		for(int i = 0; i < laenge; i++){
-			currZug = Zuege.zuege[(int)(Zuege.zuege.length * Math.random())];
+			currZug = Zuege.alleZuege[(int)(Zuege.alleZuege.length * Math.random())];
 			this.drehe(currZug);
 			s.append(Zuege.lookupZug(currZug));
+			if(i != laenge - 1){
+				s.append(" ");
+			}
+
 		}
 		if(ausgeben) {
 			System.out.println("Verdreht mit: " + s);
@@ -155,10 +159,11 @@ public class Wuerfel {
 	public void drehe(int zug) {
 		if(zug % 3 == 2) { // prime
 			this.dreheGUhr(zug / 3);
-		}
-		this.dreheUhr(zug / 3); // hier muss es entweder normal oder doppelt sein
-		if(zug % 3 == 1){ // falls doppelt
-			this.dreheUhr(zug / 3);
+		} else {
+			this.dreheUhr(zug / 3); // hier muss es entweder normal oder doppelt sein
+			if (zug % 3 == 1) { // falls doppelt
+				this.dreheUhr(zug / 3);
+			}
 		}
 	}
 
@@ -342,7 +347,7 @@ public class Wuerfel {
 	/**
 	 * Gibt den Würfel aus
 	 */
-	public void wuerfelAusgeben() {
+	public void ausgeben() {
 		// syntax verringern
 		char[][] s = new char[6][8];
 		for (int i = 0; i < this.seiten.length; i++) {

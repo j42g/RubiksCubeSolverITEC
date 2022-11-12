@@ -71,7 +71,6 @@ public class Util {
 	 */
 	public static String kuerzen(String zuege) {
 		boolean changed = true;
-		System.out.println(zuege);
 		while (changed) {
 			changed = false;
 			String[] s = zuege.split(" ");

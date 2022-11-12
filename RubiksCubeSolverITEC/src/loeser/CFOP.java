@@ -2,8 +2,9 @@ package loeser;
 
 import representation.Wuerfel;
 import representation.Util;
+import representation.Zuege;
 
-public class CFOP extends Thread{
+public class CFOP extends Thread {
 
 	private Wuerfel w;
 
@@ -102,17 +103,16 @@ public class CFOP extends Thread{
 	private void LShape() {
 		w.dreheZugsequenz("B D R D' R' B'");
 		this.solveSequenz += "B D R D' R' B' ";
-		// new int[]{0xFBA8203}
 	}
 
 	private void Antisune() {
-		w.dreheZugsequenz(new int[] { 0xCD4DC554, 0xF });
-		this.solveSequenz += Util.kodeZuegeZuNotation(new int[] { 0xCD4DC554, 0xF });
+		w.dreheZugsequenz("R D2 R' D' R D' R'");
+		this.solveSequenz += "R D2 R' D' R D' R' ";
 	}
 
 	private void H() {
-		w.dreheZugsequenz(new int[] { 0x5CD45C54, 0xFC554 });
-		this.solveSequenz += Util.kodeZuegeZuNotation(new int[] { 0x5CD45C54, 0xFC554 });
+		w.dreheZugsequenz("R D R' D R D' R' D R D2 R'");
+		this.solveSequenz += "R D R' D R D' R' D R D2 R' ";
 	}
 
 	private void L() {
@@ -122,12 +122,12 @@ public class CFOP extends Thread{
 
 	private void Pi() {
 		w.dreheZugsequenz("R D2 R2 D' R2 D' R2 D2 R");
-		this.solveSequenz += "R D2 R2 D' R2 D' R2 D2 R";
+		this.solveSequenz += "R D2 R2 D' R2 D' R2 D2 R ";
 	}
 
 	private void Sune() {
-		w.dreheZugsequenz(new int[] { 0xC5545C54, 0xF });
-		this.solveSequenz += Util.kodeZuegeZuNotation(new int[] { 0xC5545C54, 0xF });
+		w.dreheZugsequenz("R D R' D R D2 R'");
+		this.solveSequenz += "R D R' D R D2 R' ";
 	}
 
 	private void T() {
@@ -136,8 +136,8 @@ public class CFOP extends Thread{
 	}
 
 	private void U() {
-		w.dreheZugsequenz(new int[] { 0x8455C044, 0xFC55C });
-		this.solveSequenz += Util.kodeZuegeZuNotation(new int[] { 0x8455C044, 0xFC55C });
+		w.dreheZugsequenz("R2 U R' D2 R U' R' D2 R'");
+		this.solveSequenz += "R2 U R' D2 R U' R' D2 R' ";
 	}
 
 	/**
@@ -152,57 +152,57 @@ public class CFOP extends Thread{
 		// Kreuz
 		IDDFS pattern = new IDDFS(this.w.getSeiten(), this.kreuzDaten, this.kreuzMaske);
 		w.dreheZugsequenz(pattern.loese());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
+		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
 		if (this.debug == 1)
-			w.wuerfelAusgeben();
+			w.ausgeben();
 
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LOG1Daten, this.F2LOG1Maske);
 		w.dreheZugsequenz(pattern.loese());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
+		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
 		if (this.debug == 1)
-			w.wuerfelAusgeben();
+			w.ausgeben();
 
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LOG2Daten, this.F2LOG2Maske);
 		w.dreheZugsequenz(pattern.loese());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
+		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
 		if (this.debug == 1)
-			w.wuerfelAusgeben();
+			w.ausgeben();
 
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LGR1Daten, this.F2LGR1Maske);
 		w.dreheZugsequenz(pattern.loese());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
+		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
 		if (this.debug == 1)
-			w.wuerfelAusgeben();
+			w.ausgeben();
 
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LGR2Daten, this.F2LGR2Maske);
 		w.dreheZugsequenz(pattern.loese());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
+		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
 		if (this.debug == 1)
-			w.wuerfelAusgeben();
+			w.ausgeben();
 
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LRB1Daten, this.F2LRB1Maske);
 		w.dreheZugsequenz(pattern.loese());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
+		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
 		if (this.debug == 1)
-			w.wuerfelAusgeben();
+			w.ausgeben();
 
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LRB2Daten, this.F2LRB2Maske);
 		w.dreheZugsequenz(pattern.loese());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
+		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
 		if (this.debug == 1)
-			w.wuerfelAusgeben();
+			w.ausgeben();
 
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LBO1Daten, this.F2LBO1Maske);
 		w.dreheZugsequenz(pattern.loese());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
+		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
 		if (this.debug == 1)
-			w.wuerfelAusgeben();
+			w.ausgeben();
 
 		pattern = new IDDFS(this.w.getSeiten(), this.F2LBO2Daten, this.F2LBO2Maske);
 		w.dreheZugsequenz(pattern.loese());
-		this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
+		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
 		if (this.debug == 1)
-			w.wuerfelAusgeben();
+			w.ausgeben();
 
 		while (!mask(OLLMaske, OLLDaten)) {
 			if (mask(UMaske, UDaten)) {
@@ -237,12 +237,12 @@ public class CFOP extends Thread{
 				continue;
 			}
 			if (this.debug == 1)
-				w.wuerfelAusgeben();
-			w.drehe(5);
+				w.ausgeben();
+			w.drehe(Zuege.D1);
 			this.solveSequenz += "D ";
 		}
 		if (this.debug == 1)
-			w.wuerfelAusgeben();
+			w.ausgeben();
 
 		long cache = 0;
 		if (!mask(cornerMaske, cornerDaten)) { // Corner Phase of PLL
@@ -265,12 +265,12 @@ public class CFOP extends Thread{
 				}
 				for (int i = 0; i < pos; i++) { // dreht das richtige corner Paar so das es bei Blau landet (Headlights
 					if (pos == 3) {// PLL)
-						w.drehe(5);
+						w.drehe(Zuege.D1);
 						this.solveSequenz += "D ";
 						break;
 					}
-					w.drehe(13); 
-					this.solveSequenz += "D\' ";
+					w.drehe(Zuege.D3);
+					this.solveSequenz += "D' ";
 				}
 				w.dreheZugsequenz("F D F' D' F' R F2 D' F' D' F D F' R'");
 				this.solveSequenz += "F D F' D' F' R F2 D' F' D' F D F' R' ";
@@ -279,7 +279,7 @@ public class CFOP extends Thread{
 				this.solveSequenz += "F L D' L' D' L D L' F' L D L' D' L' F L F' ";
 			}
 			while (!mask(cornerMaske, cornerDaten)) {
-				w.drehe(13);
+				w.drehe(Zuege.D3);
 				this.solveSequenz += "D' ";
 			}
 		}

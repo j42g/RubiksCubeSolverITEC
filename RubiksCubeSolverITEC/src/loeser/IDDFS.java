@@ -2,8 +2,9 @@ package loeser;
 
 import java.util.Stack;
 
-import representation.Util;
 import representation.Wuerfel;
+import representation.Zuege;
+
 import java.util.Arrays;
 
 public class IDDFS {
@@ -12,11 +13,6 @@ public class IDDFS {
 	 * Stack für IDDFS
 	 */
 	private Stack<int[]> pos;
-	
-	/**
-	 * Länge der Zügespeicher (2*8 = 16 Züge).
-	 */
-	private static int stackArrayLaenge = 2;
 	private boolean gefunden = false;
 	/**
 	 * Wuerfel den man haben wollen (0xF heißt beliebig).
@@ -51,7 +47,7 @@ public class IDDFS {
 		this.startPos = _startPos;
 		this.zielPos = _zielPos;
 		this.zielMaske = _zielMaske;
-		this.zuege = new int[] {0, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13};
+		this.zuege = Zuege.grundZuege;
 	}
 	
 	/**
@@ -59,12 +55,12 @@ public class IDDFS {
 	 * @return
 	 */
 	public int[] loese() { 
-		int tiefe = 0;
+		int tiefe = 1;
 		while(!this.gefunden) {
-			//long time = System.currentTimeMillis();
-			DLS(new int[] {0xF}, tiefe);
+			long time = System.currentTimeMillis();
+			DLS(new int[]{}, tiefe);
 			tiefe++;
-			//System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
+			System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
 		} 
 		return loesung;
 	}
@@ -99,50 +95,25 @@ public class IDDFS {
 	 * @param move bisherige Züge
 	 */
 	private void genChildMoves(int[] move, int tiefe){
-		// ist move leer? (wird für lastmove gebraucht)
-		boolean nleer = true;
-		if(move[0] == 0xF) {
-			move[0] &= ~(0xF);
-			nleer = false;
-		}
-		int intIndex = 0;
-		int moveIndex = 0;
-		//letzer Zug in move
-		int invLastMove = -1;
-		// Gehe zum letzten Zug
-		while(nleer) {
-			if(((move[moveIndex] >>> (intIndex << 2)) & (0xF)) == 0xF) {
-				move[moveIndex] &= ~(0xF << (intIndex << 2));
-				// invLastZug bestimmen
-				invLastMove = ((move[moveIndex] >>> ((intIndex - 1) << 2)) & (0xF)) ^ 0b1000;
-				break;
-			}
-			if(intIndex == 7) {
-				moveIndex++;
-				intIndex = -1;
-			}
-			intIndex++;
-		}
-		// überprüfen ob das rekursionsende erreicht ist
-		if(intIndex + (moveIndex << 3) - 1 >= tiefe) {
+		if(tiefe < move.length){
 			return;
 		}
-		// neues Ende deklarieren
-		if(intIndex == 7) {
-			move[moveIndex + 1] |= 0xF ;
-		} else {
-			move[moveIndex] |= 0xF << ((intIndex + 1) << 2);
-		}
-		// Zuege adden
-		intIndex = (intIndex) << 2; // reduziert Operationen
-		for(int zug : this.zuege) {
-			if(zug == invLastMove) {
-				continue;
+		if(move.length == 0){ // erster Durchgang, es gibt keinen letzten Zug
+			for (int zug : this.zuege) {
+				int[] a = Arrays.copyOf(move, move.length + 1);
+				a[move.length] = zug;
+				pos.push(a);
 			}
-			int[] a = Arrays.copyOf(move, stackArrayLaenge);
-			a[moveIndex] |= zug << intIndex;
-			pos.push(a);
+		} else {
+			int invLastMove = Zuege.invZug[move[move.length - 1]]; // umkehrzug vom letzten Zug
+			for (int zug : this.zuege) {
+				if (zug == invLastMove) { // würde den letzten Zug rückgängig machen
+					continue;
+				}
+				int[] a = Arrays.copyOf(move, move.length + 1);
+				a[move.length] = zug;
+				pos.push(a);
+			}
 		}
 	}
-	
 }
