@@ -1,7 +1,6 @@
 package representation;
 
 import java.util.Arrays;
-import kociembaDarstellung.Zuege;
 
 public class Wuerfel {
 
@@ -18,31 +17,12 @@ public class Wuerfel {
 	 * 
 	 * Die 1 "zeigt" dabei immer auf die nächste Fläche, basierend auf der
 	 * Reihenfolge der Farben. Gelb zeigt auf Grün.
-	 * 
-	 * 
-	 * 
-	 * Vielleicht ändern idk:
-	 * 
-	 * Der Würfel wird "gehalten", sodass Weiß oben und Grün vorne ist. Die Züge
-	 * sind dann immer im Uhrzeigersinn, wenn man auf die Seite direkt draufschaut
-	 * Die Züge sind dann wiefolgt definiert:
-	 * 
-	 * 0: U = Weiß; 1: B = Blau; 2: L = Orange; 3: F = Grün; 4: R = Rot; 5: D =
-	 * Gelb;
-	 * 
-	 * Ein Zug sind 4 Bits. Das erste Bit steht dafür, ob es gegen den Uhrzeigersinn
-	 * ist.
-	 * 
-	 * 0100 wäre R. 1011 wäre F'.
-	 * 
-	 * 1111 ist ein ungültiger Zug und steht für Ende der Zugsquenz.
-	 * 
-	 * Jeder Zugkode entspricht dem Index der Seite, die er dreht.
+	 *
+	 * Die Züge funktionieren so wie in der Klasse Zuege definiert.
+	 * Zugsequenzen sind int-Arrays mit je einem Zug pro int.
 	 *
 	 */
 	private int[] seiten = new int[6];
-
-	private int[] kZuU = new int[]{0, 4, 3, 5, 2, 1};
 
 	private final int[][][] aussenIndex = {
 			// U (Blau, Rot, Grün, Orange)
@@ -89,24 +69,10 @@ public class Wuerfel {
 	 * 
 	 * @param zug Züge als Kode
 	 */
-	public void dreheZugsequenz(int[] zug) {
-		int currInteger = 0;
-		int currIndex = 0;
-		int currMove;
-		while (true) {
-			currMove = this.extractMove(zug[currInteger], currIndex);
-			if (currMove == 0xF) {
-				break;
-			}
-			if (currIndex == 7) {
-				currIndex = -1;
-				currInteger++;
-			}
-			currIndex++;
-			this.drehe(currMove);
-
+	public void dreheZugsequenz(int[] zuege) {
+		for(int i = 0; i < zuege.length; i++){
+			this.drehe(zuege[i]);
 		}
-
 	}
 
 	/**
@@ -115,45 +81,10 @@ public class Wuerfel {
 	 * @param zuege Züge in Notation
 	 */
 	public void dreheZugsequenz(String zuege) {
-		char[] czuege = zuege.toCharArray();
-		int movesIndex = 0;
-		int intIndex = 0;
-		int moveKode;
-		int[] moves = new int[czuege.length / 8 + 1]; // rate Länge
-		for (int i = 0; i < czuege.length; i++) {
-			if (czuege[i] == ' ') {
-				continue;
-			}
-			moveKode = "UBLFRD".indexOf(czuege[i]);
-			if (moveKode != -1) { // Valider Zug
-				if (i != czuege.length - 1) { // Überprüfen ob es ein Zug wie L' ist und sicherstellen, das man nicht
-												// out-of-bounds kommt
-					if (czuege[i + 1] == '\'') {
-						moveKode |= 0b1000; // ' bit setzen
-						i++; // da wir ja 2 Zeichen haben
-					} else if (czuege[i + 1] == '2') {
-						moves[movesIndex] |= moveKode << (intIndex << 2); // in das Array schieben
-						if (intIndex == 7) {
-							movesIndex++;
-							intIndex = -1;
-						}
-						intIndex++;
-						i++; // da wir ja 2 Zeichen haben
-					}
-				}
-				moves[movesIndex] |= moveKode << (intIndex << 2); // in das Array schieben
-				if (intIndex == 7) {
-					movesIndex++;
-					intIndex = -1;
-				}
-				intIndex++;
-
-			} else {
-				System.out.println("Fehler in dreheZugsequenz.");
-			}
+		String[] z = zuege.split(" ");
+		for(int i = 0; i < z.length; i++){
+			this.drehe(Zuege.lookupZug(z[i]));
 		}
-		moves[movesIndex] |= 0xF << (intIndex << 2);
-		this.dreheZugsequenz(moves);
 	}
 
 	/**
@@ -189,23 +120,21 @@ public class Wuerfel {
 		seiten[5] = 0x55555555;
 	}
 	
-	
 	/**
 	 * mach "laenge" zufällig Züge. An sich braucht man nie mehr als 26.
 	 * @param laenge Anzahl der Züge
 	 * @param ausgeben Anzeigen der Züge
 	 */
 	public void verdrehe(int laenge, boolean ausgeben){
-		final int[] a = {0, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13}; // alle Züge
-		int zug;
-		String zuege = "";
-		for(int i = 0; i < laenge; i++) {
-			zug = a[(int)(12*Math.random())];
-			this.drehe(zug);
-			zuege += this.lookupMove(zug) + " ";
+		int currZug;
+		StringBuilder s = new StringBuilder();
+		for(int i = 0; i < laenge; i++){
+			currZug = Zuege.zuege[(int)(Zuege.zuege.length * Math.random())];
+			this.drehe(currZug);
+			s.append(Zuege.lookupZug(currZug));
 		}
 		if(ausgeben) {
-			System.out.println("Verdreht mit: " + zuege);
+			System.out.println("Verdreht mit: " + s);
 		}
 	}
 
@@ -224,13 +153,13 @@ public class Wuerfel {
 	 * Ruft dreheUhr und dreheGUhr auf
 	 */
 	public void drehe(int zug) {
-		if(zug % 3 == 2){
-			this.dreheGUhr(kZuU[zug / 3]);
+		if(zug % 3 == 2) { // prime
+			this.dreheGUhr(zug / 3);
 		}
-
-
-		int seite = zug /= 3;
-		int art = zug % 3;
+		this.dreheUhr(zug / 3); // hier muss es entweder normal oder doppelt sein
+		if(zug % 3 == 1){ // falls doppelt
+			this.dreheUhr(zug / 3);
+		}
 	}
 
 	/**
@@ -334,7 +263,7 @@ public class Wuerfel {
 	 * @param Farbe in Binär kodiert.
 	 * @return Farbe als Buchstabe.
 	 */
-	private char lookupColor(int code) {
+	private static char lookupColor(int code) {
 		switch (code) {
 		case 0:
 			return 'W';
@@ -359,7 +288,7 @@ public class Wuerfel {
 	 * @param code in Binär kodiert.
 	 * @return Move als Buchstabe.
 	 */
-	private String lookupMove(int code) {
+	private static String lookupMove(int code) {
 		switch (code) {
 		case 0:
 			return "U";
@@ -444,7 +373,6 @@ public class Wuerfel {
 
 	}
 
-	
 	/**
 	 * Getter für Seiten.
 	 * @return seiten
