@@ -50,7 +50,7 @@ public class Wuerfel {
 	 * @param Würfelkonfiguration
 	 */
 	public Wuerfel(int[] pos) {
-		this.seiten = pos;
+		this.seiten = Arrays.copyOf(pos, 6);
 	}
 
 	/**

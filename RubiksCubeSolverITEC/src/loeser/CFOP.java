@@ -85,10 +85,10 @@ public class CFOP extends Thread {
     }
 
     public void run() {
-        loese();
+        starteLoesen();
     }
 
-    public void loese() {
+    public void starteLoesen() {
         // -------------------------Kreuz-------------------------
         IDDFS pattern = new IDDFS(this.w.getSeiten(), kreuzDaten, kreuzMaske);
         w.dreheZugsequenz(pattern.loese());
@@ -180,7 +180,7 @@ public class CFOP extends Thread {
 		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
 		if (this.debug == 1) w.ausgeben();
 		// BO
-		pattern = new IDDFS(this.w.getSeiten(), F2LBO2Daten, F2LBO2Maske);
+		pattern = new IDDFS(this.w.getSeiten(), F2LBO2Daten, F2LBO2Maske); // TODO man kann wahrscheinlich weniger als alle Züge hier verwenden
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
 		if (this.debug == 1) w.ausgeben();

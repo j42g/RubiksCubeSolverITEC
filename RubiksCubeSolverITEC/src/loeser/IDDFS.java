@@ -8,6 +8,8 @@ import representation.Zuege;
 import java.util.Arrays;
 
 public class IDDFS {
+
+	private static final int[] oppFace = {5, 3, 4, 1, 2, 0};
 	
 	/**
 	 * Stack für IDDFS
@@ -47,7 +49,7 @@ public class IDDFS {
 		this.startPos = _startPos;
 		this.zielPos = _zielPos;
 		this.zielMaske = _zielMaske;
-		this.zuege = Zuege.grundZuege;
+		this.zuege = Zuege.alleZuege;
 	}
 	
 	/**
@@ -92,23 +94,39 @@ public class IDDFS {
 	 * Generiert alle möglichen 1-Zug fortsetzungen von moves fügt sie dem Stack hinzu.
 	 * Falls die Tiefe gleich der Anzahl der Z.
 	 * @param moves bisherige Züge
+	 * TODO Man kann hier mehr branches wegschmeißen
 	 */
 	private void genChildMoves(int[] moves, int tiefe){
 		if(tiefe < moves.length){
 			return;
 		}
-		if(moves.length == 0){ // erster Durchgang, es gibt keinen letzten Zug
+		if (moves.length > 1){  // adv pruning
 			for (int zug : this.zuege) {
-				int[] a = Arrays.copyOf(moves, moves.length + 1);
-				a[moves.length] = zug;
-				pos.push(a);
-			}
-		} else {
-			int invLastMove = Zuege.invZug[moves[moves.length - 1]]; // umkehrzug vom letzten Zug
-			for (int zug : this.zuege) {
-				if (zug == invLastMove) { // würde den letzten Zug rückgängig machen
-					continue;
+				if (oppFace[moves[moves.length - 1] / 3] == moves[moves.length - 2] / 3) { // last the moves commute
+					if (zug / 3 != moves[moves.length - 1] / 3
+							&& zug / 3 != moves[moves.length - 2] / 3) { // dont move the same side as last 2 moves
+						int[] a = Arrays.copyOf(moves, moves.length + 1);
+						a[moves.length] = zug;
+						pos.push(a);
+					}
+				} else {
+					if (zug / 3 != moves[moves.length - 1] / 3) { // dont move the same side as last move
+						int[] a = Arrays.copyOf(moves, moves.length + 1);
+						a[moves.length] = zug;
+						pos.push(a);
+					}
 				}
+			}
+		} else if (moves.length == 1) { // simple move pruning
+			for (int zug : this.zuege) {
+				if(zug / 3 != moves[moves.length - 1] / 3){ // dont move the same side as last move
+					int[] a = Arrays.copyOf(moves, moves.length + 1);
+					a[moves.length] = zug;
+					pos.push(a);
+				}
+			}
+		} else { // erster Durchgang, es gibt keinen letzten Zug
+			for (int zug : this.zuege) {
 				int[] a = Arrays.copyOf(moves, moves.length + 1);
 				a[moves.length] = zug;
 				pos.push(a);
