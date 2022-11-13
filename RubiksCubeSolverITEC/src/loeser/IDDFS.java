@@ -62,7 +62,7 @@ public class IDDFS {
 			long time = System.currentTimeMillis();
 			DLS(new int[]{}, tiefe);
 			tiefe++;
-			System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
+			//System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
 		}
 		return loesung;
 	}
