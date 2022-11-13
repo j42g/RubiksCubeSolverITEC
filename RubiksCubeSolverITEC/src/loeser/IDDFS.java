@@ -61,7 +61,7 @@ public class IDDFS {
 			DLS(new int[]{}, tiefe);
 			tiefe++;
 			System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
-		} 
+		}
 		return loesung;
 	}
 	
@@ -70,7 +70,6 @@ public class IDDFS {
 	 * obwohl eigentlich schon, aber ist cracked mit Wuerfeln)
 	 * @param startZuege
 	 * @param tiefe
-	 * @return
 	 */
 	private void DLS(int[] startZuege, int tiefe) {
 		this.pos = new Stack<int[]>();
@@ -90,30 +89,31 @@ public class IDDFS {
 	}
 	
 	/**
-	 * Generiert alle möglichen 1-Zug fortsetzungen von move fügt sie dem Stack hinzu.
+	 * Generiert alle möglichen 1-Zug fortsetzungen von moves fügt sie dem Stack hinzu.
 	 * Falls die Tiefe gleich der Anzahl der Z.
-	 * @param move bisherige Züge
+	 * @param moves bisherige Züge
 	 */
-	private void genChildMoves(int[] move, int tiefe){
-		if(tiefe < move.length){
+	private void genChildMoves(int[] moves, int tiefe){
+		if(tiefe < moves.length){
 			return;
 		}
-		if(move.length == 0){ // erster Durchgang, es gibt keinen letzten Zug
+		if(moves.length == 0){ // erster Durchgang, es gibt keinen letzten Zug
 			for (int zug : this.zuege) {
-				int[] a = Arrays.copyOf(move, move.length + 1);
-				a[move.length] = zug;
+				int[] a = Arrays.copyOf(moves, moves.length + 1);
+				a[moves.length] = zug;
 				pos.push(a);
 			}
 		} else {
-			int invLastMove = Zuege.invZug[move[move.length - 1]]; // umkehrzug vom letzten Zug
+			int invLastMove = Zuege.invZug[moves[moves.length - 1]]; // umkehrzug vom letzten Zug
 			for (int zug : this.zuege) {
 				if (zug == invLastMove) { // würde den letzten Zug rückgängig machen
 					continue;
 				}
-				int[] a = Arrays.copyOf(move, move.length + 1);
-				a[move.length] = zug;
+				int[] a = Arrays.copyOf(moves, moves.length + 1);
+				a[moves.length] = zug;
 				pos.push(a);
 			}
 		}
 	}
+
 }

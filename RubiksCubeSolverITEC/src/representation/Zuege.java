@@ -89,6 +89,15 @@ public class Zuege {
         return a.toString();
     }
 
+    public static int[] lookupZugseq(String seq){
+        String[] z = seq.split(" ");
+        int[] result = new int[z.length];
+        for(int i = 0; i < z.length; i++){
+            result[i] = Zuege.lookupZug(z[i]);
+        }
+        return result;
+    }
+
 
 
 }
