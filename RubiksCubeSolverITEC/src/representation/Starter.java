@@ -9,7 +9,7 @@ public class Starter {
 		Wuerfel a = new Wuerfel();
 		a.verdrehe(25, true);
 
-		CFOP b = new CFOP(a, 1);
+		CFOP b = new CFOP(a);
 
 		b.start();
 
