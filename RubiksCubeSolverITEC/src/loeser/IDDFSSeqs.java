@@ -13,7 +13,7 @@ public class IDDFSSeqs {
      * Ist die Klasse IDDFS, nur für Zugsequenzen, anstatt einzelne Züge
      */
 
-    private Stack<int[][]> pos;
+    private Stack<int[]> pos;
     private boolean gefunden = false;
     private int[] loesung;
     private final int[] startPos;
@@ -31,53 +31,46 @@ public class IDDFSSeqs {
 
     public int[] loese() {
         int tiefe = 1;
-        while(!this.gefunden) {
+        while (!this.gefunden) {
             long time = System.currentTimeMillis();
-            DLS(new int[][]{{}}, tiefe);
+            DLS(new int[]{}, tiefe);
             tiefe++;
             System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
         }
         return loesung;
     }
 
-    private void DLS(int[][] startZuege, int tiefe) {
-        this.pos = new Stack<int[][]>();
+    private void DLS(int[] startZuege, int tiefe) {
+        this.pos = new Stack<int[]>();
         this.pos.push(startZuege);
 
-        while(!this.pos.empty()) {
-            int[][] aktuelleZuege = this.pos.pop();
-            int[] aktuelleZuegeSeq = IDDFSSeqs.seqofseqstoseq(aktuelleZuege);
-            if((new Wuerfel(startPos, aktuelleZuegeSeq)).isMaskSolved(this.zielPos, this.zielMaske)) {
+        while (!this.pos.empty()) {
+            int[] aktuelleZuege = this.pos.pop();
+            if ((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {
                 this.gefunden = true;
-                this.loesung = aktuelleZuegeSeq;
+                this.loesung = aktuelleZuege;
                 return;
             }
             this.genChildMoves(aktuelleZuege, tiefe);
         }
     }
 
-    private void genChildMoves(int[][] moves, int tiefe){
-        if(tiefe < moves.length){
+    private void genChildMoves(int[] moves, int tiefe) {
+        if (tiefe < moves.length) {
             return;
         }
         for (int[] seq : this.seqs) {
-            int[][] a = Arrays.copyOf(moves, moves.length + 1);
-            a[moves.length] = seq;
+            if (moves.length > 0) { // es gibt einen letzten Zug
+                if (moves[moves.length - 1] / 3 == 5) { // wenn der letzte Zug D war
+                    if (seq.length == 1) { // nicht nochmal D drehen
+                        continue;
+                    }
+                }
+            }
+            int[] a = Arrays.copyOf(moves, moves.length + seq.length);
+            System.arraycopy(seq, 0, a, moves.length, seq.length);
             this.pos.push(a);
         }
     }
 
-    private static int[] seqofseqstoseq(int[][] seqseq){
-        ArrayList<Integer> ouputSeq = new ArrayList<Integer>();
-        for(int[] seq : seqseq){
-            for (int j : seq) {
-                ouputSeq.add(j);
-            }
-        }
-        int[] ouputSeqArr = new int[ouputSeq.size()];
-        for(int i = 0; i < ouputSeqArr.length; i++){
-            ouputSeqArr[i] = ouputSeq.get(i);
-        }
-        return ouputSeqArr;
-    }
 }

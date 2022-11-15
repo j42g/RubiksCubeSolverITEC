@@ -107,6 +107,9 @@ public class IDAStar extends Thread { // https://en.wikipedia.org/wiki/Iterative
     // https://stackoverflow.com/questions/60130124/heuristic-function-for-rubiks-cube-in-a-algorithm-artificial-intelligence
     // https://www.cs.princeton.edu/courses/archive/fall06/cos402/papers/korfrubik.pdf
     private int h(CubeNode node) {
+        // make into index
+        int index = 0;
+
         return 0; // TODO Implementieren
     }
 }
