@@ -38,8 +38,8 @@ public class Database {
             int arrIndex = 0;
             byte[] output = new byte[data.length / 2];
             for (int i = 0; i < data.length / 2; i++) {
-                arrIndex = i << 1;
                 output[i] = (byte) ((data[arrIndex] << 4) + data[arrIndex + 1]);
+                arrIndex += 2;
 
             }
             out.write(output);
