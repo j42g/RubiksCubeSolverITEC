@@ -109,13 +109,10 @@ public class Util {
 					}
 					changed = true;
 					i++;
-
 				} else {
 					bessereZuege += s[i];
 					bessereZuege += " ";
 				}
-
-
 				if(i==s.length-2) {
 					bessereZuege += s[s.length - 1];
 				}
