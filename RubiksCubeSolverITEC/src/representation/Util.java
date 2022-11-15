@@ -115,6 +115,7 @@ public class Util {
 					bessereZuege += " ";
 				}
 
+
 				if(i==s.length-2) {
 					bessereZuege += s[s.length - 1];
 				}
