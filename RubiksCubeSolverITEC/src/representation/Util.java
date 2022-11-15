@@ -71,14 +71,17 @@ public class Util {
 	 */
 	public static String kuerzen(String zuege) {
 		boolean changed = true;
+		if(!zuege.contains(" ")){
+			return zuege;
+		}
 		while (changed) {
 			changed = false;
 			String[] s = zuege.split(" ");
-			StringBuilder bessereZuege = new StringBuilder();
+			String bessereZuege = "";
 			for (int i = 0; i < s.length - 1; i++) {
 				if (s[i].equals(s[i + 1])) { // D + D => D2
-					bessereZuege.append(s[i].charAt(0)).append("2");
-					bessereZuege.append(" ");
+					bessereZuege += s[i].charAt(0) + "2";
+					bessereZuege += " ";
 					i++;
 					changed = true;
 				} else if (s[i].equals(s[i + 1] + "'")) { // D + D'
@@ -91,32 +94,32 @@ public class Util {
 					if (!(s[i].charAt(0) + "2").equals(s[i]) || !(s[i + 1].charAt(0) + "2").equals(s[i + 1])) {
 						if ((s[i].charAt(0)+"2").equals(s[i])) {
 							if ((s[i + 1].charAt(0)+"'").equals(s[i+1])) {
-								bessereZuege.append(s[i].charAt(0));
+								bessereZuege += s[i].charAt(0);
 							} else {
-								bessereZuege.append(s[i].charAt(0)).append("'");
+								bessereZuege += s[i].charAt(0) + "'";
 							}
 						} else {
 							if ((s[i].charAt(0)+"'").equals(s[i])) {
-								bessereZuege.append(s[i].charAt(0));
+								bessereZuege += s[i].charAt(0);
 							} else {
-								bessereZuege.append(s[i].charAt(0)).append("'");
+								bessereZuege += s[i].charAt(0) + "'";
 							}
 						}
-						bessereZuege.append(" ");
+						bessereZuege += " ";
 					}
 					changed = true;
 					i++;
 
 				} else {
-					bessereZuege.append(s[i]);
-					bessereZuege.append(" ");
+					bessereZuege += s[i];
+					bessereZuege += " ";
 				}
 
 				if(i==s.length-2) {
-					bessereZuege.append(s[s.length - 1]);
+					bessereZuege += s[s.length - 1];
 				}
 			}
-			zuege = bessereZuege.toString();
+			zuege = bessereZuege;
 		}
 		return zuege;
 	}
