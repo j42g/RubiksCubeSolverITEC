@@ -247,7 +247,7 @@ public class Wuerfel {
 	 * @return Die Farbe in Binär kodiert.
 	 */
 	private int extractColor(int face, int index) {
-		return (this.seiten[face] >>> (index * 4)) & (0xF);
+		return (this.seiten[face] >>> (index << 2)) & (0xF);
 	}
 
 	/**
@@ -274,7 +274,26 @@ public class Wuerfel {
 		}
 		return 'X';
 	}
-
+	public void cubieOP(){
+		int[] orientations = new int[7];
+		int[] permutations = new int[8];
+		long cache = 0; //cubies are saved in 8 bits each, the first 4 bits are the color on the orientation surface (green, blue) the second 4 bits are the color clockwise to the first color
+		for(int i = 0; i < 4; i++) { //all faces on blue layer
+			cache |= ((long)(extractColor(1,((i*2)+4)%8)))<<(8*i);
+		}
+		for(int i = 4; i < 8; i++){ //all faces on green layer
+			cache |= ((long)(extractColor(3,(((-i*2)+2)+8)%8)))<<(8*i);
+		}
+		cache |= ((long)(extractColor(5,4)))<<4;
+		cache |= ((long)(extractColor(4,6)))<<12;
+		cache |= ((long)(extractColor(0,0)))<<20;
+		cache |= ((long)(extractColor(2,4)))<<28;
+		cache |= ((long)(extractColor(4,2)))<<36;
+		cache |= ((long)(extractColor(5,0)))<<44;
+		cache |= ((long)(extractColor(2,6)))<<52;
+		cache |= ((long)(extractColor(0,4)))<<60;
+		System.out.println(Long.toHexString(cache));
+	}
 	/**
 	 * Gibt zu gegebenem Binärkode den Zug zuräck. Bei einem ungültigen Kode, wird
 	 * 'X' zurückgegeben.
