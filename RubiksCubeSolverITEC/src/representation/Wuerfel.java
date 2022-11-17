@@ -294,6 +294,7 @@ public class Wuerfel {
         cache |= ((long) (extractColor(2, 6))) << 52;
         cache |= ((long) (extractColor(5, 0))) << 60;
 
+
         System.out.println(Long.toHexString(cache));
         for (int i = 0; i < orientations.length; i++) {
             if (((cache >>> 8 * i) & 0xF) == 1 || ((cache >>> 8 * i) & 0xF) == 3) {
