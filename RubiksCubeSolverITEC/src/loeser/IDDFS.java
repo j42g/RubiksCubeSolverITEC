@@ -31,6 +31,10 @@ public class IDDFS {
 	 * Zuge in Zugkode, welche gemacht werden sollen
 	 */
 	private final int[] zuege;
+	/**
+	 * Debug
+	 */
+	private final int debug;
 	
 	
 	/**
@@ -38,18 +42,20 @@ public class IDDFS {
 	 * @param _startPos
 	 * @param _zielPos
 	 */
-	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[] _zuege) {
+	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[] _zuege, int debug) {
 		this.startPos = _startPos;
 		this.zielPos = _zielPos;
 		this.zielMaske = _zielMaske;
 		this.zuege = _zuege;
+		this.debug = debug;
 	}
 	
-	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske) {
+	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int debug) {
 		this.startPos = _startPos;
 		this.zielPos = _zielPos;
 		this.zielMaske = _zielMaske;
 		this.zuege = Zuege.alleZuege;
+		this.debug = debug;
 	}
 	
 	/**
@@ -62,7 +68,7 @@ public class IDDFS {
 			long time = System.currentTimeMillis();
 			DLS(new int[]{}, tiefe);
 			tiefe++;
-			//System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
+			if(debug >= 1)System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
 		}
 		return loesung;
 	}

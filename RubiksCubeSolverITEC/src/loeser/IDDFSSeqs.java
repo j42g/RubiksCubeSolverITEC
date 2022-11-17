@@ -20,13 +20,15 @@ public class IDDFSSeqs {
     private final int[] zielPos;
     private final int[] zielMaske;
     private final int[][] seqs;
+    private final int debug;
 
 
-    public IDDFSSeqs(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[][] seqs) {
+    public IDDFSSeqs(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[][] seqs, int debug) {
         this.startPos = _startPos;
         this.zielPos = _zielPos;
         this.zielMaske = _zielMaske;
         this.seqs = seqs;
+        this.debug = debug;
     }
 
     public int[] loese() {
@@ -35,7 +37,7 @@ public class IDDFSSeqs {
             long time = System.currentTimeMillis();
             DLS(new int[]{}, tiefe);
             tiefe++;
-            System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
+            if (debug >= 1)System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
         }
         return loesung;
     }

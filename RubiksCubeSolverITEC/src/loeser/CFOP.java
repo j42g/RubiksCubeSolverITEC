@@ -94,32 +94,32 @@ public class CFOP extends Thread {
         long absStartTime = System.currentTimeMillis();
         long startTime;
         // -------------------------Kreuz-------------------------
-        IDDFS pattern = new IDDFS(this.w.getSeiten(), kreuzDaten, kreuzMaske);
+        IDDFS pattern = new IDDFS(this.w.getSeiten(), kreuzDaten, kreuzMaske, debug);
         startTime = System.currentTimeMillis();
         w.dreheZugsequenz(pattern.loese());
         this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
         this.solverOutput += "Kreuz dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-        if (this.debug == 1) w.ausgeben();
+        if (this.debug >= 1) w.ausgeben();
 
 		// --------------------------F2L--------------------------
 		this.F2L();
 
 		// -----------------------LastLayer-----------------------
         // OLL
-        IDDFSSeqs ll = new IDDFSSeqs(this.w.getSeiten(), OLLDaten, OLLMaske, OLLzuege);
+        IDDFSSeqs ll = new IDDFSSeqs(this.w.getSeiten(), OLLDaten, OLLMaske, OLLzuege, debug);
         startTime = System.currentTimeMillis();
         w.dreheZugsequenz(ll.loese());
         this.solveSequenz += Zuege.lookupZugseq(ll.loese());
         this.solverOutput += "OLL dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(ll.loese()) + "\n";
-        if (this.debug == 1) w.ausgeben();
+        if (this.debug >= 1) w.ausgeben();
 
         // PLL
-        ll = new IDDFSSeqs(this.w.getSeiten(), PLLDaten, PLLMaske, PLLzuege);
+        ll = new IDDFSSeqs(this.w.getSeiten(), PLLDaten, PLLMaske, PLLzuege, debug);
         startTime = System.currentTimeMillis();
         w.dreheZugsequenz(ll.loese());
         this.solveSequenz += Zuege.lookupZugseq(ll.loese());
         this.solverOutput += "PLL dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(ll.loese()) + "\n";
-        if (this.debug == 1) w.ausgeben();
+        if (this.debug >= 1) w.ausgeben();
 
         long totalTime = System.currentTimeMillis() - absStartTime;
         System.out.println(solverOutput);
@@ -129,96 +129,96 @@ public class CFOP extends Thread {
 
 	private void F2LEinzeln(){
 		// OG
-		IDDFS pattern = new IDDFS(this.w.getSeiten(), F2LOG1Daten, F2LOG1Maske);
+		IDDFS pattern = new IDDFS(this.w.getSeiten(), F2LOG1Daten, F2LOG1Maske, debug);
         long startTime = System.currentTimeMillis();
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
         this.solverOutput += "F2L-1.1 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-        if (this.debug == 1) w.ausgeben();
+        if (this.debug >= 1) w.ausgeben();
 
-		pattern = new IDDFS(this.w.getSeiten(), F2LOG2Daten, F2LOG2Maske);
+		pattern = new IDDFS(this.w.getSeiten(), F2LOG2Daten, F2LOG2Maske, debug);
         startTime = System.currentTimeMillis();
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
         this.solverOutput += "F2L-1.2 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-		if (this.debug == 1) w.ausgeben();
+		if (this.debug >= 1) w.ausgeben();
 
 		// GR
-		pattern = new IDDFS(this.w.getSeiten(), F2LGR1Daten, F2LGR1Maske);
+		pattern = new IDDFS(this.w.getSeiten(), F2LGR1Daten, F2LGR1Maske, debug);
         startTime = System.currentTimeMillis();
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
         this.solverOutput += "F2L-2.1 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-		if (this.debug == 1) w.ausgeben();
+		if (this.debug >= 1) w.ausgeben();
 
-		pattern = new IDDFS(this.w.getSeiten(), F2LGR2Daten, F2LGR2Maske);
+		pattern = new IDDFS(this.w.getSeiten(), F2LGR2Daten, F2LGR2Maske, debug);
         startTime = System.currentTimeMillis();
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
         this.solverOutput += "F2L-2.2 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-		if (this.debug == 1) w.ausgeben();
+		if (this.debug >= 1) w.ausgeben();
 
 		// RB
-		pattern = new IDDFS(this.w.getSeiten(), F2LRB1Daten, F2LRB1Maske);
+		pattern = new IDDFS(this.w.getSeiten(), F2LRB1Daten, F2LRB1Maske, debug);
         startTime = System.currentTimeMillis();
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
         this.solverOutput += "F2L3.1 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-		if (this.debug == 1) w.ausgeben();
+		if (this.debug >= 1) w.ausgeben();
 
-		pattern = new IDDFS(this.w.getSeiten(), F2LRB2Daten, F2LRB2Maske);
+		pattern = new IDDFS(this.w.getSeiten(), F2LRB2Daten, F2LRB2Maske, debug);
         startTime = System.currentTimeMillis();
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
         this.solverOutput += "F2L-3.2 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-		if (this.debug == 1) w.ausgeben();
+		if (this.debug >= 1) w.ausgeben();
 
 		// BO
-		pattern = new IDDFS(this.w.getSeiten(), F2LBO1Daten, F2LBO1Maske);
+		pattern = new IDDFS(this.w.getSeiten(), F2LBO1Daten, F2LBO1Maske, debug);
         startTime = System.currentTimeMillis();
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
         this.solverOutput += "F2L-4.1 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-		if (this.debug == 1) w.ausgeben();
+		if (this.debug >= 1) w.ausgeben();
 
-		pattern = new IDDFS(this.w.getSeiten(), F2LBO2Daten, F2LBO2Maske);
+		pattern = new IDDFS(this.w.getSeiten(), F2LBO2Daten, F2LBO2Maske, debug);
         startTime = System.currentTimeMillis();
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
         this.solverOutput += "F2L-4.2 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-		if (this.debug == 1) w.ausgeben();
+		if (this.debug >= 1) w.ausgeben();
 	}
 
 	private void F2L(){
         long startTime;
 		// OG
-		IDDFS pattern = new IDDFS(this.w.getSeiten(), F2LOG2Daten, F2LOG2Maske);
+		IDDFS pattern = new IDDFS(this.w.getSeiten(), F2LOG2Daten, F2LOG2Maske, debug);
         startTime = System.currentTimeMillis();
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
         this.solverOutput += "F2L-1 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-		if (this.debug == 1) w.ausgeben();
+		if (this.debug >= 1) w.ausgeben();
 		// GR
-		pattern = new IDDFS(this.w.getSeiten(), F2LGR2Daten, F2LGR2Maske);
+		pattern = new IDDFS(this.w.getSeiten(), F2LGR2Daten, F2LGR2Maske, debug);
         startTime = System.currentTimeMillis();
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
         this.solverOutput += "F2L-2 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-		if (this.debug == 1) w.ausgeben();
+		if (this.debug >= 1) w.ausgeben();
 		// RB
-		pattern = new IDDFS(this.w.getSeiten(), F2LRB2Daten, F2LRB2Maske);
+		pattern = new IDDFS(this.w.getSeiten(), F2LRB2Daten, F2LRB2Maske, debug);
         startTime = System.currentTimeMillis();
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
         this.solverOutput += "F2L-3 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-		if (this.debug == 1) w.ausgeben();
+		if (this.debug >= 1) w.ausgeben();
 		// BO
-		pattern = new IDDFS(this.w.getSeiten(), F2LBO2Daten, F2LBO2Maske);
+		pattern = new IDDFS(this.w.getSeiten(), F2LBO2Daten, F2LBO2Maske, debug);
         startTime = System.currentTimeMillis();
 		w.dreheZugsequenz(pattern.loese());
 		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
         this.solverOutput += "F2L-4 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-		if (this.debug == 1) w.ausgeben();
+		if (this.debug >= 1) w.ausgeben();
 	}
 
 }

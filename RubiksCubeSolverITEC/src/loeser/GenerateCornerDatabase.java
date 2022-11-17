@@ -21,7 +21,7 @@ public class GenerateCornerDatabase {
 
         // Lehmer Code
         int[] lehmer = new int[p.length];
-        int seen = 0; // acts as a array
+        int seen = 0; // acts as an array
         lehmer[0] = p[0];
         seen |= 0b1 << (p.length - 1 - p[0]);
         for(int i = 1; i < p.length - 1; i++){

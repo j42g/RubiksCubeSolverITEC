@@ -7,9 +7,9 @@ public class Util {
 	public static void printArr(int[] arr) {
 		for (int i = 0; i < arr.length; i++) {
 			if (i == arr.length - 1) {
-				System.out.print(Integer.toBinaryString(arr[i]) + "\n");
+				System.out.print(arr[i] + "\n");
 			} else {
-				System.out.print(Integer.toBinaryString(arr[i]) + ", ");
+				System.out.print(arr[i] + ", ");
 			}
 		}
 	}
@@ -128,7 +128,7 @@ public class Util {
 		long time;
 		for (int i = 0; i < durchgaenge; i++) {
 			w.verdrehe(26, false);
-			ZweiMalZwei a = new ZweiMalZwei(w);
+			ZweiMalZwei a = new ZweiMalZwei(w, 1);
 			time = System.currentTimeMillis();
 			a.loese();
 			summe += System.currentTimeMillis() - time;
@@ -136,6 +136,14 @@ public class Util {
 		}
 		// Bilde Durchschnitt
 		System.out.println("Durchschnitt: " + summe / durchgaenge);
+	}
+
+	public static int factorial(int n){
+		int f = 1;
+		for(int i = 2; i < n + 1; i++){
+			f *= i;
+		}
+		return f;
 	}
 
 }
