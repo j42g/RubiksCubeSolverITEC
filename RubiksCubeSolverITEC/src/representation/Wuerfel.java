@@ -4,6 +4,19 @@ import java.util.Arrays;
 
 public class Wuerfel {
 
+	private static final int[][][] cornerFacelet = { // [Ecke][Einer der frei Facelets][Seitenindex oder indexaufderSeite]
+			{{0, 4}, {4, 4}, {3, 0}},
+			{{0, 6}, {3, 6}, {2, 0}},
+			{{0, 0}, {2, 6}, {1, 0}},
+			{{0, 2}, {1, 6}, {4, 6}},
+			{{5, 2}, {3, 2}, {4, 2}},
+			{{5, 0}, {2, 2}, {3, 4}},
+			{{5, 6}, {1, 2}, {2, 4}},
+			{{5, 4}, {4, 0}, {1, 4}}};
+
+	private static final int[][] cornerColor = {{0, 4, 3}, {0, 4, 2}, {0, 2, 1}, {0, 1, 4},
+		{5, 3, 4}, {5, 2, 3}, {5, 1, 2}, {5, 4, 1} };
+
 	/**
 	 * 
 	 * Im Array sind die 6 Seiten gespeicht. Die i-te Seite hat die i-te Farbe:
@@ -62,6 +75,42 @@ public class Wuerfel {
 	public Wuerfel(int[] pos, int[] moves) {
 		this.seiten = Arrays.copyOf(pos, 6);
 		this.dreheZugsequenz(moves);
+	}
+
+	/**
+	 * Es funktioniert irgendwie. (Noch nicht getestet, aber ich mache keine Fehler)
+	 * @return Ecken Permutation und Orientierung
+	 */
+	public int[][] getCornerCubies(){
+		int[] ep = new int[8];
+		int[] eo = new int[8];
+		int[][] fac;
+		int[] col;
+		int ori;
+		int col1;
+		int col2;
+		for (int i = 0; i < 8; i++) { // alle Ecken
+			fac = cornerFacelet[i];
+			ori = 0;
+			for (int tori = 0; tori < 3; tori++) {
+				ori = tori;
+				if(this.extractColor(fac[ori][0], fac[ori][1]) == 0
+						|| this.extractColor(fac[ori][0], fac[ori][1]) == 5){
+					break;
+				}
+			}
+			col1 = this.extractColor(fac[(ori + 1) % 3][1], fac[(ori + 1) % 3][1]);
+			col2 = this.extractColor(fac[(ori + 2) % 3][1], fac[(ori + 1) % 3][1]);
+			for (int j = 0; j < 8; j++) {
+				col = cornerColor[j];
+				if (col1 == col[1] && col2 == col[2]) {
+					ep[i] = j;
+					eo[i] = ori;
+					break;
+				}
+			}
+		}
+		return new int[][]{ep, eo};
 	}
 
 	/**
