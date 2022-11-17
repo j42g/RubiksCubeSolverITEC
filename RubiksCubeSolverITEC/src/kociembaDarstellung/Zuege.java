@@ -82,4 +82,52 @@ public class Zuege {
 		}
 	}
 
+	public static String lookupZug(int code){
+		switch (code){
+			case 0: return "U";
+			case 1: return "U2";
+			case 2: return "U'";
+			case 3: return "R";
+			case 4: return "R2";
+			case 5: return "R'";
+			case 6: return "F";
+			case 7: return "F2";
+			case 8: return "F'";
+			case 9: return "D";
+			case 10: return "D2";
+			case 11: return "D'";
+			case 12: return "L";
+			case 13: return "L2";
+			case 14: return "L'";
+			case 15: return "B";
+			case 16: return "B2";
+			case 17: return "B'";
+			default: return "Unknown";
+		}
+	}
+
+	public static int lookupZug(String zug){
+		switch (zug){
+			case "U": return 0;
+			case "U2": return 1;
+			case "U'": return 2;
+			case "R": return 3;
+			case "R2": return 4;
+			case "R'": return 5;
+			case "F": return 6;
+			case "F2": return 7;
+			case "F'": return 8;
+			case "D": return 9;
+			case "D2": return 10;
+			case "D'": return 11;
+			case "L": return 12;
+			case "L2": return 13;
+			case "L'": return 14;
+			case "B": return 15;
+			case "B2": return 16;
+			case "B'": return 17;
+			default: return -1;
+		}
+	}
+
 }

@@ -90,6 +90,19 @@ public class CubieWuerfel {
 		this.eckenMul(b);
 		this.kantenMul(b);
 	}
+
+	public void dreheZugsequenz(int[] zuege){
+		for(int zug : zuege) {
+			this.mul(Zuege.alleZuege[zug]);
+		}
+	}
+
+	public void dreheZugsequenz(String seq){
+		String[] zuege = seq.split(" ");
+		for(String zug : zuege) {
+			this.mul(Zuege.alleZuege[Zuege.lookupZug(zug)]);
+		}
+	}
 	
 	public FaceletWuerfel toFaceletWuerfel() {
 		FaceletWuerfel faceletW = new FaceletWuerfel();
