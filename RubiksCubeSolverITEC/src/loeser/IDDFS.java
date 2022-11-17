@@ -35,13 +35,7 @@ public class IDDFS {
 	 * Debug
 	 */
 	private final int debug;
-	
-	
-	/**
-	 * Konstruktor
-	 * @param _startPos
-	 * @param _zielPos
-	 */
+
 	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[] _zuege, int debug) {
 		this.startPos = _startPos;
 		this.zielPos = _zielPos;
@@ -57,11 +51,7 @@ public class IDDFS {
 		this.zuege = Zuege.alleZuege;
 		this.debug = debug;
 	}
-	
-	/**
-	 * Starte IDDFS
-	 * @return
-	 */
+
 	public int[] loese() { 
 		int tiefe = 1;
 		while(!this.gefunden) {
