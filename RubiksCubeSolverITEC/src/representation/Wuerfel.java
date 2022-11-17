@@ -116,16 +116,7 @@ public class Wuerfel {
 		return new int[][]{ep, eo};
 	}
 
-	/**
-	 * Dreht Zugsequenz.
-	 * 
-	 * @param zuege Züge als Kode
-	 */
-	public void dreheZugsequenz(int[] zuege) {
-		for(int i = 0; i < zuege.length; i++){
-			this.drehe(zuege[i]);
-		}
-	}
+
     /**
      * Dreht Zugsequenz.
      *
