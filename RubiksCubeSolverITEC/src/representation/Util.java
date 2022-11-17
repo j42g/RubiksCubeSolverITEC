@@ -107,11 +107,11 @@ public class Util {
 		long time;
 		for (int i = 0; i < durchgaenge; i++) {
 			w.verdrehe(26, false);
-			ZweiMalZwei a = new ZweiMalZwei(w, 1);
+			ZweiMalZwei a = new ZweiMalZwei(w, 0);
 			time = System.currentTimeMillis();
 			a.loese();
 			summe += System.currentTimeMillis() - time;
-			System.out.println((i + 1) + "/" + durchgaenge + " fertig.");
+			System.out.print("\r" + (i + 1) + "/" + durchgaenge + " fertig.");
 		}
 		// Bilde Durchschnitt
 		System.out.println("Durchschnitt: " + summe / durchgaenge);
