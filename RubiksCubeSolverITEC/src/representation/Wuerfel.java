@@ -14,9 +14,15 @@ public class Wuerfel {
 			{{5, 6}, {1, 2}, {2, 4}},
 			{{5, 4}, {4, 0}, {1, 4}}};
 
-	private static final int[][] cornerColor = { { 0, 4, 3 }, { 0,3, 2 },
-			{ 0, 2, 1 }, { 0, 1, 4 }, { 5, 3, 4 },
-			{ 5, 2, 3 }, { 5, 1, 2 }, { 5, 4,1 } };
+	private static final int[][] cornerColor = {
+			{0, 4, 3},
+			{0, 3, 2},
+			{0, 2, 1},
+			{0, 1, 4},
+			{5, 3, 4},
+			{5, 2, 3},
+			{5, 1, 2},
+			{5, 4, 1}};
 
 	/**
 	 * 
@@ -134,27 +140,6 @@ public class Wuerfel {
 		String[] z = zuege.split(" ");
 		for(int i = 0; i < z.length; i++){
 			this.drehe(Zuege.lookupZug(z[i]));
-		}
-	}
-
-	/**
-	 * Ändert an der Fläche "seitenIndex" an den "feldIndex"-ten Position die Farbe
-	 * zu "farbe".
-	 * 
-	 * @param seitenIndex Index der Seite.
-	 * @param feldIndex   Index der Seite.
-	 * @param farbe       Farbe als Binärkode.
-	 */
-	public void veraendereEinzeln(int seitenIndex, int feldIndex, int farbe) {
-		// feldIndex * 4 in schnell
-		feldIndex = feldIndex << 2;
-		// Bit magic
-		for (int i = 0; i < 4; i++) {
-			if (((farbe >>> i) & 1) == 1) {
-				this.seiten[seitenIndex] |= (0b1 << (feldIndex + i));
-			} else {
-				this.seiten[seitenIndex] &= ~(0b1 << (feldIndex + i));
-			}
 		}
 	}
 
