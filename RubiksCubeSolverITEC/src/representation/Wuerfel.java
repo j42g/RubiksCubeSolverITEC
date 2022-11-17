@@ -361,45 +361,112 @@ public class Wuerfel {
         cache |= ((long) (extractColor(2, 2))) << 44;
         cache |= ((long) (extractColor(1, 2))) << 52;
         cache |= ((long) (extractColor(4, 0))) << 60;
-		int[] store;
 		for(int i = 0; i<8;i++){
 			switch((int)((cache>>>8*i)&0xFF)){
-				case 0x40:store = new int[]{0,0};break;
-				case 0x03:store = new int[]{0,1};break;
-				case 0x34:store = new int[]{0,2};break;
+				case 0x40:
+					result[0][i]=0;
+					result[1][i]=0;
+					break;
+				case 0x03:
+					result[0][i]=0;
+					result[1][i]=1;
+					break;
+				case 0x34:
+					result[0][i]=0;
+					result[1][i]=2;
+					break;
 
-				case 0x30:store = new int[]{1,0};break;
-				case 0x02:store = new int[]{1,1};break;
-				case 0x23:store = new int[]{1,2};break;
+				case 0x30:
+					result[0][i]=1;
+					result[1][i]=0;
+					break;
+				case 0x02:
+					result[0][i]=1;
+					result[1][i]=1;
+					break;
+				case 0x23:
+					result[0][i]=1;
+					result[1][i]=2;
+					break;
 
-				case 0x20:store = new int[]{2,0};break;
-				case 0x01:store = new int[]{2,1};break;
-				case 0x12:store = new int[]{2,2};break;
+				case 0x20:
+					result[0][i]=2;
+					result[1][i]=0;
+					break;
+				case 0x01:
+					result[0][i]=2;
+					result[1][i]=1;
+					break;
+				case 0x12:
+					result[0][i]=2;
+					result[1][i]=2;
+					break;
 
-				case 0x10:store = new int[]{3,0};break;
-				case 0x04:store = new int[]{3,1};break;
-				case 0x41:store = new int[]{3,2};break;
+				case 0x10:
+					result[0][i]=3;
+					result[1][i]=0;
+					break;
+				case 0x04:
+					result[0][i]=3;
+					result[1][i]=1;
+					break;
+				case 0x41:
+					result[0][i]=3;
+					result[1][i]=2;
+					break;
 
-				case 0x35:store = new int[]{4,0};break;
-				case 0x54:store = new int[]{4,1};break;
-				case 0x43:store = new int[]{4,2};break;
+				case 0x35:
+					result[0][i]=4;
+					result[1][i]=0;
+					break;
+				case 0x54:
+					result[0][i]=4;
+					result[1][i]=1;
+					break;
+				case 0x43:
+					result[0][i]=4;
+					result[1][i]=2;
+					break;
 
-				case 0x25:store = new int[]{5,0};break;
-				case 0x53:store = new int[]{5,1};break;
-				case 0x32:store = new int[]{5,2};break;
+				case 0x25:
+					result[0][i]=5;
+					result[1][i]=0;
+					break;
+				case 0x53:
+					result[0][i]=5;
+					result[1][i]=1;
+					break;
+				case 0x32:
+					result[0][i]=5;
+					result[1][i]=2;
+					break;
 
-				case 0x15:store = new int[]{6,0};break;
-				case 0x52:store = new int[]{6,1};break;
-				case 0x21:store = new int[]{6,2};break;
+				case 0x15:
+					result[0][i]=6;
+					result[1][i]=0;
+					break;
+				case 0x52:
+					result[0][i]=6;
+					result[1][i]=1;
+					break;
+				case 0x21:
+					result[0][i]=6;
+					result[1][i]=2;
+					break;
 
-				case 0x45:store = new int[]{7,0};break;
-				case 0x51:store = new int[]{7,1};break;
-				case 0x14:store = new int[]{7,2};break;
-
-				default :store = new int[]{100,100};break;
+				case 0x45:
+					result[0][i]=7;
+					result[1][i]=0;
+					break;
+				case 0x51:
+					result[0][i]=7;
+					result[1][i]=1;
+					break;
+				case 0x14:
+					result[0][i]=7;
+					result[1][i]=2;
+					break;
 			}
-			result[0][i]=store[0];
-			result[1][i]=store[1];
 		}
 		return result;
     }
