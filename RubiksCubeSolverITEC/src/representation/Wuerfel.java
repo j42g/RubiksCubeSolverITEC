@@ -47,7 +47,7 @@ public class Wuerfel {
 
 	/**
 	 * Generiert Würfel mit seiten pos.
-	 * @param Würfelkonfiguration
+	 * @param pos Würfel als int[]
 	 */
 	public Wuerfel(int[] pos) {
 		this.seiten = Arrays.copyOf(pos, 6);
@@ -67,7 +67,7 @@ public class Wuerfel {
 	/**
 	 * Dreht Zugsequenz.
 	 * 
-	 * @param zug Züge als Kode
+	 * @param zuege Züge als Kode
 	 */
 	public void dreheZugsequenz(int[] zuege) {
 		for(int i = 0; i < zuege.length; i++){
@@ -144,10 +144,9 @@ public class Wuerfel {
 
 	/**
 	 * Redundant? DAS MCAHST DU NICK
-	 * 
-	 * @param face
+	 *
 	 * @param pos  Komplement aus Seite und Stipindex
-	 * @return
+	 * @return ???
 	 */
 	public int extractStrip(int[] pos) {
 		return (Integer.rotateRight(this.seiten[pos[0]], (pos[1] << 2))) & (0xFFF);
@@ -206,7 +205,8 @@ public class Wuerfel {
 	 * Überprüft ob mask = seiten, mit der Einschränkung, dass bei den Felder wo in
 	 * der Maske F steht alles sein darf.
 	 * 
-	 * @param mask Maske
+	 * @param maske Maske
+	 * @param daten Daten
 	 * @return true wenn gleich sonst false.
 	 */
 	public boolean isMaskSolved(int[] daten, int[] maske) {
@@ -251,21 +251,10 @@ public class Wuerfel {
 	}
 
 	/**
-	 * Gibt den "index"-ten Zug in seq zurück.
-	 * 
-	 * @param seq   Sequenz der Züge.
-	 * @param index Index in der Sequenz 0-7.
-	 * @return Zug in "seq" bei "index".
-	 */
-	private int extractMove(int seq, int index) {
-		return (seq >>> (index << 2)) & (0xF);
-	}
-
-	/**
 	 * Gibt zu gegebenem Binärkode die Farbe zuräck. Bei einem ungültigen Kode, wird
 	 * 'X' zurückgegeben.
 	 * 
-	 * @param Farbe in Binär kodiert.
+	 * @param code Farbe in Binär kodiert.
 	 * @return Farbe als Buchstabe.
 	 */
 	private static char lookupColor(int code) {
@@ -321,27 +310,6 @@ public class Wuerfel {
 			return "D'";
 		}
 		return "Invalid";
-	}
-
-	/**
-	 * Gibt die Seite "index" aus, sodass 1 nach oben zeigt.
-	 * 
-	 * @param index Index der Seite, welche ausgegeben werden soll.
-	 */
-	public void printFace(int index) {
-		for (int i = 0; i < 9; i++) {
-			if (i < 3) {
-				System.out.print(lookupColor(extractColor(index, i)) + " ");
-			} else if (i == 3) {
-				System.out.print("\n" + lookupColor(extractColor(index, 7)) + " ");
-			} else if (i == 4) {
-				System.out.print(lookupColor(index) + " ");
-			} else if (i == 5) {
-				System.out.print(lookupColor(extractColor(index, i)) + "\n");
-			} else {
-				System.out.print(lookupColor(extractColor(index, 12 - i)) + " ");
-			}
-		}
 	}
 
 	/**

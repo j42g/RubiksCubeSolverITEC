@@ -14,27 +14,6 @@ public class Util {
 		}
 	}
 
-	public static String kodeZuegeZuNotation(int[] zuege) {
-		String output = "";
-		int currInteger = 0;
-		int currIndex = 0;
-		int currMove;
-		while (true) {
-			currMove = (zuege[currInteger] >>> (currIndex << 2)) & (0xF);
-			if (currMove == 0xF) {
-				break;
-			}
-			if (currIndex == 7) {
-				currIndex = -1;
-				currInteger++;
-			}
-			currIndex++;
-			output = output + lookupMove(currMove) + " ";
-
-		}
-		return output;
-	}
-
 	public static String lookupMove(int code) {
 		switch (code) {
 		case 0:
@@ -66,8 +45,8 @@ public class Util {
 	}
 
 	/**
-	 * @param zuege
-	 * @return
+	 * @param zuege Zugsequenz
+	 * @return Zugsequenz gekürzt
 	 */
 	public static String kuerzen(String zuege) {
 		boolean changed = true;
