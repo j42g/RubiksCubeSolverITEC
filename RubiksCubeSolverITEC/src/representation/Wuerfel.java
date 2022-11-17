@@ -14,8 +14,9 @@ public class Wuerfel {
 			{{5, 6}, {1, 2}, {2, 4}},
 			{{5, 4}, {4, 0}, {1, 4}}};
 
-	private static final int[][] cornerColor = {{0, 4, 3}, {0, 4, 2}, {0, 2, 1}, {0, 1, 4},
-		{5, 3, 4}, {5, 2, 3}, {5, 1, 2}, {5, 4, 1} };
+	private static final int[][] cornerColor = { { 0, 4, 3 }, { 0,3, 2 },
+			{ 0, 2, 1 }, { 0, 1, 4 }, { 5, 3, 4 },
+			{ 5, 2, 3 }, { 5, 1, 2 }, { 5, 4,1 } };
 
 	/**
 	 * 
@@ -99,8 +100,8 @@ public class Wuerfel {
 					break;
 				}
 			}
-			col1 = this.extractColor(fac[(ori + 1) % 3][1], fac[(ori + 1) % 3][1]);
-			col2 = this.extractColor(fac[(ori + 2) % 3][1], fac[(ori + 1) % 3][1]);
+			col1 = this.extractColor(fac[(ori + 1) % 3][0], fac[(ori + 1) % 3][1]);
+			col2 = this.extractColor(fac[(ori + 2) % 3][0], fac[(ori + 2) % 3][1]);
 			for (int j = 0; j < 8; j++) {
 				col = cornerColor[j];
 				if (col1 == col[1] && col2 == col[2]) {
