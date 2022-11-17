@@ -306,44 +306,7 @@ public class Wuerfel {
         }
         return 'X';
     }
-	public int[] cubieBase(int x){
-		switch(x){
-			case 0x40:return new int[]{0,0};
-			case 0x03:return new int[]{0,1};
-			case 0x34:return new int[]{0,2};
 
-			case 0x30:return new int[]{1,0};
-			case 0x02:return new int[]{1,1};
-			case 0x23:return new int[]{1,2};
-
-			case 0x20:return new int[]{2,0};
-			case 0x01: return new int[]{2,1};
-			case 0x12: return new int[]{2,2};
-
-			case 0x10: return new int[]{3,0};
-			case 0x04: return new int[]{3,1};
-			case 0x41: return new int[]{3,2};
-
-			case 0x35: return new int[]{4,0};
-			case 0x54: return new int[]{4,1};
-			case 0x43: return new int[]{4,2};
-
-			case 0x25: return new int[]{5,0};
-			case 0x53: return new int[]{5,1};
-			case 0x32: return new int[]{5,2};
-
-			case 0x15: return new int[]{6,0};
-			case 0x52: return new int[]{6,1};
-			case 0x21: return new int[]{6,2};
-
-			case 0x45: return new int[]{7,0};
-			case 0x51: return new int[]{7,1};
-			case 0x14: return new int[]{7,2};
-
-			default : return new int[]{100,100};
-		}
-
-	}
     public int[][] cubieOP() {
 		int[][] result = new int[2][8];
 		long cache = 0;
