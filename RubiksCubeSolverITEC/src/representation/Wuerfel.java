@@ -306,41 +306,70 @@ public class Wuerfel {
         }
         return 'X';
     }
+	public int[] cubieBase(int x){
+		switch(x){
+			case 0x40:return new int[]{0,0};
+			case 0x03:return new int[]{0,1};
+			case 0x34:return new int[]{0,2};
 
-    public void cubieOP() {
-        int[] orientations = new int[7];
-        int[] permutations = new int[8];
-        long cache = 0; //cubies are saved in 8 bits each, the first 4 bits are the color on the orientation surface (green, blue) the second 4 bits are the color clockwise to the first color
-        for (int i = 0; i < 4; i++) { //all faces on blue layer
-            cache |= ((long) (extractColor(1, ((i * 2) + 4) % 8))) << (8 * i);
-        }
-        for (int i = 4; i < 8; i++) { //all faces on green layer
-            cache |= ((long) (extractColor(3, (((-i * 2) + 2) + 8) % 8))) << (8 * i);
-        }
-        cache |= ((long) (extractColor(5, 4))) << 4;
-        cache |= ((long) (extractColor(4, 6))) << 12;
-        cache |= ((long) (extractColor(0, 0))) << 20;
-        cache |= ((long) (extractColor(2, 4))) << 28;
-        cache |= ((long) (extractColor(4, 2))) << 36;
-        cache |= ((long) (extractColor(0, 4))) << 44;
-        cache |= ((long) (extractColor(2, 6))) << 52;
-        cache |= ((long) (extractColor(5, 0))) << 60;
+			case 0x30:return new int[]{1,0};
+			case 0x02:return new int[]{1,1};
+			case 0x23:return new int[]{1,2};
 
+			case 0x20:return new int[]{2,0};
+			case 0x01: return new int[]{2,1};
+			case 0x12: return new int[]{2,2};
 
-        System.out.println(Long.toHexString(cache));
-        for (int i = 0; i < orientations.length; i++) {
-            if (((cache >>> 8 * i) & 0xF) == 1 || ((cache >>> 8 * i) & 0xF) == 3) {
-                orientations[i] = 0;
-            } else if (((cache >>> 8 * i + 4) & 0xF) == 1 || ((cache >>> 8 * i + 4) & 0xF) == 3) {
-                orientations[i] = 1;
-            } else {
-                orientations[i] = 2;
-            }
-        }
-        Util.printArr(orientations);
-        for(int i = 0; i < permutations.length; i++){
+			case 0x10: return new int[]{3,0};
+			case 0x04: return new int[]{3,1};
+			case 0x41: return new int[]{3,2};
 
+			case 0x35: return new int[]{4,0};
+			case 0x54: return new int[]{4,1};
+			case 0x43: return new int[]{4,2};
+
+			case 0x25: return new int[]{5,0};
+			case 0x53: return new int[]{5,1};
+			case 0x32: return new int[]{5,2};
+
+			case 0x15: return new int[]{6,0};
+			case 0x52: return new int[]{6,1};
+			case 0x21: return new int[]{6,2};
+
+			case 0x45: return new int[]{7,0};
+			case 0x51: return new int[]{7,1};
+			case 0x14: return new int[]{7,2};
+
+			default : return new int[]{100,100};
+		}
+
+	}
+    public int[][] cubieOP() {
+		int[][] result = new int[2][8];
+        long cache = 0;
+        for (int i = 0; i < 4; i++) { //all cornerfaces on white layer
+            cache |= ((long) (extractColor(0, ((i * 2) + 4) % 8))) << (8 * i);
         }
+        for (int i = 4; i < 8; i++) { //all cornerfaces on yellow layer
+            cache |= ((long) (extractColor(5, (((-i * 2) + 2) + 8) % 8))) << (8 * i);
+        }
+        cache |= ((long) (extractColor(4, 4))) << 4;
+        cache |= ((long) (extractColor(3, 6))) << 12;
+        cache |= ((long) (extractColor(2, 6))) << 20;
+        cache |= ((long) (extractColor(1, 6))) << 28;
+        cache |= ((long) (extractColor(3, 2))) << 36;
+        cache |= ((long) (extractColor(2, 2))) << 44;
+        cache |= ((long) (extractColor(1, 2))) << 52;
+        cache |= ((long) (extractColor(4, 0))) << 60;
+
+		int[] store;
+		for(int i = 0; i<8;i++){
+			store = cubieBase((int)((cache>>>8*i)&0xFF));
+			result[0][i]=store[0];
+			result[1][i]=store[1];
+		}
+
+		return result;
     }
 
     /**
