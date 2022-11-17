@@ -125,4 +125,23 @@ public class Util {
 		return f;
 	}
 
+	public static void compare(int num){
+		long start;
+		long total1 = 0;
+		long total2 = 0;
+		int[][] temp;
+		Wuerfel a;
+		for(int i = 0; i < num; i++){
+			a = new Wuerfel();
+			a.verdrehe(26, false);
+			start = System.nanoTime();
+			temp = a.cubieOP();
+			total1 += System.nanoTime() - start;
+			start = System.nanoTime();
+			temp = a.getCornerCubies();
+			total2 += System.nanoTime() - start;
+		}
+		System.out.println("Bit:\t" + total1 / 100000000d + "\nKoc:\t" + total2 / 100000000d);
+	}
+
 }
