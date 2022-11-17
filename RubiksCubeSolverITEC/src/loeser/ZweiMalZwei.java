@@ -34,6 +34,10 @@ public class ZweiMalZwei {
 		this.solveSequenz = "";
 		this.debug = debug;
 	}
+
+	public ZweiMalZwei(Wuerfel _w) {
+		this(_w, 0);
+	}
 	
 	public void loese() {
 
@@ -53,7 +57,7 @@ public class ZweiMalZwei {
 
 		if(debug >= 1)w.ausgeben();
 		
-		System.out.println("Gelöst mit: " + this.solveSequenz);
+		if (debug < 0) System.out.println("Gelöst mit: " + this.solveSequenz);
 	}
 	
 }
