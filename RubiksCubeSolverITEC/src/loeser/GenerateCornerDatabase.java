@@ -15,13 +15,17 @@ public class GenerateCornerDatabase {
         precompute(len);
     }
 
+    public static void totalIndex(int[] p, int[] o){
+        int index = permutationToIndex(p) * 2187 + oriantationToIndex(o);
+    }
+
     // https://medium.com/@benjamin.botto/sequentially-indexing-permutations-a-linear-algorithm-for-computing-lexicographic-rank-a22220ffd6e3
-    public static void permutationToIndex(int[] p){
+    public static int permutationToIndex(int[] p){
         precompute(p.length);
 
         // Lehmer Code
         int[] lehmer = new int[p.length];
-        int seen = 0; // acts as an array
+        int seen = 0; // acts as anx array
         lehmer[0] = p[0];
         seen |= 0b1 << (p.length - 1 - p[0]);
         for(int i = 1; i < p.length - 1; i++){
@@ -35,9 +39,15 @@ public class GenerateCornerDatabase {
             index += lehmer[i]*fac[i];
         }
         System.out.println(index);
+        return index;
+    }
 
-
-
+    public static int oriantationToIndex(int[] o){
+        int sum = 0;
+        for(int i = 0; i < o.length - 1; i++){
+            sum = 3 * sum + o[i];
+        }
+        return sum;
     }
 
     public static void precompute(int len){
