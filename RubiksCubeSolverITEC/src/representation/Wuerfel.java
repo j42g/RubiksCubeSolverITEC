@@ -260,7 +260,7 @@ public class Wuerfel {
 
 	/**
 	 * überpräft ob der Würfel gelöst ist.
-	 * 
+	 *
 	 * @return true wenn gelöst, sonst false.
 	 */
 	public boolean isSolved() {
@@ -273,7 +273,7 @@ public class Wuerfel {
 
 	/**
 	 * Gibt zu einer Fläche an einem Stelle die Farbe in Binär zurück.
-	 * 
+	 *
 	 * @param face  Index der Seite.
 	 * @param index Index in der Seite.
 	 * @return Die Farbe in Binär kodiert.
@@ -282,7 +282,7 @@ public class Wuerfel {
 		return (this.seiten[face] >>> (index << 2)) & (0xF);
 	}
 
-    /**
+	/**
      * Gibt zu gegebenem Binärkode die Farbe zuräck. Bei einem ungültigen Kode, wird
      * 'X' zurückgegeben.
      *
@@ -307,132 +307,125 @@ public class Wuerfel {
         return 'X';
     }
 
-    public int[][] cubieOP() {
+	public int[][] cubieOP() {
 		int[][] result = new int[2][8];
 		long cache = 0;
-        for (int i = 0; i < 4; i++) { //all cornerfaces on white layer
-            cache |= ((long) (extractColor(0, ((i * 2) + 4) % 8))) << (8 * i);
-        }
-        for (int i = 4; i < 8; i++) { //all cornerfaces on yellow layer
-            cache |= ((long) (extractColor(5, (((-i * 2) + 2) + 8) % 8))) << (8 * i);
-        }
-        cache |= ((long) (extractColor(4, 4))) << 4;
-        cache |= ((long) (extractColor(3, 6))) << 12;
-        cache |= ((long) (extractColor(2, 6))) << 20;
-        cache |= ((long) (extractColor(1, 6))) << 28;
-        cache |= ((long) (extractColor(3, 2))) << 36;
-        cache |= ((long) (extractColor(2, 2))) << 44;
-        cache |= ((long) (extractColor(1, 2))) << 52;
-        cache |= ((long) (extractColor(4, 0))) << 60;
+		for (int i = 0; i < 4; i++) { //all cornerfaces on white layer
+			cache += ((long) (extractColor(0, ((i * 2) + 4) % 8))) << (8 * i);
+		}
+		for (int i = 4; i < 8; i++) { //all cornerfaces on yellow layer
+			cache += ((long) (extractColor(5, (((-i * 2) + 2) + 8) % 8))) << (8 * i);
+		}
+		cache += ((long) (extractColor(4, 4))) * 0x10;
+		cache += ((long) (extractColor(3, 6))) * 0x100;
+		cache += ((long) (extractColor(2, 6))) * 0x10000;
+		cache += ((long) (extractColor(1, 6))) * 0x1000000;
+		cache += ((long) (extractColor(3, 2))) * 0x100000000L;
+		cache += ((long) (extractColor(2, 2))) * 0x10000000000L;
+		cache += ((long) (extractColor(1, 2))) * 0x1000000000000L;
+		cache += ((long) (extractColor(4, 0))) * 0x100000000000000L;
 		for(int i = 0; i<8;i++){
-			switch((int)((cache>>>8*i)&0xFF)){
-				case 0x40:
-					result[0][i]=0;
-					result[1][i]=0;
-					break;
-				case 0x03:
-					result[0][i]=0;
-					result[1][i]=1;
-					break;
-				case 0x34:
-					result[0][i]=0;
-					result[1][i]=2;
-					break;
-
-				case 0x30:
-					result[0][i]=1;
-					result[1][i]=0;
-					break;
-				case 0x02:
-					result[0][i]=1;
-					result[1][i]=1;
-					break;
-				case 0x23:
-					result[0][i]=1;
-					result[1][i]=2;
-					break;
-
-				case 0x20:
-					result[0][i]=2;
-					result[1][i]=0;
-					break;
-				case 0x01:
-					result[0][i]=2;
-					result[1][i]=1;
-					break;
-				case 0x12:
-					result[0][i]=2;
-					result[1][i]=2;
-					break;
-
-				case 0x10:
-					result[0][i]=3;
-					result[1][i]=0;
-					break;
-				case 0x04:
-					result[0][i]=3;
-					result[1][i]=1;
-					break;
-				case 0x41:
-					result[0][i]=3;
-					result[1][i]=2;
-					break;
-
-				case 0x35:
-					result[0][i]=4;
-					result[1][i]=0;
-					break;
-				case 0x54:
-					result[0][i]=4;
-					result[1][i]=1;
-					break;
-				case 0x43:
-					result[0][i]=4;
-					result[1][i]=2;
-					break;
-
-				case 0x25:
-					result[0][i]=5;
-					result[1][i]=0;
-					break;
-				case 0x53:
-					result[0][i]=5;
-					result[1][i]=1;
-					break;
-				case 0x32:
-					result[0][i]=5;
-					result[1][i]=2;
-					break;
-
-				case 0x15:
-					result[0][i]=6;
-					result[1][i]=0;
-					break;
-				case 0x52:
-					result[0][i]=6;
-					result[1][i]=1;
-					break;
-				case 0x21:
-					result[0][i]=6;
-					result[1][i]=2;
-					break;
-
-				case 0x45:
-					result[0][i]=7;
-					result[1][i]=0;
-					break;
-				case 0x51:
-					result[0][i]=7;
-					result[1][i]=1;
-					break;
-				case 0x14:
-					result[0][i]=7;
-					result[1][i]=2;
-					break;
+			switch ((int) ((cache >>> 8 * i) & 0xFF)) {
+				case 0x40 -> {
+					result[0][i] = 0;
+					result[1][i] = 0;
+				}
+				case 0x03 -> {
+					result[0][i] = 0;
+					result[1][i] = 1;
+				}
+				case 0x34 -> {
+					result[0][i] = 0;
+					result[1][i] = 2;
+				}
+				case 0x30 -> {
+					result[0][i] = 1;
+					result[1][i] = 0;
+				}
+				case 0x02 -> {
+					result[0][i] = 1;
+					result[1][i] = 1;
+				}
+				case 0x23 -> {
+					result[0][i] = 1;
+					result[1][i] = 2;
+				}
+				case 0x20 -> {
+					result[0][i] = 2;
+					result[1][i] = 0;
+				}
+				case 0x01 -> {
+					result[0][i] = 2;
+					result[1][i] = 1;
+				}
+				case 0x12 -> {
+					result[0][i] = 2;
+					result[1][i] = 2;
+				}
+				case 0x10 -> {
+					result[0][i] = 3;
+					result[1][i] = 0;
+				}
+				case 0x04 -> {
+					result[0][i] = 3;
+					result[1][i] = 1;
+				}
+				case 0x41 -> {
+					result[0][i] = 3;
+					result[1][i] = 2;
+				}
+				case 0x35 -> {
+					result[0][i] = 4;
+					result[1][i] = 0;
+				}
+				case 0x54 -> {
+					result[0][i] = 4;
+					result[1][i] = 1;
+				}
+				case 0x43 -> {
+					result[0][i] = 4;
+					result[1][i] = 2;
+				}
+				case 0x25 -> {
+					result[0][i] = 5;
+					result[1][i] = 0;
+				}
+				case 0x53 -> {
+					result[0][i] = 5;
+					result[1][i] = 1;
+				}
+				case 0x32 -> {
+					result[0][i] = 5;
+					result[1][i] = 2;
+				}
+				case 0x15 -> {
+					result[0][i] = 6;
+					result[1][i] = 0;
+				}
+				case 0x52 -> {
+					result[0][i] = 6;
+					result[1][i] = 1;
+				}
+				case 0x21 -> {
+					result[0][i] = 6;
+					result[1][i] = 2;
+				}
+				case 0x45 -> {
+					result[0][i] = 7;
+					result[1][i] = 0;
+				}
+				case 0x51 -> {
+					result[0][i] = 7;
+					result[1][i] = 1;
+				}
+				case 0x14 -> {
+					result[0][i] = 7;
+					result[1][i] = 2;
+				}
 			}
 		}
 		return result;
-    }
+	}
 
     /**
      * Gibt zu gegebenem Binärkode den Zug zuräck. Bei einem ungültigen Kode, wird
