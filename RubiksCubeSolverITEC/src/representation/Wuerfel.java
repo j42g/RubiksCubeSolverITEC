@@ -311,19 +311,19 @@ public class Wuerfel {
 		int[][] result = new int[2][8];
 		long cache = 0;
 		for (int i = 0; i < 4; i++) { //all cornerfaces on white layer
-			cache += ((long) (extractColor(0, ((i * 2) + 4) % 8))) << (8 * i);
+			cache |= ((long) (extractColor(0, ((i * 2) + 4) % 8))) << (8 * i);
 		}
 		for (int i = 4; i < 8; i++) { //all cornerfaces on yellow layer
-			cache += ((long) (extractColor(5, (((-i * 2) + 2) + 8) % 8))) << (8 * i);
+			cache |= ((long) (extractColor(5, (((-i * 2) + 2) + 8) % 8))) << (8 * i);
 		}
-		cache += ((long) (extractColor(4, 4))) * 0x10;
-		cache += ((long) (extractColor(3, 6))) * 0x100;
-		cache += ((long) (extractColor(2, 6))) * 0x10000;
-		cache += ((long) (extractColor(1, 6))) * 0x1000000;
-		cache += ((long) (extractColor(3, 2))) * 0x100000000L;
-		cache += ((long) (extractColor(2, 2))) * 0x10000000000L;
-		cache += ((long) (extractColor(1, 2))) * 0x1000000000000L;
-		cache += ((long) (extractColor(4, 0))) * 0x100000000000000L;
+		cache |= ((long) (extractColor(4, 4))) << 4;
+		cache |= ((long) (extractColor(3, 6))) << 12;
+		cache |= ((long) (extractColor(2, 6))) << 20;
+		cache |= ((long) (extractColor(1, 6))) << 28;
+		cache |= ((long) (extractColor(3, 2))) << 36;
+		cache |= ((long) (extractColor(2, 2))) << 44;
+		cache |= ((long) (extractColor(1, 2))) << 52;
+		cache |= ((long) (extractColor(4, 0))) << 60;
 		for(int i = 0; i<8;i++){
 			switch ((int) ((cache >>> 8 * i) & 0xFF)) {
 				case 0x40 -> {
