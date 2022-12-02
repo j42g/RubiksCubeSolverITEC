@@ -338,7 +338,6 @@ public class Wuerfel {
 					result[0][i]=0;
 					result[1][i]=2;
 					break;
-
 				case 0x30:
 					result[0][i]=1;
 					result[1][i]=0;
