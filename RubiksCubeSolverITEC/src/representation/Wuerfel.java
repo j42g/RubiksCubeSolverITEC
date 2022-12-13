@@ -159,16 +159,16 @@ public class Wuerfel {
 	 */
 	public void verdrehe(int laenge, boolean ausgeben){
 		int currZug;
-		StringBuilder s = new StringBuilder();
-		for(int i = 0; i < laenge; i++){
-			currZug = Zuege.alleZuege[(int)(Zuege.alleZuege.length * Math.random())];
-			this.drehe(currZug);
-			s.append(Zuege.lookupZug(currZug));
-			if(i != laenge - 1){
-				s.append(" ");
-			}
-
-		}
+		String s = "";
+		currZug = Zuege.alleZuege[(int) (Zuege.alleZuege.length * Math.random())];
+		s += Zuege.lookupZug(currZug);
+		do {
+			s += " ";
+			currZug = Zuege.alleZuege[(int) (Zuege.alleZuege.length * Math.random())];
+			s += Zuege.lookupZug(currZug);
+			s = Util.kuerzen(s);
+		} while(s.split(" ").length < laenge);
+		this.dreheZugsequenz(s);
 		if(ausgeben) {
 			System.out.println("Verdreht mit: " + s);
 		}
