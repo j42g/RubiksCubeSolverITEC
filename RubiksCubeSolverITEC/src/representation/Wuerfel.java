@@ -260,7 +260,7 @@ public class Wuerfel {
 
 	/**
 	 * überpräft ob der Würfel gelöst ist.
-	 *
+	 * 
 	 * @return true wenn gelöst, sonst false.
 	 */
 	public boolean isSolved() {
@@ -273,7 +273,7 @@ public class Wuerfel {
 
 	/**
 	 * Gibt zu einer Fläche an einem Stelle die Farbe in Binär zurück.
-	 *
+	 * 
 	 * @param face  Index der Seite.
 	 * @param index Index in der Seite.
 	 * @return Die Farbe in Binär kodiert.
@@ -282,7 +282,7 @@ public class Wuerfel {
 		return (this.seiten[face] >>> (index << 2)) & (0xF);
 	}
 
-	/**
+    /**
      * Gibt zu gegebenem Binärkode die Farbe zuräck. Bei einem ungültigen Kode, wird
      * 'X' zurückgegeben.
      *
@@ -307,23 +307,23 @@ public class Wuerfel {
         return 'X';
     }
 
-	public int[][] cubieOP() {
+    public int[][] cubieOP() {
 		int[][] result = new int[2][8];
 		long cache = 0;
-		for (int i = 0; i < 4; i++) { //all cornerfaces on white layer
-			cache |= ((long) (extractColor(0, ((i * 2) + 4) % 8))) << (8 * i);
-		}
-		for (int i = 4; i < 8; i++) { //all cornerfaces on yellow layer
-			cache |= ((long) (extractColor(5, (((-i * 2) + 2) + 8) % 8))) << (8 * i);
-		}
-		cache |= ((long) (extractColor(4, 4))) << 4;
-		cache |= ((long) (extractColor(3, 6))) << 12;
-		cache |= ((long) (extractColor(2, 6))) << 20;
-		cache |= ((long) (extractColor(1, 6))) << 28;
-		cache |= ((long) (extractColor(3, 2))) << 36;
-		cache |= ((long) (extractColor(2, 2))) << 44;
-		cache |= ((long) (extractColor(1, 2))) << 52;
-		cache |= ((long) (extractColor(4, 0))) << 60;
+        for (int i = 0; i < 4; i++) { //all cornerfaces on white layer
+            cache |= ((long) (extractColor(0, ((i * 2) + 4) % 8))) << (8 * i);
+        }
+        for (int i = 4; i < 8; i++) { //all cornerfaces on yellow layer
+            cache |= ((long) (extractColor(5, (((-i * 2) + 2) + 8) % 8))) << (8 * i);
+        }
+        cache |= ((long) (extractColor(4, 4))) << 4;
+        cache |= ((long) (extractColor(3, 6))) << 12;
+        cache |= ((long) (extractColor(2, 6))) << 20;
+        cache |= ((long) (extractColor(1, 6))) << 28;
+        cache |= ((long) (extractColor(3, 2))) << 36;
+        cache |= ((long) (extractColor(2, 2))) << 44;
+        cache |= ((long) (extractColor(1, 2))) << 52;
+        cache |= ((long) (extractColor(4, 0))) << 60;
 		for(int i = 0; i<8;i++){
 			switch ((int) ((cache >>> 8 * i) & 0xFF)) {
 				case 0x40 -> {
@@ -425,7 +425,7 @@ public class Wuerfel {
 			}
 		}
 		return result;
-	}
+    }
 
     /**
      * Gibt zu gegebenem Binärkode den Zug zuräck. Bei einem ungültigen Kode, wird
