@@ -11,7 +11,7 @@ public class DatenbankGenerateWatcher implements Runnable {
             try {
                 Thread.sleep(1000);
                 totalSec++;
-                System.out.print("\rMessage after " + totalSec + "s:\tProgess:\t" + (88179840 - zeroes()) + "/" + 88179840 + "\tLetzte Node Züge:\t" + Zuege.lookupZugseq(GenerateCornerDatabase.getStackTop().getMoves()));
+                System.out.print("\rMessage after " + totalSec + "s:\tProgess:\t" + (88179840 - zeroes()) + "/" + 88179840 + "\tLetzte Node Züge:\t" + Zuege.lookupZugseq(GenerateCornerDatabase.getStackTop()));
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

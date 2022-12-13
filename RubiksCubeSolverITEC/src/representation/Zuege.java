@@ -33,51 +33,51 @@ public class Zuege {
     public static final int[] invZug = new int[]{2, 1, 0, 5, 4, 3, 8, 7, 6, 11, 10, 9, 14, 13, 12, 17, 16, 15};
 
     public static String lookupZug(int code){
-        switch (code){
-            case 0: return "U";
-            case 1: return "U2";
-            case 2: return "U'";
-            case 3: return "B";
-            case 4: return "B2";
-            case 5: return "B'";
-            case 6: return "L";
-            case 7: return "L2";
-            case 8: return "L'";
-            case 9: return "F";
-            case 10: return "F2";
-            case 11: return "F'";
-            case 12: return "R";
-            case 13: return "R2";
-            case 14: return "R'";
-            case 15: return "D";
-            case 16: return "D2";
-            case 17: return "D'";
-            default: return "Unknown";
-        }
+        return switch (code) {
+            case 0 -> "U";
+            case 1 -> "U2";
+            case 2 -> "U'";
+            case 3 -> "B";
+            case 4 -> "B2";
+            case 5 -> "B'";
+            case 6 -> "L";
+            case 7 -> "L2";
+            case 8 -> "L'";
+            case 9 -> "F";
+            case 10 -> "F2";
+            case 11 -> "F'";
+            case 12 -> "R";
+            case 13 -> "R2";
+            case 14 -> "R'";
+            case 15 -> "D";
+            case 16 -> "D2";
+            case 17 -> "D'";
+            default -> "Unknown";
+        };
     }
 
     public static int lookupZug(String zug){
-        switch (zug){
-            case "U": return 0;
-            case "U2": return 1;
-            case "U'": return 2;
-            case "B": return 3;
-            case "B2": return 4;
-            case "B'": return 5;
-            case "L": return 6;
-            case "L2": return 7;
-            case "L'": return 8;
-            case "F": return 9;
-            case "F2": return 10;
-            case "F'": return 11;
-            case "R": return 12;
-            case "R2": return 13;
-            case "R'": return 14;
-            case "D": return 15;
-            case "D2": return 16;
-            case "D'": return 17;
-            default: return -1;
-        }
+        return switch (zug) {
+            case "U" -> 0;
+            case "U2" -> 1;
+            case "U'" -> 2;
+            case "B" -> 3;
+            case "B2" -> 4;
+            case "B'" -> 5;
+            case "L" -> 6;
+            case "L2" -> 7;
+            case "L'" -> 8;
+            case "F" -> 9;
+            case "F2" -> 10;
+            case "F'" -> 11;
+            case "R" -> 12;
+            case "R2" -> 13;
+            case "R'" -> 14;
+            case "D" -> 15;
+            case "D2" -> 16;
+            case "D'" -> 17;
+            default -> -1;
+        };
     }
 
     public static String lookupZugseq(int[] zuege){
@@ -102,14 +102,7 @@ public class Zuege {
         int[] invZuege = new int[zuege.length];
         int currMove;
         for(int i = 0; i < invZuege.length; i++){
-            currMove = zuege[zuege.length - 1 - i];
-            if(currMove % 3 == 0){
-                invZuege[i] = currMove + 2;
-            } else if(currMove % 3 == 1){
-                invZuege[i] = currMove;
-            } else {
-                invZuege[i] = currMove - 2;
-            }
+            invZuege[i] = invZug[zuege[i]];
 
         }
         return invZuege;

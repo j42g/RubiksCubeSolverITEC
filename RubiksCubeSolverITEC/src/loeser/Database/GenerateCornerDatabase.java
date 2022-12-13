@@ -5,6 +5,7 @@ import representation.Util;
 import representation.Wuerfel;
 import representation.Zuege;
 
+import java.util.Arrays;
 import java.util.Stack;
 
 public class GenerateCornerDatabase implements Runnable {
@@ -13,9 +14,11 @@ public class GenerateCornerDatabase implements Runnable {
 
     private static int[] fac; // pre-computed factorials
     private static int[] bitCount; // pre-computed bit-count
-    private static Stack<CubeNode> path; // graph
+    private static Stack<int[]> path; // graph
     private static final byte[] file = new byte[88179840 / 2]; // 8! * 3^7. 2 Pro byte
-    private static int count = 0;
+    static {
+        precompute(8);
+    }
 
 
     public static void starte(int len){
@@ -26,54 +29,62 @@ public class GenerateCornerDatabase implements Runnable {
 
     private static void DFS(){
 
-        path = new Stack<CubeNode>();
-        path.push(new CubeNode(new Wuerfel(), new int[]{}));
-        CubeNode curr;
+        path = new Stack<int[]>();
+        path.push(new int[0]);
+        int[] curr;
         int[][] permOriCurr;
         int index;
+        Wuerfel w = new Wuerfel();
         while(!path.empty()){
-            count++;
             curr = path.pop();
-            permOriCurr = curr.getWuerfel().cubieOP();
+            w.makeSolved();
+            w.dreheZugsequenz(curr);
+            permOriCurr = w.cubieOP();
             index = totalIndex(permOriCurr[0], permOriCurr[1]);
             if(index % 2 == 0 && (file[index / 2] & 0xF) == 0){
-                file[index / 2] |= (byte)curr.getMoves().length;
+                file[index / 2] |= (byte)curr.length;
             } else if ((file[index / 2] >>> 4) == 0) {
-                file[index / 2] |= (byte)(curr.getMoves().length << 4);
+                file[index / 2] |= (byte)(curr.length << 4);
             }
             genChilds(curr);
         }
-        System.out.println(count);
-        Database a = new Database("cornerData", false);
+        Database a = new Database("test1", false);
         a.writeDatabase(file);
     }
 
-    private static void genChilds(CubeNode node) {
-        int[] nm = node.getMoves(); // nm = nodeMoves
-        if (nm.length == 11) {
+    private static void genChilds(int[] node) {// node = nodeMoves
+        if (node.length == 5) {
             return;
-        } else if (nm.length > 1){  // adv pruning
+        } else if (node.length > 1){  // adv pruning
             for (int zug : Zuege.alleZuege) {
-                if ((nm[nm.length - 1] / 3) / 3  == 0) { // is first face
-                    if (zug / 3 != nm[nm.length - 1] / 3) { // dont move the same side as last move
-                        path.push(node.applyMoveToCopyAndReturn(zug));
+                if (node[node.length - 1] < 9) { // is first face
+                    if (zug / 3 != node[node.length - 1] / 3) { // dont move the same side as last move
+                        int[] a = Arrays.copyOf(node, node.length + 1);
+                        a[node.length] = zug;
+                        path.push(a);
                     }
                 } else { // is second face
-                    if (zug / 3 != nm[nm.length - 1] / 3
-                            && zug / 3 != oppFace[nm[nm.length - 1] / 3]) { // dont move the same side as last move and opp
-                        path.push(node.applyMoveToCopyAndReturn(zug));
+                    if (zug / 3 != node[node.length - 1] / 3
+                            && zug / 3 != oppFace[node[node.length - 1] / 3]) { // dont move the same side as last move and opp
+                        int[] a = Arrays.copyOf(node, node.length + 1);
+                        a[node.length] = zug;
+                        path.push(a);
                     }
                 }
             }
-        } else if (nm.length == 1) { // simple move pruning
+        } else if (node.length == 1) { // simple move pruning
             for (int zug : Zuege.alleZuege) {
-                if(zug / 3 != nm[nm.length - 1] / 3){ // dont move the same side as last move
-                    path.push(node.applyMoveToCopyAndReturn(zug));
+                if(zug / 3 != node[node.length - 1] / 3){ // dont move the same side as last move
+                    int[] a = Arrays.copyOf(node, node.length + 1);
+                    a[node.length] = zug;
+                    path.push(a);
                 }
             }
         } else {
             for (int zug : Zuege.alleZuege) {
-                path.push(node.applyMoveToCopyAndReturn(zug));
+                int[] a = Arrays.copyOf(node, node.length + 1);
+                a[node.length] = zug;
+                path.push(a);
             }
         }
     }
@@ -132,7 +143,7 @@ public class GenerateCornerDatabase implements Runnable {
         return file;
     }
 
-    public static CubeNode getStackTop(){
+    public static int[] getStackTop(){
         return path.peek();
     }
 

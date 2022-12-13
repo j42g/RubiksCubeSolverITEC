@@ -65,11 +65,13 @@ public class Wuerfel {
 	}
 
 	/**
-	 * Generiert Würfel mit seiten pos.
-	 * @param pos Würfel als int[]
+	 * Generiert einen gelösten Würfel und mach die Zuege zuege.
+	 * @param Zuege Zuege
 	 */
-	public Wuerfel(int[] pos) {
-		this.seiten = Arrays.copyOf(pos, 6);
+	public Wuerfel(int[] zuege) {
+		this.seiten = new int[]{0x00000000, 0x11111111, 0x22222222, 0x33333333, 0x44444444, 0x55555555};
+		this.dreheZugsequenz(zuege);
+
 	}
 
 	/**
@@ -145,12 +147,7 @@ public class Wuerfel {
 	 * Ersetzt den Wärfel, durch einen gelästen Wärfel.
 	 */
 	public void makeSolved() {
-		seiten[0] = 0x00000000;
-		seiten[1] = 0x11111111;
-		seiten[2] = 0x22222222;
-		seiten[3] = 0x33333333;
-		seiten[4] = 0x44444444;
-		seiten[5] = 0x55555555;
+		this.seiten = new int[]{0x00000000, 0x11111111, 0x22222222, 0x33333333, 0x44444444, 0x55555555};
 	}
 	
 	/**
@@ -505,5 +502,34 @@ public class Wuerfel {
 	 */
 	public int[] getSeiten() {
 		return seiten;
+	}
+
+	@Override
+	public String toString(){
+		StringBuilder b = new StringBuilder();
+		// syntax verringern
+		char[][] s = new char[6][8];
+		for (int i = 0; i < this.seiten.length; i++) {
+			for (int j = 0; j < 8; j++) {
+				s[i][j] = lookupColor(extractColor(i, j));
+			}
+		}
+		// Abstände definieren
+		String la = "        ";
+		String md = "   ";
+		String sm = " ";
+		// Weiße Fläche
+		b.append(la).append(s[0][0]).append(sm).append(s[0][1]).append(sm).append(s[0][2]).append("\n");
+		b.append(la).append(s[0][7]).append(sm).append("W").append(sm).append(s[0][3]).append("\n");
+		b.append(la).append(s[0][6]).append(sm).append(s[0][5]).append(sm).append(s[0][4]).append("\n");
+		// Orange Grün Rot Blau
+		b.append(s[2][6]).append(sm).append(s[2][7]).append(sm).append(s[2][0]).append(md).append(s[3][6]).append(sm).append(s[3][7]).append(sm).append(s[3][0]).append(md).append(s[4][4]).append(sm).append(s[4][5]).append(sm).append(s[4][6]).append(md).append(s[1][6]).append(sm).append(s[1][7]).append(sm).append(s[1][0]).append("\n");
+		b.append(s[2][5]).append(sm).append("O").append(sm).append(s[2][1]).append(md).append(s[3][5]).append(sm).append("G").append(sm).append(s[3][1]).append(md).append(s[4][3]).append(sm).append("R").append(sm).append(s[4][7]).append(md).append(s[1][5]).append(sm).append("B").append(sm).append(s[1][1]).append("\n");
+		b.append(s[2][4]).append(sm).append(s[2][3]).append(sm).append(s[2][2]).append(md).append(s[3][4]).append(sm).append(s[3][3]).append(sm).append(s[3][2]).append(md).append(s[4][2]).append(sm).append(s[4][1]).append(sm).append(s[4][0]).append(md).append(s[1][4]).append(sm).append(s[1][3]).append(sm).append(s[1][2]).append("\n");
+		// Gelb
+		b.append(la).append(s[5][0]).append(sm).append(s[5][1]).append(sm).append(s[5][2]).append("\n");
+		b.append(la).append(s[5][7]).append(sm).append("Y").append(sm).append(s[5][3]).append("\n");
+		b.append(la).append(s[5][6]).append(sm).append(s[5][5]).append(sm).append(s[5][4]);
+		return b.toString();
 	}
 }

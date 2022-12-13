@@ -1,6 +1,7 @@
 package representation;
 
 import loeser.CFOP;
+import loeser.Database.Database;
 import loeser.Database.DatenbankGenerateWatcher;
 import loeser.Database.GenerateCornerDatabase;
 
@@ -21,9 +22,20 @@ public class Starter {
 		Thread b = new Thread(a);
 		b.start();
 
-		DatenbankGenerateWatcher c = new DatenbankGenerateWatcher();
+
+		Database a1 = new Database("test1", true);
+		Wuerfel w = new Wuerfel();
+		w.drehe(Zuege.D3);
+		Util.printArr(w.cubieOP()[0]);
+		Util.printArr(w.cubieOP()[1]);
+		/*System.out.println(GenerateCornerDatabase.totalIndex(w.cubieOP()[0], w.cubieOP()[1]));
+		for(int i = -100; i < 101; i++)
+			System.out.println(a.readfromDatabase((GenerateCornerDatabase.totalIndex(w.cubieOP()[0], w.cubieOP()[1]) + i)) + ", " + i);*/
+
+
+		/*DatenbankGenerateWatcher c = new DatenbankGenerateWatcher();
 		Thread d = new Thread(c);
-		d.start();
+		d.start();*/
 
 
 		/*Database corners = new Database("cornerData", false);

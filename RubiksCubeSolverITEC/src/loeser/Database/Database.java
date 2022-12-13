@@ -11,9 +11,9 @@ public class Database {
 
     public Database(String filename, boolean load) {
         this.filename = filename;
-        loaded = load;
         if (load) {
             this.load();
+            loaded = load;
         }
     }
 
@@ -55,14 +55,14 @@ public class Database {
 
     }
 
-    public int readfromDatabase(int index) {
+    public int readfromDatabase(int index) { // 8A 92 wäre in indexreihenfolge: A, 8, 2, 9
         if (!loaded) {
             this.load();
         }
-        if (index % 2 == 0) { // vorderer Teil des bytes
-            return (data[index / 2] >>> 4) & 0xF;
-        } else { // hintere Teil des bytes
+        if (index % 2 == 0) {
             return data[index / 2] & 0xF;
+        } else {
+            return (data[index / 2] >>> 4) & 0xF;
         }
 
 
