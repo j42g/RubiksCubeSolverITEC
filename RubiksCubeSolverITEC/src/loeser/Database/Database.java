@@ -35,19 +35,9 @@ public class Database {
     public void writeDatabase(byte[] data) {
         try {
             FileOutputStream out = new FileOutputStream(this.filename);
-            int arrIndex = 0;
-            byte[] output = new byte[data.length / 2];
-            for (int i = 0; i < data.length / 2; i++) {
-                output[i] = (byte) ((data[arrIndex] << 4) + data[arrIndex + 1]);
-                arrIndex += 2;
-
-            }
-            out.write(output);
+            System.out.println(data[39366]);
+            out.write(data);
             out.flush();
-            if (data.length % 2 == 1) {
-                out.write((data[data.length - 1] << 4));
-                out.flush();
-            }
             out.close();
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -23,19 +23,19 @@ public class Starter {
 		b.start();
 
 
-		Database a1 = new Database("test1", true);
+		/*Database a1 = new Database("test1", true);
 		Wuerfel w = new Wuerfel();
 		w.drehe(Zuege.D3);
 		Util.printArr(w.cubieOP()[0]);
-		Util.printArr(w.cubieOP()[1]);
+		Util.printArr(w.cubieOP()[1]);*/
 		/*System.out.println(GenerateCornerDatabase.totalIndex(w.cubieOP()[0], w.cubieOP()[1]));
 		for(int i = -100; i < 101; i++)
 			System.out.println(a.readfromDatabase((GenerateCornerDatabase.totalIndex(w.cubieOP()[0], w.cubieOP()[1]) + i)) + ", " + i);*/
 
 
-		/*DatenbankGenerateWatcher c = new DatenbankGenerateWatcher();
+		DatenbankGenerateWatcher c = new DatenbankGenerateWatcher();
 		Thread d = new Thread(c);
-		d.start();*/
+		d.start();
 
 
 		/*Database corners = new Database("cornerData", false);

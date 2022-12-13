@@ -28,12 +28,15 @@ public class GenerateCornerDatabase implements Runnable {
     }
 
     private static void DFS(){
+        // fill with 15, so later we can get the smaller one correctely file[i] or current
+        Arrays.fill(file, (byte) 255);
 
         path = new Stack<int[]>();
         path.push(new int[0]);
         int[] curr;
         int[][] permOriCurr;
         int index;
+        int indexD2;
         Wuerfel w = new Wuerfel();
         while(!path.empty()){
             curr = path.pop();
@@ -41,10 +44,15 @@ public class GenerateCornerDatabase implements Runnable {
             w.dreheZugsequenz(curr);
             permOriCurr = w.cubieOP();
             index = totalIndex(permOriCurr[0], permOriCurr[1]);
-            if(index % 2 == 0 && (file[index / 2] & 0xF) == 0){
-                file[index / 2] |= (byte)curr.length;
-            } else if ((file[index / 2] >>> 4) == 0) {
-                file[index / 2] |= (byte)(curr.length << 4);
+            indexD2 = index / 2;
+            if(index % 2 == 0){
+                if((file[indexD2] & 0xF) > curr.length){
+                    file[indexD2] &= (byte)curr.length;
+                }
+            } else {
+                if((file[indexD2] >>> 4) > curr.length){
+                    file[indexD2] &= (byte)(curr.length << 4);
+                }
             }
             genChilds(curr);
         }
@@ -53,7 +61,7 @@ public class GenerateCornerDatabase implements Runnable {
     }
 
     private static void genChilds(int[] node) {// node = nodeMoves
-        if (node.length == 5) {
+        if (node.length == 8) {
             return;
         } else if (node.length > 1){  // adv pruning
             for (int zug : Zuege.alleZuege) {

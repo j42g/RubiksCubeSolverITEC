@@ -22,10 +22,10 @@ public class DatenbankGenerateWatcher implements Runnable {
         byte[] file = GenerateCornerDatabase.getBytes();
         int count = 0;
         for(int i = 0; i < file.length; i++){
-            if(((file[i / 2] >>> 4) & 0xF) == 0){
+            if(((file[i / 2] >>> 4) & 0xF) == 0xF){
                 count++;
             }
-            if((file[i / 2] & 0xF) == 0){
+            if((file[i / 2] & 0xF) == 0xF){
                 count++;
             }
         }
