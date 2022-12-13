@@ -158,16 +158,16 @@ public class Wuerfel {
 	 */
 	public void verdrehe(int laenge, boolean ausgeben){
 		int currZug;
-		StringBuilder s = new StringBuilder();
-		for(int i = 0; i < laenge; i++){
-			currZug = Zuege.alleZuege[(int)(Zuege.alleZuege.length * Math.random())];
-			this.drehe(currZug);
-			s.append(Zuege.lookupZug(currZug));
-			if(i != laenge - 1){
-				s.append(" ");
-			}
-
-		}
+		String s = "";
+		currZug = Zuege.alleZuege[(int) (Zuege.alleZuege.length * Math.random())];
+		s += Zuege.lookupZug(currZug);
+		do {
+			s += " ";
+			currZug = Zuege.alleZuege[(int) (Zuege.alleZuege.length * Math.random())];
+			s += Zuege.lookupZug(currZug);
+			s = Util.kuerzen(s);
+		} while(s.split(" ").length < laenge);
+		this.dreheZugsequenz(s);
 		if(ausgeben) {
 			System.out.println("Verdreht mit: " + s);
 		}
@@ -324,109 +324,103 @@ public class Wuerfel {
         cache |= ((long) (extractColor(1, 2))) << 52;
         cache |= ((long) (extractColor(4, 0))) << 60;
 		for(int i = 0; i<8;i++){
-			switch((int)((cache>>>8*i)&0xFF)){
-				case 0x40:
-					result[0][i]=0;
-					result[1][i]=0;
-					break;
-				case 0x03:
-					result[0][i]=0;
-					result[1][i]=1;
-					break;
-				case 0x34:
-					result[0][i]=0;
-					result[1][i]=2;
-					break;
-				case 0x30:
-					result[0][i]=1;
-					result[1][i]=0;
-					break;
-				case 0x02:
-					result[0][i]=1;
-					result[1][i]=1;
-					break;
-				case 0x23:
-					result[0][i]=1;
-					result[1][i]=2;
-					break;
-
-				case 0x20:
-					result[0][i]=2;
-					result[1][i]=0;
-					break;
-				case 0x01:
-					result[0][i]=2;
-					result[1][i]=1;
-					break;
-				case 0x12:
-					result[0][i]=2;
-					result[1][i]=2;
-					break;
-
-				case 0x10:
-					result[0][i]=3;
-					result[1][i]=0;
-					break;
-				case 0x04:
-					result[0][i]=3;
-					result[1][i]=1;
-					break;
-				case 0x41:
-					result[0][i]=3;
-					result[1][i]=2;
-					break;
-
-				case 0x35:
-					result[0][i]=4;
-					result[1][i]=0;
-					break;
-				case 0x54:
-					result[0][i]=4;
-					result[1][i]=1;
-					break;
-				case 0x43:
-					result[0][i]=4;
-					result[1][i]=2;
-					break;
-
-				case 0x25:
-					result[0][i]=5;
-					result[1][i]=0;
-					break;
-				case 0x53:
-					result[0][i]=5;
-					result[1][i]=1;
-					break;
-				case 0x32:
-					result[0][i]=5;
-					result[1][i]=2;
-					break;
-
-				case 0x15:
-					result[0][i]=6;
-					result[1][i]=0;
-					break;
-				case 0x52:
-					result[0][i]=6;
-					result[1][i]=1;
-					break;
-				case 0x21:
-					result[0][i]=6;
-					result[1][i]=2;
-					break;
-
-				case 0x45:
-					result[0][i]=7;
-					result[1][i]=0;
-					break;
-				case 0x51:
-					result[0][i]=7;
-					result[1][i]=1;
-					break;
-				case 0x14:
-					result[0][i]=7;
-					result[1][i]=2;
-					break;
+			switch ((int) ((cache >>> 8 * i) & 0xFF)) {
+				case 0x40 -> {
+					result[0][i] = 0;
+					result[1][i] = 0;
+				}
+				case 0x03 -> {
+					result[0][i] = 0;
+					result[1][i] = 1;
+				}
+				case 0x34 -> {
+					result[0][i] = 0;
+					result[1][i] = 2;
+				}
+				case 0x30 -> {
+					result[0][i] = 1;
+					result[1][i] = 0;
+				}
+				case 0x02 -> {
+					result[0][i] = 1;
+					result[1][i] = 1;
+				}
+				case 0x23 -> {
+					result[0][i] = 1;
+					result[1][i] = 2;
+				}
+				case 0x20 -> {
+					result[0][i] = 2;
+					result[1][i] = 0;
+				}
+				case 0x01 -> {
+					result[0][i] = 2;
+					result[1][i] = 1;
+				}
+				case 0x12 -> {
+					result[0][i] = 2;
+					result[1][i] = 2;
+				}
+				case 0x10 -> {
+					result[0][i] = 3;
+					result[1][i] = 0;
+				}
+				case 0x04 -> {
+					result[0][i] = 3;
+					result[1][i] = 1;
+				}
+				case 0x41 -> {
+					result[0][i] = 3;
+					result[1][i] = 2;
+				}
+				case 0x35 -> {
+					result[0][i] = 4;
+					result[1][i] = 0;
+				}
+				case 0x54 -> {
+					result[0][i] = 4;
+					result[1][i] = 1;
+				}
+				case 0x43 -> {
+					result[0][i] = 4;
+					result[1][i] = 2;
+				}
+				case 0x25 -> {
+					result[0][i] = 5;
+					result[1][i] = 0;
+				}
+				case 0x53 -> {
+					result[0][i] = 5;
+					result[1][i] = 1;
+				}
+				case 0x32 -> {
+					result[0][i] = 5;
+					result[1][i] = 2;
+				}
+				case 0x15 -> {
+					result[0][i] = 6;
+					result[1][i] = 0;
+				}
+				case 0x52 -> {
+					result[0][i] = 6;
+					result[1][i] = 1;
+				}
+				case 0x21 -> {
+					result[0][i] = 6;
+					result[1][i] = 2;
+				}
+				case 0x45 -> {
+					result[0][i] = 7;
+					result[1][i] = 0;
+				}
+				case 0x51 -> {
+					result[0][i] = 7;
+					result[1][i] = 1;
+				}
+				case 0x14 -> {
+					result[0][i] = 7;
+					result[1][i] = 2;
+				}
 			}
 		}
 		return result;
