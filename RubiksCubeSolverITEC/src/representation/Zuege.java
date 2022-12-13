@@ -98,6 +98,22 @@ public class Zuege {
         return result;
     }
 
+    public int[] invZuege(int[] zuege){
+        int[] invZuege = new int[zuege.length];
+        int currMove;
+        for(int i = 0; i < invZuege.length; i++){
+            currMove = zuege[zuege.length - 1 - i];
+            if(currMove % 3 == 0){
+                invZuege[i] = currMove + 2;
+            } else if(currMove % 3 == 1){
+                invZuege[i] = currMove;
+            } else {
+                invZuege[i] = currMove - 2;
+            }
+
+        }
+        return invZuege;
+    }
 
 
 }

@@ -56,7 +56,7 @@ public class IDAStar extends Thread { // https://en.wikipedia.org/wiki/Iterative
         int f = g + h(node);
         if (f > bound) {
             return f;
-        } else if (node.getWuerfel().isMaskSolved(this.zielPos, this.zielMaske)) {
+        } else if (node.getWuerfel().isSolved()) {
             this.loesung = node.getMoves();
             return -1;
         }

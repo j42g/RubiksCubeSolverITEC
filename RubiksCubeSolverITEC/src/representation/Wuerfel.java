@@ -116,7 +116,6 @@ public class Wuerfel {
 		return new int[][]{ep, eo};
 	}
 
-
     /**
      * Dreht Zugsequenz.
      *

@@ -1,4 +1,4 @@
-package loeser;
+package loeser.Database;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

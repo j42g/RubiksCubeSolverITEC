@@ -37,7 +37,9 @@ public class CubeNode {
     }
 
     public CubeNode applyMoveToCopyAndReturn(int zug) {
-        CubeNode n = new CubeNode(new Wuerfel(wuerfel.getSeiten()), Arrays.copyOf(moves, moves.length));
+        int[] nMoves = Arrays.copyOf(moves, moves.length + 1);
+        nMoves[nMoves.length - 1] = zug;
+        CubeNode n = new CubeNode(new Wuerfel(wuerfel.getSeiten()), nMoves);
         n.wuerfel.drehe(zug);
         return n;
     }
