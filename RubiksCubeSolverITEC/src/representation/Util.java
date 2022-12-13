@@ -134,14 +134,14 @@ public class Util {
 		for(int i = 0; i < num; i++){
 			a = new Wuerfel();
 			a.verdrehe(26, false);
-			start = System.nanoTime();
+			start = System.currentTimeMillis();
 			temp = a.cubieOP();
-			total1 += System.nanoTime() - start;
-			start = System.nanoTime();
+			total1 += System.currentTimeMillis() - start;
+			start = System.currentTimeMillis();
 			temp = a.getCornerCubies();
-			total2 += System.nanoTime() - start;
+			total2 += System.currentTimeMillis() - start;
 		}
-		System.out.println("Bit:\t" + total1 / 100000000d + "\nKoc:\t" + total2 / 100000000d);
+		System.out.println("Bit:\t" + total1 / 1000d + "\nKoc:\t" + total2 / 1000d);
 	}
 
 }

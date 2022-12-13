@@ -1,6 +1,7 @@
 package representation;
 
 import loeser.CFOP;
+import loeser.Database.DatenbankGenerateWatcher;
 import loeser.Database.GenerateCornerDatabase;
 
 public class Starter {
@@ -16,7 +17,13 @@ public class Starter {
 
 		//GenerateCornerDatabase.permutationToIndex(new int[]{0, 1, 8, 4, 3, 11, 6, 5, 2, 10, 9, 7});
 
-		GenerateCornerDatabase.start(8);
+		GenerateCornerDatabase a = new GenerateCornerDatabase();
+		Thread b = new Thread(a);
+		b.start();
+
+		DatenbankGenerateWatcher c = new DatenbankGenerateWatcher();
+		Thread d = new Thread(c);
+		d.start();
 
 
 		/*Database corners = new Database("cornerData", false);
