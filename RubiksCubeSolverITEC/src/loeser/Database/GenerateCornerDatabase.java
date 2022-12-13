@@ -14,7 +14,7 @@ public class GenerateCornerDatabase {
 
     private static int[] fac; // pre-computed factorials
     private static int[] bitCount; // pre-computed bit-count
-    private static Stack<CubeNode> path;
+    private static Stack<CubeNode> path; // graph
 
 
     public static void start(int len){
