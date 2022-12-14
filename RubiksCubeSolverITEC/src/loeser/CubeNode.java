@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class CubeNode {
 
     private final Wuerfel wuerfel;
-    private int[] moves;
+    private final int[] moves;
 
     public CubeNode(Wuerfel w, int[] m){
         this.wuerfel = w;
@@ -21,11 +21,11 @@ public class CubeNode {
         return this.moves;
     }
 
-    public boolean equals(Object o){
+    public boolean equals(Object o){ // verwendet niemand
         if(o instanceof CubeNode b) {
             if(this.wuerfel == b.wuerfel){
                 if(b.moves.length < this.moves.length){ // Falls b der gleiche Würfel, mit aber weniger Zügen ist
-                    this.moves = b.moves;
+                    //this.moves = b.moves;
                 }
                 return true;
             } else {

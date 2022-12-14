@@ -14,9 +14,10 @@ public class GenerateCornerDatabase implements Runnable {
 
     private static int[] fac; // pre-computed factorials
     private static int[] bitCount; // pre-computed bit-count
-    private static Stack<int[]> path; // graph
+    private static Stack<CubeNode> path; // graph
     private static final byte[] file = new byte[88179840 / 2]; // 8! * 3^7. 2 Pro byte
-    private static int[] tempArr;
+    private static int currMovesLen;
+    private static int[] currMoves;
     static {
         precompute(8);
     }
@@ -29,29 +30,26 @@ public class GenerateCornerDatabase implements Runnable {
     }
 
     private static void DFS(){
-        path = new Stack<int[]>();
-        path.push(new int[0]);
-        int[] curr;
+        path = new Stack<CubeNode>();
+        path.push(new CubeNode(new Wuerfel(), new int[]{}));
+        CubeNode curr;
         int[][] permOriCurr;
         int index;
         int indexD2;
-        Wuerfel w = new Wuerfel();
         while(!path.empty()){
             curr = path.pop();
-            w.makeSolved();
-            w.dreheZugsequenz(curr);
-            permOriCurr = w.cubieOP();
+            permOriCurr = curr.getWuerfel().cubieOP();
             index = totalIndex(permOriCurr[0], permOriCurr[1]);
             indexD2 = index / 2;
             if(index % 2 == 0){
-                if((file[indexD2] & 0xF) > curr.length || (file[indexD2] & 0xF) == 0){
+                if((file[indexD2] & 0xF) > curr.getMoves().length || (file[indexD2] & 0xF) == 0){
                     file[indexD2] &= 0xF0;
-                    file[indexD2] |= (byte)curr.length;
+                    file[indexD2] |= (byte) curr.getMoves().length;
                 }
             } else {
-                if((file[indexD2] >>> 4) > curr.length || ((file[indexD2] >>> 4) & 0xF) == 0){
+                if((file[indexD2] >>> 4) > curr.getMoves().length || (file[indexD2] >>> 4) == 0){
                     file[indexD2] &= 0x0F;
-                    file[indexD2] |= (byte)(curr.length << 4);
+                    file[indexD2] |= (byte)(curr.getMoves().length << 4);
                 }
             }
             genChilds(curr);
@@ -60,39 +58,33 @@ public class GenerateCornerDatabase implements Runnable {
         a.writeDatabase(file);
     }
 
-    private static void genChilds(int[] node) {// node = nodeMoves
-        if (node.length == 7) {
+    private static void genChilds(CubeNode node) {// node = nodeMoves
+        currMoves = node.getMoves();
+        currMovesLen = currMoves.length;
+        if (currMovesLen == 6) {
             return;
-        } else if (node.length > 1){  // adv pruning
+        } else if (currMovesLen > 1){  // adv pruning
             for (int zug : Zuege.alleZuege) {
-                if (node[node.length - 1] < 9) { // is first face
-                    if (zug / 3 != node[node.length - 1] / 3) { // dont move the same side as last move
-                        tempArr = Arrays.copyOf(node, node.length + 1);
-                        tempArr[node.length] = zug;
-                        path.push(tempArr);
+                if (currMoves[currMovesLen - 1] < 9) { // is first face
+                    if (zug / 3 != currMoves[currMovesLen - 1] / 3) { // dont move the same side as last move
+                        path.push(node.applyMoveToCopyAndReturn(zug));
                     }
                 } else { // is second face
-                    if (zug / 3 != node[node.length - 1] / 3
-                            && zug / 3 != oppFace[node[node.length - 1] / 3]) { // dont move the same side as last move and opp
-                        tempArr = Arrays.copyOf(node, node.length + 1);
-                        tempArr[node.length] = zug;
-                        path.push(tempArr);
+                    if (zug / 3 != currMoves[currMovesLen - 1] / 3
+                            && zug / 3 != oppFace[currMoves[currMovesLen - 1] / 3]) { // dont move the same side as last move and opp
+                        path.push(node.applyMoveToCopyAndReturn(zug));
                     }
                 }
             }
-        } else if (node.length == 1) { // simple move pruning
+        } else if (currMovesLen == 1) { // simple move pruning
             for (int zug : Zuege.alleZuege) {
-                if(zug / 3 != node[node.length - 1] / 3){ // dont move the same side as last move
-                    tempArr = Arrays.copyOf(node, node.length + 1);
-                    tempArr[node.length] = zug;
-                    path.push(tempArr);
+                if(zug / 3 != currMoves[currMovesLen - 1] / 3){ // dont move the same side as last move
+                    path.push(node.applyMoveToCopyAndReturn(zug));
                 }
             }
         } else {
             for (int zug : Zuege.alleZuege) {
-                int[] a = Arrays.copyOf(node, node.length + 1);
-                a[node.length] = zug;
-                path.push(a);
+                path.push(node.applyMoveToCopyAndReturn(zug));
             }
         }
     }
@@ -151,7 +143,7 @@ public class GenerateCornerDatabase implements Runnable {
         return file;
     }
 
-    public static int[] getStackTop(){
+    public static CubeNode getStackTop(){
         return path.peek();
     }
 

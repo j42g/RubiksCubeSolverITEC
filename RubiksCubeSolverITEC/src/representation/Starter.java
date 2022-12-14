@@ -22,6 +22,7 @@ public class Starter {
 
 		GenerateCornerDatabase a = new GenerateCornerDatabase();
 		Thread b = new Thread(a);
+		b.setPriority(10);
 		b.start();
 
 		/*Database a1 = new Database("test1", true);

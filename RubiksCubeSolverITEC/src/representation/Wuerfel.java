@@ -69,8 +69,7 @@ public class Wuerfel {
 	 * @param Zuege Zuege
 	 */
 	public Wuerfel(int[] zuege) {
-		this.seiten = new int[]{0x00000000, 0x11111111, 0x22222222, 0x33333333, 0x44444444, 0x55555555};
-		this.dreheZugsequenz(zuege);
+		this.seiten = zuege;
 
 	}
 
