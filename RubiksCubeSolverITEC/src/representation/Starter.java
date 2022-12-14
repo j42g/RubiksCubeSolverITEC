@@ -18,10 +18,11 @@ public class Starter {
 
 		//GenerateCornerDatabase.permutationToIndex(new int[]{0, 1, 8, 4, 3, 11, 6, 5, 2, 10, 9, 7});
 
+
+
 		GenerateCornerDatabase a = new GenerateCornerDatabase();
 		Thread b = new Thread(a);
 		b.start();
-
 
 		/*Database a1 = new Database("test1", true);
 		Wuerfel w = new Wuerfel();

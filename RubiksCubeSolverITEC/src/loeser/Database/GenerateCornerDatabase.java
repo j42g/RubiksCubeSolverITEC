@@ -16,6 +16,7 @@ public class GenerateCornerDatabase implements Runnable {
     private static int[] bitCount; // pre-computed bit-count
     private static Stack<int[]> path; // graph
     private static final byte[] file = new byte[88179840 / 2]; // 8! * 3^7. 2 Pro byte
+    private static int[] tempArr;
     static {
         precompute(8);
     }
@@ -66,25 +67,25 @@ public class GenerateCornerDatabase implements Runnable {
             for (int zug : Zuege.alleZuege) {
                 if (node[node.length - 1] < 9) { // is first face
                     if (zug / 3 != node[node.length - 1] / 3) { // dont move the same side as last move
-                        int[] a = Arrays.copyOf(node, node.length + 1);
-                        a[node.length] = zug;
-                        path.push(a);
+                        tempArr = Arrays.copyOf(node, node.length + 1);
+                        tempArr[node.length] = zug;
+                        path.push(tempArr);
                     }
                 } else { // is second face
                     if (zug / 3 != node[node.length - 1] / 3
                             && zug / 3 != oppFace[node[node.length - 1] / 3]) { // dont move the same side as last move and opp
-                        int[] a = Arrays.copyOf(node, node.length + 1);
-                        a[node.length] = zug;
-                        path.push(a);
+                        tempArr = Arrays.copyOf(node, node.length + 1);
+                        tempArr[node.length] = zug;
+                        path.push(tempArr);
                     }
                 }
             }
         } else if (node.length == 1) { // simple move pruning
             for (int zug : Zuege.alleZuege) {
                 if(zug / 3 != node[node.length - 1] / 3){ // dont move the same side as last move
-                    int[] a = Arrays.copyOf(node, node.length + 1);
-                    a[node.length] = zug;
-                    path.push(a);
+                    tempArr = Arrays.copyOf(node, node.length + 1);
+                    tempArr[node.length] = zug;
+                    path.push(tempArr);
                 }
             }
         } else {
@@ -156,6 +157,8 @@ public class GenerateCornerDatabase implements Runnable {
 
     @Override
     public void run() {
+        long start = System.nanoTime();
         GenerateCornerDatabase.starte(8);
+        System.out.println((System.nanoTime() - start)/1000000000d + "s");
     }
 }
