@@ -28,9 +28,6 @@ public class GenerateCornerDatabase implements Runnable {
     }
 
     private static void DFS(){
-        // fill with 15, so later we can get the smaller one correctely file[i] or current
-        Arrays.fill(file, (byte) 255);
-
         path = new Stack<int[]>();
         path.push(new int[0]);
         int[] curr;
@@ -46,11 +43,11 @@ public class GenerateCornerDatabase implements Runnable {
             index = totalIndex(permOriCurr[0], permOriCurr[1]);
             indexD2 = index / 2;
             if(index % 2 == 0){
-                if((file[indexD2] & 0xF) > curr.length){
+                if((file[indexD2] & 0xF) > curr.length || (file[indexD2] & 0xF) == 0){
                     file[indexD2] &= (byte)curr.length;
                 }
             } else {
-                if((file[indexD2] >>> 4) > curr.length){
+                if((file[indexD2] >>> 4) > curr.length || ((file[indexD2] >>> 3) & 0xF) == 0){
                     file[indexD2] &= (byte)(curr.length << 4);
                 }
             }
@@ -61,7 +58,7 @@ public class GenerateCornerDatabase implements Runnable {
     }
 
     private static void genChilds(int[] node) {// node = nodeMoves
-        if (node.length == 8) {
+        if (node.length == 7) {
             return;
         } else if (node.length > 1){  // adv pruning
             for (int zug : Zuege.alleZuege) {
