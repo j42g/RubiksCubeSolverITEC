@@ -44,11 +44,13 @@ public class GenerateCornerDatabase implements Runnable {
             indexD2 = index / 2;
             if(index % 2 == 0){
                 if((file[indexD2] & 0xF) > curr.length || (file[indexD2] & 0xF) == 0){
-                    file[indexD2] &= (byte)curr.length;
+                    file[indexD2] &= 0xF0;
+                    file[indexD2] |= (byte)curr.length;
                 }
             } else {
-                if((file[indexD2] >>> 4) > curr.length || ((file[indexD2] >>> 3) & 0xF) == 0){
-                    file[indexD2] &= (byte)(curr.length << 4);
+                if((file[indexD2] >>> 4) > curr.length || ((file[indexD2] >>> 4) & 0xF) == 0){
+                    file[indexD2] &= 0x0F;
+                    file[indexD2] |= (byte)(curr.length << 4);
                 }
             }
             genChilds(curr);
