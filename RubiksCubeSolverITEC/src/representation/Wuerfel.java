@@ -69,8 +69,13 @@ public class Wuerfel {
 	 * @param Zuege Zuege
 	 */
 	public Wuerfel(int[] zuege) {
-		this.seiten = zuege;
+		this.seiten = Arrays.copyOf(zuege, 6);
 
+	}
+
+	public Wuerfel(int[] pos, int move){
+		this.seiten = Arrays.copyOf(pos, 6);
+		this.drehe(move);
 	}
 
 	/**

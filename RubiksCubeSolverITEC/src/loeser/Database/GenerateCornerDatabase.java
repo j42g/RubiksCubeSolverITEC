@@ -43,12 +43,12 @@ public class GenerateCornerDatabase implements Runnable {
             indexD2 = index / 2;
             if(index % 2 == 0){
                 if((file[indexD2] & 0xF) > curr.getMoves().length || (file[indexD2] & 0xF) == 0){
-                    file[indexD2] &= 0xF0;
+                    file[indexD2] = (byte) (file[indexD2] & (byte) 0xF0);
                     file[indexD2] |= (byte) curr.getMoves().length;
                 }
             } else {
                 if((file[indexD2] >>> 4) > curr.getMoves().length || (file[indexD2] >>> 4) == 0){
-                    file[indexD2] &= 0x0F;
+                    file[indexD2] = (byte) (file[indexD2] & (byte) 0x0F);
                     file[indexD2] |= (byte)(curr.getMoves().length << 4);
                 }
             }
