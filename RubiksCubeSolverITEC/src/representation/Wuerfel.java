@@ -5,6 +5,15 @@ import java.util.Arrays;
 public class Wuerfel {
 
 
+	private static final int[][][] eckenFacelet = { { {0, 4}, {4, 4}, {3, 0} }, { {0, 6}, {3, 6}, {2, 0} }, { {0, 0}, {2, 6}, {1, 0} }, { {0, 2}, {1, 6}, {4, 6} },
+			{ {5, 2}, {3, 2}, {4, 2} }, { {5, 0}, {2, 2}, {3, 4} }, { {5, 6}, {1, 2}, {2, 4} }, { {5, 4}, {4, 0}, {1, 5} } };
+
+
+	private static final int[][] eckenFarbe = { { 0 ,4, 3 }, { 0, 3, 2 },
+			{ 0, 2, 1 }, { 0, 1, 4 }, { 5, 3, 4 },
+			{ 5, 2, 3 }, { 5, 1, 2 }, { 5, 4, 1 } };
+
+
 	/**
      * Im Array sind die 6 Seiten gespeicht. Die i-te Seite hat die i-te Farbe:
      * <p>
@@ -41,7 +50,7 @@ public class Wuerfel {
 	 * Geneiert gelösten Würfel.
 	 */
 	public Wuerfel() {
-		this.makeSolved();
+		this.seiten = new int[]{0x00000000, 0x11111111, 0x22222222, 0x33333333, 0x44444444, 0x55555555};
 	}
 
 	/**
@@ -67,6 +76,20 @@ public class Wuerfel {
 	public Wuerfel(int[] pos, int[] moves) {
 		this.seiten = Arrays.copyOf(pos, 6);
 		this.dreheZugsequenz(moves);
+	}
+
+	public Wuerfel WuerfelFromCubies(int[] eckenPerm, int[] eckenOri){ // NUR ECKEN
+		Wuerfel w = new Wuerfel();
+		int j;
+		int ori;
+		for(int e = 0; e < 8; e++) { // Ecken
+			j = eckenPerm[e];
+			ori = eckenOri[e];
+			for(int k = 0; k < 3; k++) {
+				w.veraendereEinzeln(eckenFacelet[e][(k + ori) % 3][0], eckenFacelet[e][(k + ori) % 3][1], eckenFarbe[j][k]);
+			}
+		}
+		return w;
 	}
 
     /**
@@ -253,6 +276,19 @@ public class Wuerfel {
         }
         return 'X';
     }
+
+	public void veraendereEinzeln(int seitenIndex, int feldIndex, int farbe) {
+		// feldIndex * 4 in schnell
+		feldIndex = feldIndex << 2;
+		// Bit magic
+		for (int i = 0; i < 4; i++) {
+			if (((farbe >>> i) & 1) == 1) {
+				this.seiten[seitenIndex] |= (0b1 << (feldIndex + i));
+			} else {
+				this.seiten[seitenIndex] &= ~(0b1 << (feldIndex + i));
+			}
+		}
+	}
 
     public int[][] getCornerCubies() {
 		int[][] result = new int[2][8];

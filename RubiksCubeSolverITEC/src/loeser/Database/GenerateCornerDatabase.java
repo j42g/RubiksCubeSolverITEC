@@ -68,8 +68,7 @@ public class GenerateCornerDatabase implements Runnable {
         Database db = new Database("test1", true);
         for(int index = 1; index < 88179840; index++){
             if(db.readfromDatabase(index) == 0){ // found empty entry
-                System.out.println(index);
-                break;
+                System.out.println(index); // TODO index -> perm + ori
             }
         }
     }
