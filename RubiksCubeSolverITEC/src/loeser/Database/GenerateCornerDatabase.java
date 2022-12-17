@@ -36,6 +36,7 @@ public class GenerateCornerDatabase implements Runnable {
         int[][] permOriCurr;
         int index;
         int indexD2;
+        int x = 0;
         while(!path.empty()){
             curr = path.pop();
             permOriCurr = curr.getWuerfel().cubieOP();
@@ -43,25 +44,26 @@ public class GenerateCornerDatabase implements Runnable {
             indexD2 = index / 2;
             if(index % 2 == 0){
                 if((file[indexD2] & 0xF) > curr.getMoves().length || (file[indexD2] & 0xF) == 0){
-                    file[indexD2] = (byte) (file[indexD2] & (byte) 0xF0);
-                    file[indexD2] |= (byte) curr.getMoves().length;
+                    file[indexD2] &= 0xF0;
+                    file[indexD2] |= curr.getMoves().length;
                 }
             } else {
                 if((file[indexD2] >>> 4) > curr.getMoves().length || (file[indexD2] >>> 4) == 0){
-                    file[indexD2] = (byte) (file[indexD2] & (byte) 0x0F);
-                    file[indexD2] |= (byte)(curr.getMoves().length << 4);
+                    file[indexD2] &= 0x0F;
+                    file[indexD2] |= curr.getMoves().length << 4;
                 }
             }
             genChilds(curr);
         }
         Database a = new Database("test1", false);
+        file[0] &= 0xF0; // ersten Wert schreibe, weil er mit der Bedingung oben file(i) == 0 abgefangen wird
         a.writeDatabase(file);
     }
 
     private static void genChilds(CubeNode node) {// node = nodeMoves
         currMoves = node.getMoves();
         currMovesLen = currMoves.length;
-        if (currMovesLen == 6) {
+        if (currMovesLen == 9) {
             return;
         } else if (currMovesLen > 1){  // adv pruning
             for (int zug : Zuege.alleZuege) {
