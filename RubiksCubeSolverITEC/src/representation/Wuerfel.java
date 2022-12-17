@@ -4,26 +4,6 @@ import java.util.Arrays;
 
 public class Wuerfel {
 
-    private static final int[][][] eckenFacelet = { // [Ecke][Einer der frei Facelets][Seitenindex oder indexaufderSeite]
-			{{0, 4}, {4, 4}, {3, 0}},
-			{{0, 6}, {3, 6}, {2, 0}},
-			{{0, 0}, {2, 6}, {1, 0}},
-			{{0, 2}, {1, 6}, {4, 6}},
-			{{5, 2}, {3, 2}, {4, 2}},
-			{{5, 0}, {2, 2}, {3, 4}},
-			{{5, 6}, {1, 2}, {2, 4}},
-			{{5, 4}, {4, 0}, {1, 4}}};
-
-	private static final int[][] eckenFarben = {
-			{0, 4, 3},
-			{0, 3, 2},
-			{0, 2, 1},
-			{0, 1, 4},
-			{5, 3, 4},
-			{5, 2, 3},
-			{5, 1, 2},
-			{5, 4, 1}};
-
 
 	/**
      * Im Array sind die 6 Seiten gespeicht. Die i-te Seite hat die i-te Farbe:
@@ -65,11 +45,11 @@ public class Wuerfel {
 	}
 
 	/**
-	 * Generiert einen gelösten Würfel und mach die Zuege zuege.
-	 * @param Zuege Zuege
+	 * Generiert einen gelösten Würfel und mach die Zuege seiten.
+	 * @param seiten Seiten des Würfels
 	 */
-	public Wuerfel(int[] zuege) {
-		this.seiten = Arrays.copyOf(zuege, 6);
+	public Wuerfel(int[] seiten) {
+		this.seiten = Arrays.copyOf(seiten, 6);
 
 	}
 
@@ -87,41 +67,6 @@ public class Wuerfel {
 	public Wuerfel(int[] pos, int[] moves) {
 		this.seiten = Arrays.copyOf(pos, 6);
 		this.dreheZugsequenz(moves);
-	}
-
-	/**
-	 * Es funktioniert irgendwie. (Noch nicht getestet, aber ich mache keine Fehler)
-	 * @return Ecken Permutation und Orientierung
-	 */
-	public int[][] getCornerCubies(){
-		int[][] epo = new int[2][8]; // [perm oder ori][ecke]
-		int[][] fac;
-		int[] col;
-		int ori;
-		int col1;
-		int col2;
-		for (int i = 0; i < 8; i++) { // alle Ecken
-			fac = eckenFacelet[i];
-			ori = 0;
-			for (int tori = 0; tori < 3; tori++) {
-				ori = tori;
-				if(this.extractColor(fac[ori][0], fac[ori][1]) == 0
-						|| this.extractColor(fac[ori][0], fac[ori][1]) == 5){
-					break;
-				}
-			}
-			col1 = this.extractColor(fac[(ori + 1) % 3][0], fac[(ori + 1) % 3][1]);
-			col2 = this.extractColor(fac[(ori + 2) % 3][0], fac[(ori + 2) % 3][1]);
-			for (int j = 0; j < 8; j++) {
-				col = eckenFarben[j];
-				if (col1 == col[1] && col2 == col[2]) {
-					epo[0][i] = j;
-					epo[1][i] = ori;
-					break;
-				}
-			}
-		}
-		return epo;
 	}
 
     /**
@@ -309,7 +254,7 @@ public class Wuerfel {
         return 'X';
     }
 
-    public int[][] cubieOP() {
+    public int[][] getCornerCubies() {
 		int[][] result = new int[2][8];
 		long cache = 0;
         for (int i = 0; i < 4; i++) { //all cornerfaces on white layer

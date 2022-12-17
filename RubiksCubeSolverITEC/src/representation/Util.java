@@ -135,7 +135,7 @@ public class Util {
 			a = new Wuerfel();
 			a.verdrehe(26, false);
 			start = System.currentTimeMillis();
-			temp = a.cubieOP();
+			temp = a.getCornerCubies();
 			total1 += System.currentTimeMillis() - start;
 			start = System.currentTimeMillis();
 			temp = a.getCornerCubies();

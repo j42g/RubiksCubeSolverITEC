@@ -29,13 +29,11 @@ public class Database {
                 throw new RuntimeException(e);
             }
         }
-
     }
 
     public void writeDatabase(byte[] data) {
         try {
             FileOutputStream out = new FileOutputStream(this.filename);
-            System.out.println(data[39366]);
             out.write(data);
             out.flush();
             out.close();
@@ -45,6 +43,22 @@ public class Database {
 
     }
 
+    public void writeToLoaded(int index, int value){ // data in [0,15]
+        int indexD2 = index / 2;
+        if(index % 2 == 0){
+            data[indexD2] &= 0xF0;
+            data[indexD2] |= value;
+        } else {
+            data[indexD2] &= 0x0F;
+            data[indexD2] |= value << 4;
+
+        }
+    }
+
+    public void saveLoaded(){
+        if(loaded) writeDatabase(this.data);
+    }
+
     public int readfromDatabase(int index) { // 8A 92 wäre in indexreihenfolge: A, 8, 2, 9
         if (!loaded) {
             this.load();
@@ -52,7 +66,7 @@ public class Database {
         if (index % 2 == 0) {
             return data[index / 2] & 0xF;
         } else {
-            return (data[index / 2] >>> 4) & 0xF;
+            return data[index / 2] >>> 4;
         }
 
 

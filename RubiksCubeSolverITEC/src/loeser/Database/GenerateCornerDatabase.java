@@ -5,7 +5,6 @@ import representation.Util;
 import representation.Wuerfel;
 import representation.Zuege;
 
-import java.util.Arrays;
 import java.util.Stack;
 
 public class GenerateCornerDatabase implements Runnable {
@@ -18,18 +17,23 @@ public class GenerateCornerDatabase implements Runnable {
     private static final byte[] file = new byte[88179840 / 2]; // 8! * 3^7. 2 Pro byte
     private static int currMovesLen;
     private static int[] currMoves;
-    static {
+
+
+    public static void starte(){
+        backwardSearch();
+    }
+
+    private static void forwardSearch(){
         precompute(8);
+        DFSforward();
     }
 
-
-    public static void starte(int len){
-        precompute(len);
-        DFS();
-
+    private static void backwardSearch(){
+        precompute(8);
+        DFSbackward();
     }
 
-    private static void DFS(){
+    private static void DFSforward(){
         path = new Stack<CubeNode>();
         path.push(new CubeNode(new Wuerfel(), new int[]{}));
         CubeNode curr;
@@ -39,7 +43,7 @@ public class GenerateCornerDatabase implements Runnable {
         int x = 0;
         while(!path.empty()){
             curr = path.pop();
-            permOriCurr = curr.getWuerfel().cubieOP();
+            permOriCurr = curr.getWuerfel().getCornerCubies();
             index = totalIndex(permOriCurr[0], permOriCurr[1]);
             indexD2 = index / 2;
             if(index % 2 == 0){
@@ -58,6 +62,16 @@ public class GenerateCornerDatabase implements Runnable {
         Database a = new Database("test1", false);
         file[0] &= 0xF0; // ersten Wert schreibe, weil er mit der Bedingung oben file(i) == 0 abgefangen wird
         a.writeDatabase(file);
+    }
+
+    private static void DFSbackward(){
+        Database db = new Database("test1", true);
+        for(int index = 1; index < 88179840; index++){
+            if(db.readfromDatabase(index) == 0){ // found empty entry
+                System.out.println(index);
+                break;
+            }
+        }
     }
 
     private static void genChilds(CubeNode node) {// node = nodeMoves
@@ -152,7 +166,7 @@ public class GenerateCornerDatabase implements Runnable {
     @Override
     public void run() {
         long start = System.nanoTime();
-        GenerateCornerDatabase.starte(8);
+        GenerateCornerDatabase.starte();
         System.out.println((System.nanoTime() - start)/1000000000d + "s");
     }
 }

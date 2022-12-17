@@ -1,5 +1,6 @@
 package loeser;
 
+import com.sun.jdi.ArrayReference;
 import representation.Wuerfel;
 import representation.Zuege;
 
@@ -18,6 +19,8 @@ public class IDAStar extends Thread { // https://en.wikipedia.org/wiki/Iterative
     private final int[] zuege;
     private final Stack<CubeNode> path;
     private int[] loesung;
+    private int[] currMoves;
+    private int currMovesLen;
 
     public IDAStar(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[] _zuege) {
         this.path = new Stack<CubeNode>();
@@ -62,7 +65,7 @@ public class IDAStar extends Thread { // https://en.wikipedia.org/wiki/Iterative
         }
         int min = Integer.MAX_VALUE;
         int t;
-        for (CubeNode succ : this.genChilds(node)) {
+        for (CubeNode succ : this.genChilds(node, g)) {
             if (!this.path.contains(succ)) {
                 path.push(succ);
                 t = search(g + 1, bound); // cost = 1, weil man immer einen Zug hinzufügt (denke ich)
@@ -74,34 +77,36 @@ public class IDAStar extends Thread { // https://en.wikipedia.org/wiki/Iterative
         return min;
     }
 
-    public ArrayList<CubeNode> genChilds(CubeNode node) {
+    public ArrayList<CubeNode> genChilds(CubeNode node, int costToNode) {
         ArrayList<CubeNode> children = new ArrayList<CubeNode>();
-        int[] nm = node.getMoves(); // nm = nodeMoves
-        if (nm.length > 1){  // adv pruning
-            for (int zug : this.zuege) {
-                if (oppFace[nm[nm.length - 1] / 3] == nm[nm.length - 2] / 3) { // last the moves commute
-                    if (zug / 3 != nm[nm.length - 1] / 3
-                            && zug / 3 != nm[nm.length - 2] / 3) { // dont move the same side as last 2 moves
+        currMoves = node.getMoves();
+        currMovesLen = currMoves.length;
+        // Moves
+        if (currMovesLen > 1) {  // adv pruning
+            for (int zug : Zuege.alleZuege) {
+                if (currMoves[currMovesLen - 1] < 9) { // is first face
+                    if (zug / 3 != currMoves[currMovesLen - 1] / 3) { // dont move the same side as last move
                         children.add(node.applyMoveToCopyAndReturn(zug));
                     }
-                } else {
-                    if (zug / 3 != nm[nm.length - 1] / 3) { // dont move the same side as last move
+                } else { // is second face
+                    if (zug / 3 != currMoves[currMovesLen - 1] / 3
+                            && zug / 3 != oppFace[currMoves[currMovesLen - 1] / 3]) { // dont move the same side as last move and opp
                         children.add(node.applyMoveToCopyAndReturn(zug));
                     }
                 }
             }
-        } else if (nm.length == 1) { // simple move pruning
-            for (int zug : this.zuege) {
-                if(zug / 3 != nm[nm.length - 1] / 3){ // dont move the same side as last move
+        } else if (currMovesLen == 1) { // simple move pruning
+            for (int zug : Zuege.alleZuege) {
+                if (zug / 3 != currMoves[currMovesLen - 1] / 3) { // dont move the same side as last move
                     children.add(node.applyMoveToCopyAndReturn(zug));
                 }
             }
         } else {
-            for (int zug : this.zuege) {
+            for (int zug : Zuege.alleZuege) {
                 children.add(node.applyMoveToCopyAndReturn(zug));
             }
         }
-        return children;
+        return children; // TODO MÜSSEN SORT WERDEN SONST IST A* NUTZLOS
     }
 
     // https://stackoverflow.com/questions/60130124/heuristic-function-for-rubiks-cube-in-a-algorithm-artificial-intelligence

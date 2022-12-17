@@ -13,6 +13,7 @@ public class CubeNode {
         this.wuerfel = w;
         this.moves = m;
     }
+
     public Wuerfel getWuerfel(){
         return this.wuerfel;
     }
@@ -21,25 +22,10 @@ public class CubeNode {
         return this.moves;
     }
 
-    public boolean equals(Object o){ // verwendet niemand
-        if(o instanceof CubeNode b) {
-            if(this.wuerfel == b.wuerfel){
-                if(b.moves.length < this.moves.length){ // Falls b der gleiche Würfel, mit aber weniger Zügen ist
-                    //this.moves = b.moves;
-                }
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
     public CubeNode applyMoveToCopyAndReturn(int zug) {
         int[] nMoves = Arrays.copyOf(moves, moves.length + 1);
         nMoves[nMoves.length - 1] = zug;
-        CubeNode n = new CubeNode(new Wuerfel(wuerfel.getSeiten(), zug), nMoves); // Funktioniert nicht mehr
+        CubeNode n = new CubeNode(new Wuerfel(wuerfel.getSeiten(), zug), nMoves);
         return n;
     }
 }
