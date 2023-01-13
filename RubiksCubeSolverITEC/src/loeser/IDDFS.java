@@ -71,9 +71,7 @@ public class IDDFS {
 	 */
 	private void DLS(int[] startZuege, int tiefe) {
 		this.pos = new Stack<int[]>();
-		
 		this.pos.push(startZuege);
-		
 		while(!this.pos.empty()) {
 			int[] aktuelleZuege = this.pos.pop();
 			if((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {

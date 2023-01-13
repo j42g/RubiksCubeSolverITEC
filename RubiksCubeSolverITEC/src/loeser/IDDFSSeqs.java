@@ -3,6 +3,7 @@ package loeser;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import representation.Starter;
 import representation.Wuerfel;
 
 import java.util.Arrays;
@@ -45,7 +46,6 @@ public class IDDFSSeqs {
     private void DLS(int[] startZuege, int tiefe) {
         this.pos = new Stack<int[]>();
         this.pos.push(startZuege);
-
         while (!this.pos.empty()) {
             int[] aktuelleZuege = this.pos.pop();
             if ((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {

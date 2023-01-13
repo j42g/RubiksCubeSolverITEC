@@ -1,5 +1,6 @@
 package representation;
 
+import loeser.CFOP;
 import loeser.ZweiMalZwei;
 
 public class Util {
@@ -103,18 +104,32 @@ public class Util {
 
 	public static void testLauf(int durchgaenge) {
 		Wuerfel w = new Wuerfel();
+		CFOP s;
 		long summe = 0;
+		long start;
+		long end;
 		long time;
+		long maxTime = 0;
+		long minTime = Long.MAX_VALUE;
 		for (int i = 0; i < durchgaenge; i++) {
+			w.makeSolved();
 			w.verdrehe(26, false);
-			ZweiMalZwei a = new ZweiMalZwei(w, 0);
-			time = System.currentTimeMillis();
-			a.loese();
-			summe += System.currentTimeMillis() - time;
+			s = new CFOP(w, 10);
+			start = System.nanoTime();
+			s.run();
+			end = System.nanoTime();
+			time = end - start;
+			summe += time;
+			if(time < minTime) {
+				minTime = time;
+			}
+			if(time > maxTime) {
+				maxTime = time;
+			}
 			System.out.print("\r" + (i + 1) + "/" + durchgaenge + " fertig.");
 		}
 		// Bilde Durchschnitt
-		System.out.println("Durchschnitt: " + summe / durchgaenge);
+		System.out.println("Durchschnitt: " + summe / (durchgaenge * 1000000d) + "\tMax:\t" + maxTime / 1000000d + "ms\tMin:\t" + minTime / 1000000d + "ms");
 	}
 
 	public static int factorial(int n){
