@@ -74,12 +74,14 @@ public class CFOP extends Thread {
     private final int debug;
     private String solveSequenz;
     private String solverOutput;
+    private int zugAnzahl;
 
     public CFOP(Wuerfel _w, int _debug) {
         this.w = _w;
         this.debug = _debug;
         this.solveSequenz = "";
         this.solverOutput = "";
+        this.zugAnzahl = -1;
     }
 
     public CFOP(Wuerfel _w) {
@@ -123,8 +125,9 @@ public class CFOP extends Thread {
 
         long totalTime = System.currentTimeMillis() - absStartTime;
         System.out.println(solverOutput);
+        this.zugAnzahl = Util.kuerzen(this.solveSequenz).split(" ").length;
         //System.out.println("Gelöst mit (Länge" + this.solveSequenz.split(" ").length + "): " + this.solveSequenz);
-        System.out.println("Alles dauerte " + totalTime + "ms, mit (" + Util.kuerzen(this.solveSequenz).split(" ").length + "): " + Util.kuerzen(this.solveSequenz));
+        System.out.println("Alles dauerte " + totalTime + "ms, mit (" + this.zugAnzahl + "): " + Util.kuerzen(this.solveSequenz));
     }
 
 	private void F2LEinzeln(){
@@ -220,5 +223,9 @@ public class CFOP extends Thread {
         this.solverOutput += "F2L-4 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
 		if (this.debug >= 1) w.ausgeben();
 	}
+
+    public int getZugAnzahl() {
+        return this.zugAnzahl;
+    }
 
 }
