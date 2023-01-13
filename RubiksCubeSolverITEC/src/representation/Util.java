@@ -104,7 +104,7 @@ public class Util {
             }
 
         }
-        return zuege;
+        return zuege.trim();
     }
 
     public static void testLauf(int durchgaenge) {
