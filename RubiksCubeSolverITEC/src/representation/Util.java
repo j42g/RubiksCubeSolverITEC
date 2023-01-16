@@ -49,6 +49,7 @@ public class Util {
      * @return Zugsequenz gekürzt
      */
     public static String kuerzen(String zuege) {
+        zuege = zuege.trim();
         if (zuege.length() < 3) {
             return zuege;
         }
