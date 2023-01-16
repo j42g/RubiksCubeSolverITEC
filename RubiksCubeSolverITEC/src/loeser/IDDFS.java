@@ -1,22 +1,23 @@
 package loeser;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 import representation.Util;
 import representation.Wuerfel;
+import representation.Zuege;
+
 import java.util.Arrays;
 
 public class IDDFS {
+
+	private static final int[] oppFace = {5, 3, 4, 1, 2, 0};
 	
 	/**
 	 * Stack für IDDFS
 	 */
-	private Stack<int[]> pos;
-	
-	/**
-	 * Länge der Zügespeicher (2*8 = 16 Züge).
-	 */
-	private static int stackArrayLaenge = 2;
+	private final Wuerfel w;
+	private final ArrayList<Integer> zugSequenz;
 	private boolean gefunden = false;
 	/**
 	 * Wuerfel den man haben wollen (0xF heißt beliebig).
@@ -33,39 +34,39 @@ public class IDDFS {
 	 * Zuge in Zugkode, welche gemacht werden sollen
 	 */
 	private final int[] zuege;
-	
-	
 	/**
-	 * Konstruktor
-	 * @param _startPos
-	 * @param _zielPos
+	 * Debug
 	 */
-	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[] _zuege) {
+	private final int debug;
+
+	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[] _zuege, int debug) {
 		this.startPos = _startPos;
 		this.zielPos = _zielPos;
 		this.zielMaske = _zielMaske;
 		this.zuege = _zuege;
+		this.debug = debug;
+		this.w = new Wuerfel(startPos);
+		this.zugSequenz = new ArrayList<Integer>();
 	}
 	
-	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske) {
+	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int debug) {
 		this.startPos = _startPos;
 		this.zielPos = _zielPos;
 		this.zielMaske = _zielMaske;
-		this.zuege = new int[] {0, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13};
+		this.zuege = Zuege.alleZuege;
+		this.debug = debug;
+		this.w = new Wuerfel(startPos);
+		this.zugSequenz = new ArrayList<Integer>();
 	}
-	
-	/**
-	 * Starte IDDFS
-	 * @return
-	 */
+
 	public int[] loese() { 
-		int tiefe = 0;
+		int tiefe = 1;
 		while(!this.gefunden) {
-			//long time = System.currentTimeMillis();
-			DLS(new int[] {0xF}, tiefe);
+			long time = System.currentTimeMillis();
+			DLS(tiefe);
 			tiefe++;
-			//System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
-		} 
+			if(debug >= 1)System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
+		}
 		return loesung;
 	}
 	
@@ -74,75 +75,65 @@ public class IDDFS {
 	 * obwohl eigentlich schon, aber ist cracked mit Wuerfeln)
 	 * @param startZuege
 	 * @param tiefe
-	 * @return
 	 */
-	private void DLS(int[] startZuege, int tiefe) {
-		this.pos = new Stack<int[]>();
-		
-		this.pos.push(startZuege);
-		
-		while(!this.pos.empty()) {
-			int[] aktuelleZuege = this.pos.pop();
-			if((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {
-				this.gefunden = true;
-				this.loesung = aktuelleZuege;
-				return;
-			}
-
-			this.genChildMoves(aktuelleZuege, tiefe);
+	private void DLS(int tiefe) {
+		if (tiefe <= 0 || this.gefunden) {
+			return;
+		}
+		for (int move : this.genChildMoves()) {
+				w.drehe(move);
+				zugSequenz.add(move);
+				if (w.isMaskSolved(zielPos, zielMaske) && !gefunden) {
+					this.gefunden = true;
+					this.loesung = new int[zugSequenz.size()];
+					for (int i = 0; i < loesung.length; i++) {
+						loesung[i] = zugSequenz.get(i);
+					}
+					return;
+				}
+				DLS(tiefe - 1);
+				w.drehe(Zuege.invZug[move]);
+				zugSequenz.remove(zugSequenz.size() - 1);
 		}
 	}
 	
 	/**
-	 * Generiert alle möglichen 1-Zug fortsetzungen von move fügt sie dem Stack hinzu.
+	 * Generiert alle möglichen 1-Zug fortsetzungen von moves fügt sie dem Stack hinzu.
 	 * Falls die Tiefe gleich der Anzahl der Z.
-	 * @param move bisherige Züge
+	 * @param moves bisherige Züge
+	 * TODO Man kann hier mehr branches wegschmeißen
 	 */
-	private void genChildMoves(int[] move, int tiefe){
-		// ist move leer? (wird für lastmove gebraucht)
-		boolean nleer = true;
-		if(move[0] == 0xF) {
-			move[0] &= ~(0xF);
-			nleer = false;
-		}
-		int intIndex = 0;
-		int moveIndex = 0;
-		//letzer Zug in move
-		int invLastMove = -1;
-		// Gehe zum letzten Zug
-		while(nleer) {
-			if(((move[moveIndex] >>> (intIndex << 2)) & (0xF)) == 0xF) {
-				move[moveIndex] &= ~(0xF << (intIndex << 2));
-				// invLastZug bestimmen
-				invLastMove = ((move[moveIndex] >>> ((intIndex - 1) << 2)) & (0xF)) ^ 0b1000;
-				break;
+	private ArrayList<Integer> genChildMoves(){
+		ArrayList<Integer> childMoves;
+		int mvlen = this.zugSequenz.size();
+		if (zugSequenz.size() > 1) {  // adv pruning
+			childMoves = new ArrayList<Integer>(15);
+			for (int zug : this.zuege) {
+				if (oppFace[zugSequenz.get(mvlen - 1) / 3] == zugSequenz.get(mvlen - 2) / 3) { // last the moves commute
+					if (zug / 3 != zugSequenz.get(mvlen - 1) / 3
+							&& zug / 3 != zugSequenz.get(mvlen - 2) / 3) { // dont move the same side as last 2 moves
+						childMoves.add(zug);
+					}
+				} else {
+					if (zug / 3 != zugSequenz.get(mvlen - 1) / 3) { // dont move the same side as last move
+						childMoves.add(zug);
+					}
+				}
 			}
-			if(intIndex == 7) {
-				moveIndex++;
-				intIndex = -1;
+		} else if (zugSequenz.size() == 1) { // simple move pruning
+			childMoves = new ArrayList<Integer>(15);
+			for (int zug : this.zuege) {
+				if(zug / 3 != zugSequenz.get(mvlen - 1) / 3){ // dont move the same side as last move
+					childMoves.add(zug);
+				}
 			}
-			intIndex++;
-		}
-		// überprüfen ob das rekursionsende erreicht ist
-		if(intIndex + (moveIndex << 3) - 1 >= tiefe) {
-			return;
-		}
-		// neues Ende deklarieren
-		if(intIndex == 7) {
-			move[moveIndex + 1] |= 0xF ;
-		} else {
-			move[moveIndex] |= 0xF << ((intIndex + 1) << 2);
-		}
-		// Zuege adden
-		intIndex = (intIndex) << 2; // reduziert Operationen
-		for(int zug : this.zuege) {
-			if(zug == invLastMove) {
-				continue;
+		} else { // erster Durchgang, es gibt keinen letzten Zug
+			childMoves = new ArrayList<Integer>(18);
+			for (int zug : this.zuege) {
+				childMoves.add(zug);
 			}
-			int[] a = Arrays.copyOf(move, stackArrayLaenge);
-			a[moveIndex] |= zug << intIndex;
-			pos.push(a);
 		}
+		return childMoves;
 	}
-	
+
 }

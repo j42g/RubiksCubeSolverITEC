@@ -2,10 +2,12 @@ package loeser;
 
 import representation.Util;
 import representation.Wuerfel;
+import representation.Zuege;
 
 public class ZweiMalZwei {
 	
-	private Wuerfel w;
+	private final Wuerfel w;
+	private final int debug;
 	private String solveSequenz;
 	
 	//private final int[] ersteEckeDaten = { 0x00000000, 0x01000001, 0x02000002, 0x03000003, 0x04040000, 0x00000000 };
@@ -16,29 +18,46 @@ public class ZweiMalZwei {
 	
 	private final int[] loeseDaten = { 0x00000000, 0x01010101, 0x02020202, 0x03030303, 0x04040404, 0x05050505 };
 	private final int[] loeseMasken = { 0x0F0F0F0F, 0x0F0F0F0F, 0x0F0F0F0F, 0x0F0F0F0F, 0x0F0F0F0F, 0x0F0F0F0F };
-	private final int[] loeseZuege = {12, 11, 8, 4, 3, 0};
+	private final int[] loeseZuege = { // U R F Züge
+			Zuege.U1,
+			Zuege.U2,
+			Zuege.U3,
+			Zuege.R1,
+			Zuege.R2,
+			Zuege.R3,
+			Zuege.F1,
+			Zuege.F2,
+			Zuege.F3};
 	
-	public ZweiMalZwei(Wuerfel _w) {
+	public ZweiMalZwei(Wuerfel _w, int debug) {
 		this.w = _w;
 		this.solveSequenz = "";
+		this.debug = debug;
+	}
+
+	public ZweiMalZwei(Wuerfel _w) {
+		this(_w, 0);
 	}
 	
 	public void loese() {
-		
+
+		if(debug >= 1) w.ausgeben();
+
 		// DBL-Ecke lösen
-		
-		IDDFS pattern = new IDDFS(this.w.getSeiten(), this.DBLEckeDaten, this.DBLEckeMasken);
+		IDDFS pattern = new IDDFS(this.w.getSeiten(), this.DBLEckeDaten, this.DBLEckeMasken, debug);
 		w.dreheZugsequenz(pattern.loese());
-		//this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
+		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
 		
-		//w.wuerfelAusgeben();
+		if(debug >= 1) w.ausgeben();
 		
 		
-		pattern = new IDDFS(this.w.getSeiten(), this.loeseDaten, this.loeseMasken, this.loeseZuege);
+		pattern = new IDDFS(this.w.getSeiten(), this.loeseDaten, this.loeseMasken, this.loeseZuege, debug);
 		w.dreheZugsequenz(pattern.loese());
-		//this.solveSequenz += Util.kodeZuegeZuNotation(pattern.loese());
+		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
+
+		if(debug >= 1)w.ausgeben();
 		
-		//System.out.println("Gelöst mit: " + this.solveSequenz);
+		if (debug < 0) System.out.println("Gelöst mit: " + this.solveSequenz);
 	}
 	
 }
