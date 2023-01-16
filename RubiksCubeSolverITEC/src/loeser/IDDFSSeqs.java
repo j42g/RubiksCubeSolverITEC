@@ -36,18 +36,18 @@ public class IDDFSSeqs {
         int tiefe = 1;
         while (!this.gefunden) {
             long time = System.currentTimeMillis();
-            DLS(new int[]{}, tiefe);
+            DLS(tiefe);
             tiefe++;
             if (debug >= 1)System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
         }
         return loesung;
     }
 
-    private void DLS(int[] startZuege, int tiefe) {
+    private void DLS(int tiefe) {
         this.pos = new Stack<int[]>();
-        this.pos.push(startZuege);
-        while (!this.pos.empty()) {
-            int[] aktuelleZuege = this.pos.pop();
+        this.pos.push(new int[]{});
+        while (!pos.empty()) {
+            int[] aktuelleZuege = pos.pop();
             if ((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {
                 this.gefunden = true;
                 this.loesung = aktuelleZuege;

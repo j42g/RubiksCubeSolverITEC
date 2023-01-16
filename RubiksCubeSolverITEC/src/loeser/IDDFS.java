@@ -1,7 +1,9 @@
 package loeser;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
+import representation.Util;
 import representation.Wuerfel;
 import representation.Zuege;
 
@@ -14,7 +16,8 @@ public class IDDFS {
 	/**
 	 * Stack für IDDFS
 	 */
-	private Stack<int[]> pos;
+	private final Wuerfel w;
+	private final ArrayList<Integer> zugSequenz;
 	private boolean gefunden = false;
 	/**
 	 * Wuerfel den man haben wollen (0xF heißt beliebig).
@@ -42,6 +45,8 @@ public class IDDFS {
 		this.zielMaske = _zielMaske;
 		this.zuege = _zuege;
 		this.debug = debug;
+		this.w = new Wuerfel(startPos);
+		this.zugSequenz = new ArrayList<Integer>();
 	}
 	
 	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int debug) {
@@ -50,13 +55,15 @@ public class IDDFS {
 		this.zielMaske = _zielMaske;
 		this.zuege = Zuege.alleZuege;
 		this.debug = debug;
+		this.w = new Wuerfel(startPos);
+		this.zugSequenz = new ArrayList<Integer>();
 	}
 
 	public int[] loese() { 
 		int tiefe = 1;
 		while(!this.gefunden) {
 			long time = System.currentTimeMillis();
-			DLS(new int[]{}, tiefe);
+			DLS(tiefe);
 			tiefe++;
 			if(debug >= 1)System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
 		}
@@ -69,18 +76,24 @@ public class IDDFS {
 	 * @param startZuege
 	 * @param tiefe
 	 */
-	private void DLS(int[] startZuege, int tiefe) {
-		this.pos = new Stack<int[]>();
-		this.pos.push(startZuege);
-		while(!this.pos.empty()) {
-			int[] aktuelleZuege = this.pos.pop();
-			if((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {
-				this.gefunden = true;
-				this.loesung = aktuelleZuege;
-				return;
-			}
-
-			this.genChildMoves(aktuelleZuege, tiefe);
+	private void DLS(int tiefe) {
+		if (tiefe <= 0 || this.gefunden) {
+			return;
+		}
+		for (int move : this.genChildMoves()) {
+				w.drehe(move);
+				zugSequenz.add(move);
+				if (w.isMaskSolved(zielPos, zielMaske) && !gefunden) {
+					this.gefunden = true;
+					this.loesung = new int[zugSequenz.size()];
+					for (int i = 0; i < loesung.length; i++) {
+						loesung[i] = zugSequenz.get(i);
+					}
+					return;
+				}
+				DLS(tiefe - 1);
+				w.drehe(Zuege.invZug[move]);
+				zugSequenz.remove(zugSequenz.size() - 1);
 		}
 	}
 	
@@ -90,42 +103,37 @@ public class IDDFS {
 	 * @param moves bisherige Züge
 	 * TODO Man kann hier mehr branches wegschmeißen
 	 */
-	private void genChildMoves(int[] moves, int tiefe){
-		if(tiefe < moves.length){
-			return;
-		}
-		if (moves.length > 1){  // adv pruning
+	private ArrayList<Integer> genChildMoves(){
+		ArrayList<Integer> childMoves;
+		int mvlen = this.zugSequenz.size();
+		if (zugSequenz.size() > 1) {  // adv pruning
+			childMoves = new ArrayList<Integer>(15);
 			for (int zug : this.zuege) {
-				if (oppFace[moves[moves.length - 1] / 3] == moves[moves.length - 2] / 3) { // last the moves commute
-					if (zug / 3 != moves[moves.length - 1] / 3
-							&& zug / 3 != moves[moves.length - 2] / 3) { // dont move the same side as last 2 moves
-						int[] a = Arrays.copyOf(moves, moves.length + 1);
-						a[moves.length] = zug;
-						pos.push(a);
+				if (oppFace[zugSequenz.get(mvlen - 1) / 3] == zugSequenz.get(mvlen - 2) / 3) { // last the moves commute
+					if (zug / 3 != zugSequenz.get(mvlen - 1) / 3
+							&& zug / 3 != zugSequenz.get(mvlen - 2) / 3) { // dont move the same side as last 2 moves
+						childMoves.add(zug);
 					}
 				} else {
-					if (zug / 3 != moves[moves.length - 1] / 3) { // dont move the same side as last move
-						int[] a = Arrays.copyOf(moves, moves.length + 1);
-						a[moves.length] = zug;
-						pos.push(a);
+					if (zug / 3 != zugSequenz.get(mvlen - 1) / 3) { // dont move the same side as last move
+						childMoves.add(zug);
 					}
 				}
 			}
-		} else if (moves.length == 1) { // simple move pruning
+		} else if (zugSequenz.size() == 1) { // simple move pruning
+			childMoves = new ArrayList<Integer>(15);
 			for (int zug : this.zuege) {
-				if(zug / 3 != moves[moves.length - 1] / 3){ // dont move the same side as last move
-					int[] a = Arrays.copyOf(moves, moves.length + 1);
-					a[moves.length] = zug;
-					pos.push(a);
+				if(zug / 3 != zugSequenz.get(mvlen - 1) / 3){ // dont move the same side as last move
+					childMoves.add(zug);
 				}
 			}
 		} else { // erster Durchgang, es gibt keinen letzten Zug
+			childMoves = new ArrayList<Integer>(18);
 			for (int zug : this.zuege) {
-				int[] a = Arrays.copyOf(moves, moves.length + 1);
-				a[moves.length] = zug;
-				pos.push(a);
+				childMoves.add(zug);
 			}
 		}
+		return childMoves;
 	}
 
 }
