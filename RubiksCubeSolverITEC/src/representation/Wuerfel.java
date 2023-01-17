@@ -46,20 +46,12 @@ public class Wuerfel {
 			// D (Blau, Orange, Grün, Rot)
 			{ { 1, 2 }, { 2, 2 }, { 3, 2 }, { 4, 0 } } };
 
-	/**
-	 * Geneiert gelösten Würfel.
-	 */
 	public Wuerfel() {
 		this.seiten = new int[]{0x00000000, 0x11111111, 0x22222222, 0x33333333, 0x44444444, 0x55555555};
 	}
 
-	/**
-	 * Generiert einen gelösten Würfel und mach die Zuege seiten.
-	 * @param seiten Seiten des Würfels
-	 */
 	public Wuerfel(int[] seiten) {
 		this.seiten = Arrays.copyOf(seiten, 6);
-
 	}
 
 	public Wuerfel(int[] pos, int move){
@@ -67,12 +59,6 @@ public class Wuerfel {
 		this.drehe(move);
 	}
 
-	/**
-	 * Generiert Würfel mit pos und dreht moves.
-	 * 
-	 * @param pos   Würfelkonfiguration
-	 * @param moves Zugabfolge
-	 */
 	public Wuerfel(int[] pos, int[] moves) {
 		this.seiten = Arrays.copyOf(pos, 6);
 		this.dreheZugsequenz(moves);
@@ -92,22 +78,12 @@ public class Wuerfel {
 		return w;
 	}
 
-    /**
-     * Dreht Zugsequenz.
-     *
-     * @param zuege Züge als Kode
-     */
     public void dreheZugsequenz(int[] zuege) {
         for (int i = 0; i < zuege.length; i++) {
             this.drehe(zuege[i]);
         }
     }
 
-	/**
-	 * Übersetzt und ruft dreheZugSquenz auf.
-	 * 
-	 * @param zuege Züge in Notation
-	 */
 	public void dreheZugsequenz(String zuege) {
 		String[] z = zuege.split(" ");
 		for(int i = 0; i < z.length; i++){
@@ -115,18 +91,10 @@ public class Wuerfel {
 		}
 	}
 
-	/**
-	 * Ersetzt den Wärfel, durch einen gelästen Wärfel.
-	 */
 	public void makeSolved() {
 		this.seiten = new int[]{0x00000000, 0x11111111, 0x22222222, 0x33333333, 0x44444444, 0x55555555};
 	}
 	
-	/**
-	 * mach "laenge" zufällig Züge. An sich braucht man nie mehr als 26.
-	 * @param laenge Anzahl der Züge
-	 * @param ausgeben Anzeigen der Züge
-	 */
 	public void verdrehe(int laenge, boolean ausgeben){
 		int currZug;
 		String s = "";
@@ -144,19 +112,10 @@ public class Wuerfel {
 		}
 	}
 
-	/**
-	 * Redundant? DAS MCAHST DU NICK
-	 *
-	 * @param pos  Komplement aus Seite und Stipindex
-	 * @return ???
-	 */
 	public int extractStrip(int[] pos) {
 		return (Integer.rotateRight(this.seiten[pos[0]], (pos[1] << 2))) & (0xFFF);
 	}
 
-	/**
-	 * Ruft dreheUhr und dreheGUhr auf
-	 */
 	public void drehe(int zug) {
 		if(zug % 3 == 2) { // prime
 			this.dreheGUhr(zug / 3);
@@ -168,11 +127,6 @@ public class Wuerfel {
 		}
 	}
 
-	/**
-	 * Redundant? DAS MCAHST DU NICK
-	 * 
-	 * @param face Index der Seite
-	 */
 	private void dreheUhr(int face) {
 		seiten[face] = Integer.rotateLeft(seiten[face], 8);
 		long aussen = 0;
@@ -203,14 +157,6 @@ public class Wuerfel {
 		seiten[pos[0]] |= a;
 	}
 
-	/**
-	 * Überprüft ob mask = seiten, mit der Einschränkung, dass bei den Felder wo in
-	 * der Maske F steht alles sein darf.
-	 * 
-	 * @param maske Maske
-	 * @param daten Daten
-	 * @return true wenn gleich sonst false.
-	 */
 	public boolean isMaskSolved(int[] daten, int[] maske) {
 		if (daten[0] != (this.seiten[0] & maske[0])) {
 			return false;
@@ -228,11 +174,6 @@ public class Wuerfel {
 		return true;
 	}
 
-	/**
-	 * überpräft ob der Würfel gelöst ist.
-	 * 
-	 * @return true wenn gelöst, sonst false.
-	 */
 	public boolean isSolved() {
 		if (seiten[0] == 0x00000000 && seiten[1] == 0x11111111 && seiten[2] == 0x22222222 && seiten[3] == 0x33333333
 				&& seiten[4] == 0x44444444 && seiten[5] == 0x55555555) {
@@ -241,24 +182,10 @@ public class Wuerfel {
 		return false;
 	}
 
-	/**
-	 * Gibt zu einer Fläche an einem Stelle die Farbe in Binär zurück.
-	 * 
-	 * @param face  Index der Seite.
-	 * @param index Index in der Seite.
-	 * @return Die Farbe in Binär kodiert.
-	 */
 	private int extractColor(int face, int index) {
 		return (this.seiten[face] >>> (index << 2)) & (0xF);
 	}
 
-    /**
-     * Gibt zu gegebenem Binärkode die Farbe zuräck. Bei einem ungültigen Kode, wird
-     * 'X' zurückgegeben.
-     *
-     * @param code Farbe in Binär kodiert.
-     * @return Farbe als Buchstabe.
-     */
     private static char lookupColor(int code) {
         switch (code) {
             case 0:
@@ -410,13 +337,6 @@ public class Wuerfel {
 		return result;
     }
 
-    /**
-     * Gibt zu gegebenem Binärkode den Zug zuräck. Bei einem ungültigen Kode, wird
-     * 'X' zurückgegeben.
-     *
-     * @param code in Binär kodiert.
-     * @return Move als Buchstabe.
-     */
     private static String lookupMove(int code) {
         switch (code) {
             case 0:
@@ -447,9 +367,6 @@ public class Wuerfel {
         return "Invalid";
     }
 
-	/**
-	 * Gibt den Würfel aus
-	 */
 	public void ausgeben() {
 		// syntax verringern
 		char[][] s = new char[6][8];
@@ -481,10 +398,6 @@ public class Wuerfel {
 
 	}
 
-	/**
-	 * Getter für Seiten.
-	 * @return seiten
-	 */
 	public int[] getSeiten() {
 		return seiten;
 	}

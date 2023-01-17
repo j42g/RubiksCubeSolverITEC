@@ -1,42 +1,26 @@
 package loeser;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
-import representation.Util;
 import representation.Wuerfel;
 import representation.Zuege;
-
-import java.util.Arrays;
 
 public class IDDFS {
 
 	private static final int[] oppFace = {5, 3, 4, 1, 2, 0};
-	
-	/**
-	 * Stack für IDDFS
-	 */
+
 	private final Wuerfel w;
 	private final ArrayList<Integer> zugSequenz;
+
 	private boolean gefunden = false;
-	/**
-	 * Wuerfel den man haben wollen (0xF heißt beliebig).
-	 */
 	private int[] loesung;
-	/**
-	 * Wuerfel mit dem man anfängt.
-	 */
+
 	private final int[] startPos;
 	private final int[] zielPos;
 	private final int[] zielMaske;
-	
-	/**
-	 * Zuge in Zugkode, welche gemacht werden sollen
-	 */
+
 	private final int[] zuege;
-	/**
-	 * Debug
-	 */
+
 	private final int debug;
 
 	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[] _zuege, int debug) {
@@ -63,20 +47,15 @@ public class IDDFS {
 		int tiefe = 1;
 		while(!this.gefunden) {
 			long time = System.currentTimeMillis();
-			DLS(tiefe);
+			DFS(tiefe);
 			tiefe++;
 			if(debug >= 1)System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
 		}
 		return loesung;
 	}
 	
-	/**
-	 * Funkion, die man für IDDFS brauch (keine Ahnung wie das genau funkioniert,
-	 * obwohl eigentlich schon, aber ist cracked mit Wuerfeln)
-	 * @param startZuege
-	 * @param tiefe
-	 */
-	private void DLS(int tiefe) {
+
+	private void DFS(int tiefe) {
 		if (tiefe == -1 || this.gefunden) {
 			return;
 		}
@@ -91,18 +70,12 @@ public class IDDFS {
 					}
 					return;
 				}
-				DLS(tiefe - 1);
+				DFS(tiefe - 1);
 				w.drehe(Zuege.invZug[move]);
 				zugSequenz.remove(zugSequenz.size() - 1);
 		}
 	}
-	
-	/**
-	 * Generiert alle möglichen 1-Zug fortsetzungen von moves fügt sie dem Stack hinzu.
-	 * Falls die Tiefe gleich der Anzahl der Z.
-	 * @param moves bisherige Züge
-	 * TODO Man kann hier mehr branches wegschmeißen
-	 */
+
 	private ArrayList<Integer> genChildMoves(){
 		ArrayList<Integer> childMoves;
 		int mvlen = this.zugSequenz.size();
