@@ -77,7 +77,7 @@ public class IDDFS {
 	 * @param tiefe
 	 */
 	private void DLS(int tiefe) {
-		if (tiefe <= 0 || this.gefunden) {
+		if (tiefe == -1 || this.gefunden) {
 			return;
 		}
 		for (int move : this.genChildMoves()) {

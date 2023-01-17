@@ -98,7 +98,7 @@ public class Zuege {
         return result;
     }
 
-    public int[] invZuege(int[] zuege){
+    public static int[] invZuege(int[] zuege){
         int[] invZuege = new int[zuege.length];
         int currMove;
         for(int i = 0; i < invZuege.length; i++){
