@@ -79,7 +79,7 @@ public class IDDFS {
 	private ArrayList<Integer> genChildMoves(){
 		ArrayList<Integer> childMoves;
 		int mvlen = this.zugSequenz.size();
-		if (zugSequenz.size() > 1) {  // adv pruning
+		if (mvlen > 1) {  // adv pruning
 			childMoves = new ArrayList<Integer>(15);
 			for (int zug : this.zuege) {
 				if (oppFace[zugSequenz.get(mvlen - 1) / 3] == zugSequenz.get(mvlen - 2) / 3) { // last the moves commute
@@ -93,10 +93,10 @@ public class IDDFS {
 					}
 				}
 			}
-		} else if (zugSequenz.size() == 1) { // simple move pruning
+		} else if (mvlen == 1) { // simple move pruning
 			childMoves = new ArrayList<Integer>(15);
 			for (int zug : this.zuege) {
-				if(zug / 3 != zugSequenz.get(mvlen - 1) / 3){ // dont move the same side as last move
+				if(zug / 3 != zugSequenz.get(0) / 3){ // dont move the same side as last move
 					childMoves.add(zug);
 				}
 			}

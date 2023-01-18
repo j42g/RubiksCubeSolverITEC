@@ -79,17 +79,17 @@ public class Wuerfel {
 	}
 
 	public boolean isMaskSolved(int[] daten, int[] maske) {
-		if (daten[0] != (this.seiten[0] & maske[0])) {
-			return false;
-		} else if (daten[1] != (this.seiten[1] & maske[1])) {
-			return false;
-		} else if (daten[2] != (this.seiten[2] & maske[2])) {
-			return false;
-		} else if (daten[3] != (this.seiten[3] & maske[3])) {
+		if (daten[5] != (this.seiten[5] & maske[5])) {
 			return false;
 		} else if (daten[4] != (this.seiten[4] & maske[4])) {
 			return false;
-		} else return daten[5] == (this.seiten[5] & maske[5]);
+		} else if (daten[3] != (this.seiten[3] & maske[3])) {
+			return false;
+		} else if (daten[2] != (this.seiten[2] & maske[2])) {
+			return false;
+		} else if (daten[1] != (this.seiten[1] & maske[1])) {
+			return false;
+		} else return daten[0] == (this.seiten[0] & maske[0]);
 	}
 
 	public void drehe(int zug) {
