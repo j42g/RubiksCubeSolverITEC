@@ -47,7 +47,7 @@ public class TIDDFSSpawner {
 
     private void stopAllThread() {
         for (TIDDFS t : this.threadPool) {
-            if (t != null) {
+            if (t != null) { // warum kann das null sein.
                 t.stoppe();
             }
         }
