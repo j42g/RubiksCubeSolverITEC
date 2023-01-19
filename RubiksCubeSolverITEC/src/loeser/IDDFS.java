@@ -1,6 +1,7 @@
 package loeser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import representation.Wuerfel;
 import representation.Zuege;
@@ -24,23 +25,37 @@ public class IDDFS {
 	private final int debug;
 
 	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[] _zuege, int debug) {
+		// kekw
+		if ((new Wuerfel(_startPos)).isMaskSolved(_zielPos, _zielMaske)) {
+			this.gefunden = true;
+			this.loesung = new int[]{};
+		}
+
 		this.startPos = _startPos;
 		this.zielPos = _zielPos;
 		this.zielMaske = _zielMaske;
 		this.zuege = _zuege;
 		this.debug = debug;
 		this.w = new Wuerfel(startPos);
-		this.zugSequenz = new ArrayList<Integer>();
+		this.zugSequenz = new ArrayList<Integer>(16);
+
+
 	}
 	
 	public IDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int debug) {
+		// kekw
+		if ((new Wuerfel(_startPos)).isMaskSolved(_zielPos, _zielMaske)) {
+			this.gefunden = true;
+			this.loesung = new int[]{};
+		}
+
 		this.startPos = _startPos;
 		this.zielPos = _zielPos;
 		this.zielMaske = _zielMaske;
 		this.zuege = Zuege.alleZuege;
 		this.debug = debug;
 		this.w = new Wuerfel(startPos);
-		this.zugSequenz = new ArrayList<Integer>();
+		this.zugSequenz = new ArrayList<Integer>(16);
 	}
 
 	public int[] loese() { 

@@ -95,12 +95,14 @@ public class CFOP extends Thread {
     public void starteLoesen() {
         long absStartTime = System.currentTimeMillis();
         long startTime;
+        int[] curr_zuege;
         // -------------------------Kreuz-------------------------
-        IDDFS pattern = new IDDFS(this.w.getSeiten(), kreuzDaten, kreuzMaske, debug);
+        TIDDFSSpawner pattern = new TIDDFSSpawner(this.w.getSeiten(), kreuzDaten, kreuzMaske, Zuege.alleZuege, debug);
         startTime = System.currentTimeMillis();
-        w.dreheZugsequenz(pattern.loese());
-        this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
-        this.solverOutput += "Kreuz dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
+        curr_zuege = pattern.start();
+        w.dreheZugsequenz(curr_zuege);
+        this.solveSequenz += Zuege.lookupZugseq(curr_zuege);
+        this.solverOutput += "Kreuz dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(curr_zuege) + "\n";
         if (this.debug >= 1) w.ausgeben();
 
 		// --------------------------F2L--------------------------
@@ -194,34 +196,39 @@ public class CFOP extends Thread {
 
 	private void F2L(){
         long startTime;
+        int[] curr_zuege;
 		// OG
-		IDDFS pattern = new IDDFS(this.w.getSeiten(), F2LOG2Daten, F2LOG2Maske, debug);
+        TIDDFSSpawner pattern = new TIDDFSSpawner(this.w.getSeiten(), F2LOG2Daten, F2LOG2Maske, Zuege.alleZuege, debug);
         startTime = System.currentTimeMillis();
-		w.dreheZugsequenz(pattern.loese());
-		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
-        this.solverOutput += "F2L-1 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
+        curr_zuege = pattern.start();
+        this.solverOutput += "F2L-1 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(curr_zuege) + "\n";
+		w.dreheZugsequenz(curr_zuege);
+		this.solveSequenz += Zuege.lookupZugseq(curr_zuege);
 		if (this.debug >= 1) w.ausgeben();
 		// GR
-		pattern = new IDDFS(this.w.getSeiten(), F2LGR2Daten, F2LGR2Maske, debug);
+        pattern = new TIDDFSSpawner(this.w.getSeiten(), F2LGR2Daten, F2LGR2Maske, Zuege.alleZuege, debug);
         startTime = System.currentTimeMillis();
-		w.dreheZugsequenz(pattern.loese());
-		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
-        this.solverOutput += "F2L-2 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-		if (this.debug >= 1) w.ausgeben();
+        curr_zuege = pattern.start();
+        this.solverOutput += "F2L-2 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(curr_zuege) + "\n";
+        w.dreheZugsequenz(curr_zuege);
+        this.solveSequenz += Zuege.lookupZugseq(curr_zuege);
+        if (this.debug >= 1) w.ausgeben();
 		// RB
-		pattern = new IDDFS(this.w.getSeiten(), F2LRB2Daten, F2LRB2Maske, debug);
+        pattern = new TIDDFSSpawner(this.w.getSeiten(), F2LRB2Daten, F2LRB2Maske, Zuege.alleZuege, debug);
         startTime = System.currentTimeMillis();
-		w.dreheZugsequenz(pattern.loese());
-		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
-        this.solverOutput += "F2L-3 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-		if (this.debug >= 1) w.ausgeben();
+        curr_zuege = pattern.start();
+        this.solverOutput += "F2L-3 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(curr_zuege) + "\n";
+        w.dreheZugsequenz(curr_zuege);
+        this.solveSequenz += Zuege.lookupZugseq(curr_zuege);
+        if (this.debug >= 1) w.ausgeben();
 		// BO
-		pattern = new IDDFS(this.w.getSeiten(), F2LBO2Daten, F2LBO2Maske, debug);
+        pattern = new TIDDFSSpawner(this.w.getSeiten(), F2LBO2Daten, F2LBO2Maske, Zuege.alleZuege, debug);
         startTime = System.currentTimeMillis();
-		w.dreheZugsequenz(pattern.loese());
-		this.solveSequenz += Zuege.lookupZugseq(pattern.loese());
-        this.solverOutput += "F2L-4 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(pattern.loese()) + "\n";
-		if (this.debug >= 1) w.ausgeben();
+        curr_zuege = pattern.start();
+        this.solverOutput += "F2L-4 dauerte " + (System.currentTimeMillis() - startTime) + "ms, mit: " + Zuege.lookupZugseq(curr_zuege) + "\n";
+        w.dreheZugsequenz(curr_zuege);
+        this.solveSequenz += Zuege.lookupZugseq(curr_zuege);
+        if (this.debug >= 1) w.ausgeben();
 	}
 
     public int getZugAnzahl() {

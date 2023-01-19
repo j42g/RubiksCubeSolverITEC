@@ -123,7 +123,7 @@ public class Util {
         for (int i = 0; i < durchgaenge; i++) {
             w.makeSolved();
             w.verdrehe(26, false);
-            s = new CFOP(w, 10);
+            s = new CFOP(w, 0);
             // Zeiten
             startTime = System.nanoTime();
             s.run();

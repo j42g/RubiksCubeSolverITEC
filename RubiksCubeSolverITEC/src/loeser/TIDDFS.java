@@ -1,141 +1,114 @@
 package loeser;
 
-import java.util.Stack;
 
-import representation.Util;
 import representation.Wuerfel;
-import java.util.Arrays;
+import representation.Zuege;
+
+import java.util.ArrayList;
 
 public class TIDDFS extends Thread {
+
+	private static final int[] oppFace = {5, 3, 4, 1, 2, 0};
+
+	private final Wuerfel w;
 	
-	/**
-	 * Stack für IDDFS
-	 */
-	private Stack<int[]> pos;
-	
-	/**
-	 * Länge der Zügespeicher (2*8 = 16 Züge).
-	 */
-	private static int stackArrayLaenge = 2;
-	private boolean gefunden = false;
-	/**
-	 * Wuerfel den man haben wollen (0xF heißt beliebig).
-	 */
-	private int[] loesung;
-	/**
-	 * Wuerfel mit dem man anfängt.
-	 */
+	private volatile boolean shouldSearch;
+	private boolean gefunden;
+
+	private final TIDDFSSpawner spawner;
 	private final int[] startPos;
 	private final int[] zielPos;
 	private final int[] zielMaske;
-	
-	/**
-	 * Zuge in Zugkode, welche gemacht werden sollen
-	 */
 	private final int[] zuege;
-	
-	
-	/**
-	 * Konstruktor
-	 * @param _startPos
-	 * @param _zielPos
-	 */
-	public TIDDFS(int[] _startPos, int[] _zielPos, int[] _zielMaske, int[] _zuege) {
-		startPos = null;
-		zielPos = null;
-		zielMaske = null;
-		zuege = null;
-	}
-	
-	/**
-	 * Starte IDDFS
-	 * @return
-	 */
-	public int[] loese() { 
-		int tiefe = 0;
-		while(!this.gefunden) {
-			long time = System.currentTimeMillis();
-			DLS(new int[] {0xF}, tiefe);
-			tiefe++;
-			System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
-		} 
-		return loesung;
-	}
-	
-	/**
-	 * Funkion, die man für IDDFS brauch (keine Ahnung wie das genau funkioniert,
-	 * obwohl eigentlich schon, aber ist cracked mit Wuerfeln)
-	 * @param startZuege
-	 * @param tiefe
-	 * @return
-	 */
-	private void DLS(int[] startZuege, int tiefe) {
-		this.pos = new Stack<int[]>();
-		
-		this.pos.push(startZuege);
-		
-		while(!this.pos.empty()) {
-			int[] aktuelleZuege = this.pos.pop();
-			if((new Wuerfel(startPos, aktuelleZuege)).isMaskSolved(this.zielPos, this.zielMaske)) {
-				this.gefunden = true;
-				this.loesung = aktuelleZuege;
-				return;
-			}
+	private final int debug;
+	private final ArrayList<Integer> zugSequenz;
 
-			this.genChildMoves(aktuelleZuege, tiefe);
+	public TIDDFS(TIDDFSSpawner spawner, int[] startPos, int startZug, int[] zielPos, int[] zielMaske, int[] zuege, int debug) {
+		this.spawner = spawner;
+		this.zugSequenz = new ArrayList<>(16);
+		this.zugSequenz.add(startZug);
+		this.startPos = startPos;
+		this.zielPos = zielPos;
+		this.zielMaske = zielMaske;
+		this.zuege = zuege;
+		this.debug = debug;
+
+		this.w = new Wuerfel(startPos);
+		w.drehe(startZug);
+
+		this.shouldSearch = true;
+		this.gefunden = false;
+	}
+
+	@Override
+	public void run() {
+		int tiefe = 1;
+		while(!gefunden && this.shouldSearch) {
+			long time = System.currentTimeMillis();
+			DFS(tiefe);
+			tiefe++;
+			if(debug >= 1) System.out.println(tiefe + " " + (System.currentTimeMillis() - time));
 		}
 	}
-	
-	/**
-	 * Generiert alle möglichen 1-Zug fortsetzungen von move fügt sie dem Stack hinzu.
-	 * Falls die Tiefe gleich der Anzahl der Z.
-	 * @param move bisherige Züge
-	 */
-	private void genChildMoves(int[] move, int tiefe){
-		// ist move leer? (wird für lastmove gebraucht)
-		boolean nleer = true;
-		if(move[0] == 0xF) {
-			move[0] &= ~(0xF);
-			nleer = false;
-		}
-		int intIndex = 0;
-		int moveIndex = 0;
-		//letzer Zug in move
-		int invLastMove = -1;
-		// Gehe zum letzten Zug
-		while(nleer) {
-			if(((move[moveIndex] >>> (intIndex << 2)) & (0xF)) == 0xF) {
-				move[moveIndex] &= ~(0xF << (intIndex << 2));
-				// invLastZug bestimmen
-				invLastMove = ((move[moveIndex] >>> ((intIndex - 1) << 2)) & (0xF)) ^ 0b1000;
-				break;
-			}
-			if(intIndex == 7) {
-				moveIndex++;
-				intIndex = -1;
-			}
-			intIndex++;
-		}
-		// überprüfen ob das rekursionsende erreicht ist
-		if(intIndex + (moveIndex << 3) - 1 >= tiefe) {
+
+	private void DFS(int tiefe) {
+		if (tiefe == -1 || this.gefunden || !shouldSearch) {
 			return;
 		}
-		// neues Ende deklarieren
-		if(intIndex == 7) {
-			move[moveIndex + 1] |= 0xF ;
-		} else {
-			move[moveIndex] |= 0xF << ((intIndex + 1) << 2);
-		}
-		// Zuege adden
-		intIndex = (intIndex) << 2; // reduziert Operationen
-		for(int zug : this.zuege) {
-			if(zug == invLastMove) {
-				continue;
+		for (int move : this.genChildMoves()) {
+			w.drehe(move);
+			zugSequenz.add(move);
+			if (w.isMaskSolved(zielPos, zielMaske) && !gefunden && shouldSearch) {
+				this.gefunden = true;
+				int[] loesung = new int[zugSequenz.size()];
+				for (int i = 0; i < loesung.length; i++) {
+					loesung[i] = zugSequenz.get(i);
+				}
+				this.spawner.updateSolution(loesung);
+				return;
 			}
-			int[] a = Arrays.copyOf(move, stackArrayLaenge);
-			a[moveIndex] |= zug << intIndex;
-			pos.push(a);
+			DFS(tiefe - 1);
+			w.drehe(Zuege.invZug[move]);
+			zugSequenz.remove(zugSequenz.size() - 1);
 		}
 	}
+
+	private ArrayList<Integer> genChildMoves(){
+		ArrayList<Integer> childMoves;
+		int mvlen = this.zugSequenz.size();
+		if (mvlen > 1) {  // adv pruning
+			childMoves = new ArrayList<Integer>(15);
+			for (int zug : this.zuege) {
+				if (oppFace[zugSequenz.get(mvlen - 1) / 3] == zugSequenz.get(mvlen - 2) / 3) { // last the moves commute
+					if (zug / 3 != zugSequenz.get(mvlen - 1) / 3
+							&& zug / 3 != zugSequenz.get(mvlen - 2) / 3) { // dont move the same side as last 2 moves
+						childMoves.add(zug);
+					}
+				} else {
+					if (zug / 3 != zugSequenz.get(mvlen - 1) / 3) { // dont move the same side as last move
+						childMoves.add(zug);
+					}
+				}
+			}
+		} else if (mvlen == 1) { // simple move pruning
+			childMoves = new ArrayList<Integer>(15);
+			for (int zug : this.zuege) {
+				if(zug / 3 != zugSequenz.get(0) / 3){ // dont move the same side as last move
+					childMoves.add(zug);
+				}
+			}
+		} else { // erster Durchgang, es gibt keinen letzten Zug
+			childMoves = new ArrayList<Integer>(18);
+			for (int zug : this.zuege) {
+				childMoves.add(zug);
+			}
+		}
+		return childMoves;
+	}
+
+	public void stoppe() {
+		this.shouldSearch = false;
+	}
+
 	
 }
